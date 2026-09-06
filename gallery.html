@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project &amp; Field Gallery - AFTI</title>
+</head>
+<body style="background-color: #0f172a; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+
+  <!-- Navigation Bar -->
+  <nav style="background: #144d29; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000;">
+    <div class="logo" style="font-weight: 800; font-size: 1.5rem; color: white; letter-spacing: -0.5px;">AFTI</div>
+    <ul class="nav-links" style="list-style: none; display: flex; gap: 1.5rem; margin: 0; padding: 0; align-items: center; flex-wrap: wrap;">
+      <li><a href="index.html" style="color: white; text-decoration: none; font-weight: 600; font-size: 0.95rem;">Home</a></li>
+      <li><a href="programs.html" style="color: white; text-decoration: none; font-weight: 600; font-size: 0.95rem;">Training &amp; Certification</a></li>
+      <li><a href="partners.html" style="color: white; text-decoration: none; font-weight: 600; font-size: 0.95rem;">For Farmers &amp; Advisory</a></li>
+      <li><a href="newsletter.html" style="color: white; text-decoration: none; font-weight: 600; font-size: 0.95rem;">Newsletter</a></li>
+      <li><a href="gallery.html" style="color: #a3e635; text-decoration: none; font-weight: 600; font-size: 0.95rem;">Gallery</a></li>
+      <li><a href="support.html" style="color: white; text-decoration: none; font-weight: 600; font-size: 0.95rem;">How You Can Help</a></li>
+      <li><a href="staff-login.html" style="color: #a3e635; text-decoration: none; font-weight: 600; font-size: 0.95rem;">Staff Portal</a></li>
+    </ul>
+  </nav>
+
+  <main style="max-width: 1100px; margin: 0 auto; padding: 4rem 2rem;">
+    <div style="border-bottom: 2px solid #334155; padding-bottom: 2rem; margin-bottom: 3rem;">
+      <span style="background: #2563eb; color: white; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.4rem 1rem; border-radius: 20px; display: inline-block; margin-bottom: 1rem;">Visual Archive</span>
+      <h1 style="font-size: 2.5rem; font-weight: 900; color: #ffffff; margin: 0 0 1rem 0; letter-spacing: -0.5px;">Fieldwork &amp; Nursery Photo Gallery</h1>
+      <p style="color: #94a3b8; font-size: 1.15rem; line-height: 1.6; margin: 0;">
+        A visual look at our host farm partnerships, apprentice training modules, apiary management tracks, and community distribution yields across the Willamette Valley.
+      </p>
+    </div>
+
+    <!-- Gallery Grid Container -->
+    <div id="galleryGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+      <!-- Injected via JS -->
+    </div>
+
+    <div>
+      <a href="index.html" style="color: #a3e635; text-decoration: none; font-weight: 700;">&larr; Return to Home Hub</a>
+    </div>
+  </main>
+
+  <script>
+    function renderGallery() {
+      const container = document.getElementById("galleryGrid");
+      let stored = localStorage.getItem("afti_gallery");
+      let photos = stored ? JSON.parse(stored) : [
+        { 
+          url: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=800&q=80", 
+          title: "Willamette Valley Field Operations", 
+          caption: "Apprentices training on active crop rotation and soil preparation methods." 
+        },
+        { 
+          url: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=80", 
+          title: "Apiary Management Track", 
+          caption: "Colony health inspection and hive maintenance training session." 
+        }
+      ];
+
+      container.innerHTML = "";
+      photos.forEach(item => {
+        let card = document.createElement("div");
+        card.style.cssText = "background: #1e293b; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: flex; flex-direction: column;";
+        card.innerHTML = `
+          <div style="height: 220px; overflow: hidden; background: #0f172a;">
+            <img src="${item.url}" alt="${item.title}" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <h3 style="color: #ffffff; font-size: 1.2rem; margin: 0 0 0.5rem 0;">${item.title}</h3>
+              <p style="color: #94a3b8; font-size: 0.95rem; margin: 0; line-height: 1.5;">${item.caption}</p>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+    window.addEventListener('load', renderGallery);
+  </script>
+</body>
+</html>
