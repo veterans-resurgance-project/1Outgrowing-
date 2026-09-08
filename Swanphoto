@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Watership Stewards | Veterans Resurgence Project</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: #0f172a;
+      color: #f8fafc;
+    }
+    .hero-header {
+      position: relative;
+      text-align: center;
+      padding: 7rem 1rem 5rem 1rem;
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('Screenshot_20260421-000340.png');
+      background-size: cover;
+      background-position: center;
+      color: white;
+    }
+    .hero-content {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .hero-header h1 {
+      font-size: 4rem;
+      font-weight: 800;
+      margin: 0 0 0.5rem 0;
+      letter-spacing: -0.02em;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+    .hero-header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0 0 1.5rem 0;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #e2e8f0;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+    }
+    .hero-header p {
+      font-size: 1.15rem;
+      line-height: 1.6;
+      max-width: 650px;
+      margin: 0 auto;
+      color: #f1f1f1;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+    }
+    
+    /* Separate container below hero image */
+    .cards-section {
+      background: #111827;
+      padding: 4rem 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .cards-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+    .card {
+      background: #1e293b;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+    }
+    .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+    .card-body {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card-body h3 {
+      font-size: 1.2rem;
+      margin-top: 0;
+      margin-bottom: 0.75rem;
+      color: #ffffff;
+    }
+    .card-body p {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* Sub-navigation link bar below cards */
+    .sub-nav-bar {
+      background: #0b0f19;
+      padding: 2rem 1rem;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .sub-nav-links {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .sub-nav-links a {
+      background: #1e293b;
+      color: #e2e8f0;
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.2s ease;
+    }
+    .sub-nav-links a:hover {
+      background: #334155;
+      color: #ffffff;
+      border-color: rgba(255,255,255,0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Header Section -->
+  <header class="hero-header">
+    <div class="hero-content">
+      <h1>Watership Stewards</h1>
+      <h2>Veterans Resurgence Project</h2>
+      <p>A structured, W-2 workforce restoring regional watersheds and reducing hazardous fuels, while building career-track skills in ecology, native plant propagation, and forestry. Integrating FAA Part 107 GIS monitoring and science-based education.</p>
+    </div>
+  </header>
+
+  <!-- Four Feature Cards in Separate Section Below Image -->
+  <section class="cards-section">
+    <div class="cards-container">
+      
+      <div class="card">
+        <img src="forest-restoration.jpg" alt="Field Restoration">
+        <div class="card-body">
+          <div>
+            <h3>Forest &amp; Watershed Restoration</h3>
+            <p>Structured veteran crews conduct intensive, labor-intensive hazardous fuels reduction, manual slash piling, hand-line construction, and post-wildfire reforestation to enhance regional ecosystem health.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="nursery-propagation.jpg" alt="Community Propagation">
+        <div class="card-body">
+          <div>
+            <h3>Native Plant Nursery &amp; Propagation</h3>
+            <p>Scaling up capacity for regional riparian and habitat recovery projects. We cultivate a wide variety of native Willamette Valley species for restoration efforts and community distribution.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="drone-mapping.jpg" alt="Academic Research & Aerial Mapping">
+        <div class="card-body">
+          <div>
+            <h3>Academic Research<br>Aerial Mapping</h3>
+            <p>Comprehensive training track for FAA Part 107 Remote Pilot licensing, utilizing aerial thermal imaging for terrain assessment, post-fire watershed analysis, and vegetation health monitoring.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="framework-training.jpg" alt="Operational Framework & Training">
+        <div class="card-body">
+          <div>
+            <h3>Operational Framework &amp; Training</h3>
+            <p>A fully integrated, W-2 workforce model combining structured field operations with formal, verifiable educational pathways in soil science, botany, and pest management.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Button Bar for Links to Other Files -->
+  <div class="sub-nav-bar">
+    <div class="sub-nav-links">
+      <a href="framework.html">Operational Framework</a>
+      <a href="community.html">Community &amp; Support</a>
+      <a href="training-details.html">Training Details</a>
+      <a href="gallery.html">Field Gallery</a>
+      <a href="executive-vault.html">Executive Vault</a>
+      <a href="agreements.html">Agreements &amp; MOUs</a>
+    </div>
+  </div>
+
+</body>
+</html>
