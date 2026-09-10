@@ -1,0 +1,29 @@
+<!-- HTML Form Gate -->
+<div id="gate-container">
+  <h3>Enter Clearance Code to Proceed:</h3>
+  <input type="text" id="access-code" placeholder="Enter code here...">
+  <button onclick="checkCode()">Unlock Level</button>
+  <p id="error-msg" style="color: red; display: none;">Invalid code. Try again.</p>
+</div>
+
+<!-- Hidden Next Level Content -->
+<div id="next-level" style="display: none;">
+  <h2>Access Granted!</h2>
+  <p>Proceed to <a href="level-2.html">Level 2: Field Operations</a>.</p>
+</div>
+
+<!-- JavaScript Logic -->
+<script>
+  function checkCode() {
+    const correctCode = "RESTORATION2026"; // Set your password here
+    const userInput = document.getElementById("access-code").value.trim();
+    
+    if (userInput === correctCode) {
+      document.getElementById("gate-container").style.display = "none";
+      document.getElementById("next-level").style.display = "block";
+      sessionStorage.setItem("level1_unlocked", "true"); // Saves state in browser
+    } else {
+      document.getElementById("error-msg").style.display = "block";
+    }
+  }
+</script>
