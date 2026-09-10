@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AFTI - Save the Farm: Level 1 Intake &amp; Diagnostic</title>
+</head>
+<body style="background-color: #0f172a; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+
+  <nav style="background: #144d29; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); flex-wrap: wrap; gap: 1rem;">
+    <div style="font-weight: 900; font-size: 1.25rem; letter-spacing: -0.5px; color: #ffffff;">AFTI Portal</div>
+    <div style="display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap;">
+      <a href="campaign-levels.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">← Back to Campaign Map</a>
+      <a href="shared-harvest.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Shared Harvest</a>
+    </div>
+  </nav>
+
+  <main style="max-width: 900px; margin: 0 auto; padding: 4rem 2rem;">
+    
+    <div style="background: #1e293b; padding: 2.5rem; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin-bottom: 2.5rem;">
+      <span style="background: rgba(39, 174, 96, 0.15); color: #27ae60; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.4rem 1rem; border-radius: 20px; display: inline-block; margin-bottom: 1rem;">Level 1 Quest</span>
+      
+      <h1 style="font-size: 2.5rem; font-weight: 900; color: #ffffff; margin: 0 0 1rem 0; letter-spacing: -0.5px;">The Intake &amp; Diagnostic Gate</h1>
+      
+      <p style="font-size: 1.05rem; line-height: 1.8; color: #cbd5e1; margin-top: 0;">
+        You arrive at Farmer X's homestead outside Lebanon, Oregon. A rusted tractor sits idle, a foreclosure notice flutters on the screen door, and Farmer X is nursing a braced arm after a serious accident. To join the rescue operation and earn your first <strong>50 Credit Points</strong>, you must complete your trainee profile and help audit the farm's ledger.
+      </p>
+    </div>
+
+    <div style="background: #1e293b; padding: 2.5rem; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+      <h2 style="font-size: 1.5rem; font-weight: 800; color: #ffffff; margin-top: 0; margin-bottom: 1.5rem;">Trainee Intake &amp; Farm Audit Form</h2>
+      
+      <form action="#" method="POST" style="display: grid; gap: 1.5rem;">
+        
+        <div>
+          <label style="display: block; font-size: 0.9rem; font-weight: 600; color: #cbd5e1; margin-bottom: 0.5rem;">Trainee Full Name *</label>
+          <input type="text" name="trainee_name" required placeholder="e.g., Alex Mercer" style="width: 100%; padding: 0.875rem; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #ffffff; font-size: 1rem;">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+          <div>
+            <label style="display: block; font-size: 0.9rem; font-weight: 600; color: #cbd5e1; margin-bottom: 0.5rem;">Linn County / Region Zip Code *</label>
+            <input type="text" name="zip_code" required placeholder="e.g., 97355" style="width: 100%; padding: 0.875rem; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #ffffff; font-size: 1rem;">
+          </div>
+          <div>
+            <label style="display: block; font-size: 0.9rem; font-weight: 600; color: #cbd5e1; margin-bottom: 0.5rem;">Primary Interest Area *</label>
+            <select name="track_interest" style="width: 100%; padding: 0.875rem; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #ffffff; font-size: 1rem;">
+              <option value="soil">Soil Science &amp; Field Ops</option>
+              <option value="crops">Specialty Crops &amp; Mushrooms</option>
+              <option value="business">Farm Business &amp; Leasing</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="background: #0f172a; padding: 1.5rem; border-radius: 12px; border: 1px solid #334155;">
+          <h3 style="color: #27ae60; margin-top: 0; margin-bottom: 0.75rem; font-size: 1.1rem;">Diagnostic Puzzle: The Single-Commodity Trap</h3>
+          <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">
+            Farmer X relied 100% on a single crop that crashed in market value, leaving him vulnerable to the bank notice. What primary strategy should your trainee team implement first to protect the farm against future market shocks?
+          </p>
+          <div style="display: grid; gap: 0.75rem;">
+            <label style="color: #cbd5e1; font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="radio" name="puzzle_answer" value="a" required> A) Plant double the exact same commodity crop next season.
+            </label>
+            <label style="color: #cbd5e1; font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="radio" name="puzzle_answer" value="b"> B) Diversify into high-value specialty crops and quick-turn greens.
+            </label>
+            <label style="color: #cbd5e1; font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="radio" name="puzzle_answer" value="c"> C) Sell off all remaining machinery and abandon the acreage.
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" style="background: #27ae60; color: #ffffff; font-weight: 700; font-size: 1.05rem; padding: 1rem 2rem; border: none; border-radius: 8px; cursor: pointer; transition: background 0.2s;">Submit Level 1 Audit &amp; Unlock Level 2</button>
+      </form>
+    </div>
+
+  </main>
+</body>
+</html>
