@@ -83,6 +83,9 @@
             cursor: pointer;
             margin-top: 15px;
             transition: background 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            box-sizing: border-box;
         }
 
         .btn:hover {
@@ -335,7 +338,37 @@
         <p>"You passed the gate, kid. Now comes the real field work," Farmer X grunts, sliding over the soil testing kit. You are officially ready to advance deeper into production management.</p>
         <div class="nav-buttons">
             <button class="btn btn-secondary" onclick="goToSlide(7)">Back</button>
-            <button class="btn" onclick="goToSlide(1)">Restart Journey</button>
+            <button class="btn" onclick="goToSlide('slide-hub')">Access Track Hub</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 9: Participant Hub & Track Selection -->
+    <div class="slide" id="slide-hub">
+        <h2>Farmer X: Hub & Track Selection</h2>
+        <p>You have cleared Chapter 1! Enter your participant ID below to unlock the advanced training tracks.</p>
+        
+        <div class="quest-box" id="auth-gate-section" style="background: #eef2f7; border: 1px solid #cbd5e1; border-radius: 8px; padding: 20px; margin-top: 20px;">
+            <h3 style="margin-top: 0; color: #2c3e50;">Participant Activation Gate</h3>
+            <div id="sign-in-form" style="display: flex; gap: 10px; margin-top: 15px;">
+                <input type="text" id="participant-id" placeholder="Enter Email or ID..." style="padding: 10px; font-size: 1rem; border: 2px solid #cbd5e1; border-radius: 6px; flex-grow: 1;">
+                <button class="btn" style="margin-top: 0;" onclick="activateTracks()">Activate Session</button>
+            </div>
+            
+            <div id="active-user-msg" style="display: none; font-weight: bold; color: #27ae60; margin-top: 10px;">
+                Session Active for: <span id="display-user"></span> | <a href="#" onclick="resetSession()" style="font-size: 0.85rem; color: #c0392b;">Switch User</a>
+            </div>
+
+            <!-- UNLOCKED TRACK BUTTONS -->
+            <div id="track-buttons-container" style="display: none; margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+                <a href="chapter2.html" class="btn" id="btn-ch2" onclick="logRoute('Chapter 2')">Chapter 2: Soil Management</a>
+                <a href="farmer-track-s2.html" class="btn btn-secondary" id="btn-farmer" onclick="logRoute('Farmer SOP')">Farmer SOP Track (Stage 2)</a>
+                <a href="academic-track-s2.html" class="btn" id="btn-academic" style="background-color: #2980b9;" onclick="logRoute('Academic')">Academic Track (Stage 2)</a>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(8)">Back</button>
+            <div></div>
         </div>
     </div>
 
@@ -354,16 +387,27 @@
     let answeredQuestions = {};
     const slides = document.querySelectorAll('.slide');
 
-    function showSlide(index) {
-        slides.forEach((slide, i) => {
-            slide.classList.toggle('active', i === (index - 1));
+    function showSlide(target) {
+        slides.forEach((slide) => {
+            slide.classList.remove('active');
         });
-        currentSlide = index;
+
+        if (typeof target === 'number') {
+            if (slides[target - 1]) {
+                slides[target - 1].classList.add('active');
+                currentSlide = target;
+            }
+        } else if (typeof target === 'string') {
+            const targetEl = document.getElementById(target);
+            if (targetEl) {
+                targetEl.classList.add('active');
+            }
+        }
         window.scrollTo(0, 0);
     }
 
-    function goToSlide(index) {
-        showSlide(index);
+    function goToSlide(target) {
+        showSlide(target);
     }
 
     function handleChoice(questionNum, choiceLetter, status, sidetrackSlideIndex) {
@@ -432,30 +476,47 @@
         }
     }
 
-    <!-- SLIDE: Participant Hub & Track Selection -->
-    <div class="slide" id="slide-hub">
-        <h2>Farmer X: Hub & Track Selection</h2>
-        <p>You have cleared Chapter 1! Enter your participant ID below to unlock the advanced training tracks.</p>
-        
-        <div class="quest-box" id="auth-gate-section" style="background: #eef2f7; border: 1px solid #cbd5e1; border-radius: 8px; padding: 20px; margin-top: 20px;">
-            <h3 style="margin-top: 0; color: #2c3e50;">Participant Activation Gate</h3>
-            <div id="sign-in-form" style="display: flex; gap: 10px; margin-top: 15px;">
-                <input type="text" id="participant-id" placeholder="Enter Email or ID..." style="padding: 10px; font-size: 1rem; border: 2px solid #cbd5e1; border-radius: 6px; flex-grow: 1;">
-                <button class="btn" style="margin-top: 0;" onclick="activateTracks()">Activate Session</button>
-            </div>
-            
-            <div id="active-user-msg" style="display: none; font-weight: bold; color: #27ae60; margin-top: 10px;">
-                Session Active for: <span id="display-user"></span> | <a href="#" onclick="resetSession()" style="font-size: 0.85rem; color: #c0392b;">Switch User</a>
-            </div>
+    // Participant Session & Track Activation Logic
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedUser = localStorage.getItem('farmerX_participant');
+        if (savedUser) {
+            unlockTracksUI(savedUser);
+        }
+    });
 
-            <!-- UNLOCKED TRACK BUTTONS -->
-            <div id="track-buttons-container" style="display: none; margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
-                <a href="chapter2.html" class="btn" id="btn-ch2" onclick="logRoute('Chapter 2')">Chapter 2: Soil Management</a>
-                <a href="farmer-track-s2.html" class="btn btn-secondary" id="btn-farmer" onclick="logRoute('Farmer SOP')">Farmer SOP Track (Stage 2)</a>
-                <a href="academic-track-s2.html" class="btn" id="btn-academic" style="background-color: #2980b9;" onclick="logRoute('Academic')">Academic Track (Stage 2)</a>
-            </div>
-        </div>
-    </div>
+    function activateTracks() {
+        const inputVal = document.getElementById('participant-id').value.trim();
+        if (inputVal.length < 3) {
+            alert('Please enter a valid participant ID or email.');
+            return;
+        }
+        localStorage.setItem('farmerX_participant', inputVal);
+        unlockTracksUI(inputVal);
+    }
+
+    function unlockTracksUI(userId) {
+        const formEl = document.getElementById('sign-in-form');
+        if(formEl) formEl.style.display = 'none';
+        
+        const msgDiv = document.getElementById('active-user-msg');
+        if(msgDiv) msgDiv.style.display = 'block';
+        
+        const displayUser = document.getElementById('display-user');
+        if(displayUser) displayUser.textContent = userId;
+        
+        const container = document.getElementById('track-buttons-container');
+        if(container) container.style.display = 'flex';
+    }
+
+    function resetSession() {
+        localStorage.removeItem('farmerX_participant');
+        location.reload();
+    }
+
+    function logRoute(trackName) {
+        const user = localStorage.getItem('farmerX_participant');
+        console.log(`User ${user} launched track: ${trackName}`);
+    }
 </script>
 
 </body>
