@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer X: Stage 2 - Academic Research Track</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --primary: #2980b9;
+            --primary-hover: #1f618d;
+            --secondary: #e67e22;
+            --error: #c0392b;
+            --survival-bg: #fdf2f2;
+            --survival-border: #e74c3c;
+            --hud-bg: #ebf5fb;
+            --hud-border: #3498db;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        .hud-bar {
+            background: var(--hud-bg);
+            border: 1px solid var(--hud-border);
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: #1b4f72;
+        }
+
+        .slide { display: none; }
+        .slide.active { display: block; }
+        h2 { color: var(--primary); margin-top: 0; }
+        p, li { line-height: 1.6; }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover { background-color: var(--primary-hover); }
+        .btn-secondary { background-color: var(--secondary); }
+        .btn-survival { background-color: var(--error); }
+
+        .quest-box {
+            background: #f9fbfb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .options-list { list-style: none; padding: 0; }
+        .options-list li { margin: 10px 0; }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            background: white;
+            border: 2px solid #cbd5e1;
+            padding: 12px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover { border-color: var(--primary); background: #ebf5fb; }
+
+        .survival-box {
+            background: var(--survival-bg);
+            border-left: 5px solid var(--survival-border);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 15px;
+        }
+
+        .feedback-msg {
+            font-weight: bold;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .feedback-error { background: #fde8e8; color: var(--error); }
+        .feedback-success { background: #eaf2f8; color: #1b4f72; }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+        }
+
+        .code-input-box { margin-top: 15px; display: flex; gap: 10px; }
+        .code-input { padding: 10px; font-size: 1rem; border: 2px solid #cbd5e1; border-radius: 6px; flex-grow: 1; }
+        .code-clue-display { background: #eaf2f8; border-left: 5px solid #2980b9; padding: 12px; margin-bottom: 15px; border-radius: 0 6px 6px 0; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="hud-bar">
+        <span>Academic Research Track Score: <span id="points-display">500</span> XP</span>
+        <span>Status: Research Trainee</span>
+    </div>
+
+    <!-- SLIDE 1 -->
+    <div class="slide active" id="slide-1">
+        <h2>Stage 2: Academic Research & Metrics Track</h2>
+        <p>Welcome to the research and data analytics wing. This track focuses on grant reporting compliance, community engagement metrics, survey methodology, and data collection frameworks.</p>
+        <p>Complete <strong>four placeholder diagnostics</strong> to uncover the placeholder security code (**AGRO**) and verify research standards for Stage 3.</p>
+        <div class="nav-buttons">
+            <a href="farmer-x.html" class="btn btn-secondary">Back to Main Hub</a>
+            <button class="btn" onclick="goToSlide(2)">Begin Research Diagnostics</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: Q1 -->
+    <div class="slide" id="slide-2">
+        <h2>Research Quest 1 of 4: Baseline Survey Design</h2>
+        <div class="code-clue-display">Research Code Progress: [ <span id="slot-1">_</span> ] [ _ ] [ _ ] [ _ ]</div>
+        <p><strong>The Dilemma:</strong> To measure program impact for grant stakeholders, structured baseline metrics must be captured.</p>
+        <p><em>Placeholder Challenge: Select the proper academic research protocol.</em></p>
+        <div class="quest-box">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleChoice(1, 'A', 'correct', 3)"><strong>A)</strong> Administer standardized intake surveys tracking participant skill gains, resource utilization, and retention metrics.</button></li>
+                <li><button class="option-btn" onclick="handleChoice(1, 'X', 'wrong', 3)"><strong>X)</strong> Guess overall success rates based on casual corridor conversations.</button></li>
+            </ul>
+            <div id="feedback-1" class="feedback-msg"></div>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(1)">Back</button>
+            <button class="btn" id="next-btn-1" style="display:none;" onclick="goToSlide(4)">Proceed to Quest 2</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: Sidetrack Loop -->
+    <div class="slide" id="slide-3">
+        <h2>Methodology Review Sidetrack</h2>
+        <div class="survival-box">
+            <p><strong>Setback:</strong> Flawed data collection invalidates grant reports and undermines program credibility.</p>
+            <p><strong>Correction:</strong> Review Institutional Review Board (IRB) data standards and metric tracking guidelines before continuing.</p>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-survival" onclick="returnToLastQuestion()">Return to Diagnostic & Try Again</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: Q2 -->
+    <div class="slide" id="slide-4">
+        <h2>Research Quest 2 of 4: Grant Compliance Documentation</h2>
+        <div class="code-clue-display">Research Code Progress: [ <span id="slot-1-q2">A</span> ] [ <span id="slot-2">_</span> ] [ _ ] [ _ ]</div>
+        <p><strong>The Dilemma:</strong> Funding agencies require verifiable proof of participation milestones to release quarterly tranches.</p>
+        <p><em>Placeholder Challenge: Select the correct administrative compliance action.</em></p>
+        <div class="quest-box">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleChoice(2, 'G', 'correct', 3)"><strong>G)</strong> Compile cryptographically secure timestamps and activity logs verifying trainee progression through simulation gates.</button></li>
+                <li><button class="option-btn" onclick="handleChoice(2, 'Z', 'wrong', 3)"><strong>Z)</strong> Submit blank attendance sheets and request an extension from the grant officer.</button></li>
+            </ul>
+            <div id="feedback-2" class="feedback-msg"></div>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(2)">Back</button>
+            <button class="btn" id="next-btn-2" style="display:none;" onclick="goToSlide(5)">Proceed to Quest 3</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: Q3 -->
+    <div class="slide" id="slide-5">
+        <h2>Research Quest 3 of 4: Community Outreach Analytics</h2>
+        <div class="code-clue-display">Research Code Progress: [ A ] [ <span id="slot-2-q3">G</span> ] [ <span id="slot-3">_</span> ] [ _ ]</div>
+        <p><strong>The Dilemma:</strong> Stakeholders want to evaluate the broader civic reach of the watershed workshops.</p>
+        <p><em>Placeholder Challenge: Identify the correct analytical method.</em></p>
+        <div class="quest-box">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleChoice(3, 'R', 'correct', 3)"><strong>R)</strong> Aggregate workshop attendance, digital portal logins, and resource distribution logs into a transparent impact report.</button></li>
+                <li><button class="option-btn" onclick="handleChoice(3, 'W', 'wrong', 3)"><strong>W)</strong> Exclude public engagement data entirely to keep records confidential.</button></li>
+            </ul>
+            <div id="feedback-3" class="feedback-msg"></div>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(4)">Back</button>
+            <button class="btn" id="next-btn-3" style="display:none;" onclick="goToSlide(6)">Proceed to Quest 4</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: Q4 -->
+    <div class="slide" id="slide-6">
+        <h2>Research Quest 4 of 4: Longitudinal Tracking Framework</h2>
+        <div class="code-clue-display">Research Code Progress: [ A ] [ G ] [ <span id="slot-3-q4">R</span> ] [ <span id="slot-4">_</span> ]</div>
+        <p><strong>The Dilemma:</strong> Long-term program sustainability depends on verifying career placement and skill retention over years.</p>
+        <p><em>Placeholder Challenge: Select the proper longitudinal tracking protocol.</em></p>
+        <div class="quest-box">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleChoice(4, 'O', 'correct', 3)"><strong>O)</strong> Establish 6-month and 12-month follow-up check-ins with program graduates to track career advancement.</button></li>
+                <li><button class="option-btn" onclick="handleChoice(4, 'B', 'wrong', 3)"><strong>B)</strong> Discard participant contact information immediately after module completion.</button></li>
+            </ul>
+            <div id="feedback-4" class="feedback-msg"></div>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(5)">Back</button>
+            <button class="btn" id="next-btn-4" style="display:none;" onclick="goToSlide(7)">Proceed to Gate</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: Gate -->
+    <div class="slide" id="slide-7">
+        <h2>Stage 2 Security Code Gate (Academic Track)</h2>
+        <p>You have successfully completed all four academic diagnostics and uncovered the placeholder code: <strong>A - G - R - O</strong>.</p>
+        <p>Enter the code below to unlock Stage 3.</p>
+        <div class="quest-box">
+            <label for="gate-code"><strong>Enter Code:</strong></label>
+            <div class="code-input-box">
+                <input type="text" id="gate-code" class="code-input" placeholder="Enter code..." style="text-transform: uppercase;">
+                <button class="btn" style="margin-top:0;" onclick="verifyCode()">Unlock Stage 3</button>
+            </div>
+            <div id="code-feedback" class="feedback-msg"></div>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(6)">Back</button>
+            <div></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: Unlocked -->
+    <div class="slide" id="slide-8">
+        <h2>Stage 3 Academic Track Unlocked!</h2>
+        <p>Research metrics and compliance tracking verified. Ready for advanced capstone analysis.</p>
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(7)">Back</button>
+            <a href="farmer-x.html" class="btn">Return to Hub</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let creditPoints = 500; 
+    function awardPoints(amount) { creditPoints += amount; document.getElementById('points-display').textContent = creditPoints; }
+
+    let currentSlide = 1;
+    let lastFailedQuestionSlide = 2;
+    let codeDiscovered = ["_", "_", "_", "_"];
+    let answeredQuestions = {};
+    const slides = document.querySelectorAll('.slide');
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => { slide.classList.toggle('active', i === (index - 1)); });
+        currentSlide = index;
+        window.scrollTo(0, 0);
+    }
+    function goToSlide(index) { showSlide(index); }
+
+    function handleChoice(questionNum, choiceLetter, status, sidetrackSlideIndex) {
+        const feedbackEl = document.getElementById(`feedback-${questionNum}`);
+        feedbackEl.style.display = 'block';
+        lastFailedQuestionSlide = { 1: 2, 2: 4, 3: 5, 4: 6 }[questionNum];
+
+        if (status === 'correct') {
+            feedbackEl.className = 'feedback-msg feedback-success';
+            feedbackEl.textContent = `Correct! Protocol verified. Letter unlocked: '${choiceLetter}'`;
+            document.getElementById(`next-btn-${questionNum}`).style.display = 'inline-block';
+            if (!answeredQuestions[questionNum]) { answeredQuestions[questionNum] = true; awardPoints(100); }
+            codeDiscovered[questionNum - 1] = choiceLetter;
+            updateCodeDisplays();
+        } else {
+            feedbackEl.className = 'feedback-msg feedback-error';
+            feedbackEl.textContent = 'Incorrect research protocol. Reviewing guidelines...';
+            setTimeout(() => { goToSlide(sidetrackSlideIndex); }, 1200);
+        }
+    }
+
+    function updateCodeDisplays() {
+        ['slot-1', 'slot-1-q2', 'slot-2', 'slot-2-q3', 'slot-3', 'slot-3-q4', 'slot-4'].forEach(id => {
+            const el = document.getElementById(id);
+            if(el) {
+                if(id.startsWith('slot-1')) el.textContent = codeDiscovered[0];
+                if(id.startsWith('slot-2')) el.textContent = codeDiscovered[1];
+                if(id.startsWith('slot-3')) el.textContent = codeDiscovered[2];
+                if(id.startsWith('slot-4')) el.textContent = codeDiscovered[3];
+            }
+        });
+        document.getElementById('slot-3').textContent = codeDiscovered[2];
+    }
+
+    function returnToLastQuestion() { goToSlide(lastFailedQuestionSlide); }
+
+    function verifyCode() {
+        const inputVal = document.getElementById('gate-code').value.trim().toUpperCase();
+        const codeFeedback = document.getElementById('code-feedback');
+        codeFeedback.style.display = 'block';
+        if (inputVal === 'AGRO') {
+            codeFeedback.className = 'feedback-msg feedback-success';
+            codeFeedback.textContent = 'Access Granted! Opening Stage 3...';
+            awardPoints(400);
+            setTimeout(() => { goToSlide(8); }, 1000);
+        } else {
+            codeFeedback.className = 'feedback-msg feedback-error';
+            codeFeedback.textContent = 'Invalid code. Use AGRO.';
+        }
+    }
+</script>
+
+</body>
+</html>
