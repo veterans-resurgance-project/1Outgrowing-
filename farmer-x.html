@@ -302,14 +302,89 @@
         <p>You have navigated the system, secured your credentials, and mapped out public resources. Your collected clearance code letters spell: <strong>L - I - B - E</strong>.</p>
         <p>Enter the 4-letter code below to bridge from street survival directly into the <strong>Farmer X Homestead Apprenticeship</strong> as a hardened survivor.</p>
         
-        <div class="quest-box">
-            <label for="street-code"><strong>Enter 4-Letter Street Code (LIBE):</strong></label>
-            <div class="code-input-box">
-                <input type="text" id="street-code" class="code-input" placeholder="Enter code here..." style="text-transform: uppercase;">
-                <button class="btn" style="margin-top:0;" onclick="verifyStreetCode()">Unlock Farm Bridge</button>
-            </div>
-            <div id="street-code-feedback" class="feedback-msg"></div>
-        </div>
+        <div class="quest-box>
+
+            <script>
+    let currentPoints = 0;
+    function awardPoints(pts) {
+        currentPoints += pts;
+        const display = document.getElementById('points-display');
+        if(display) display.textContent = currentPoints;
+    }
+
+    function goToSlide(slideId) {
+        document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+        // Convert numbers to string or format as 'slide-ID' if passed as a plain number
+        let targetId = typeof slideId === 'number' ? 'slide-' + slideId : slideId;
+        const target = document.getElementById(targetId);
+        if(target) {
+            target.classList.add('active');
+        } else {
+            console.error("Could not find slide with ID:", targetId);
+        }
+    }
+
+    let streetCodeDiscovered = ["_", "_", "_", "_"];
+    let answeredStreetQuestions = {};
+
+    function handleStreetChoice(questionNum, choiceLetter, status) {
+        const feedbackEl = document.getElementById(`s-feedback-${questionNum}`);
+        if (!feedbackEl) return;
+        feedbackEl.style.display = 'block';
+
+        if (status === 'correct') {
+            feedbackEl.className = 'feedback-msg feedback-success';
+            feedbackEl.textContent = `Correct! Resource secured. Code letter unlocked: '${choiceLetter}'`;
+            const nextBtn = document.getElementById(`s-next-btn-${questionNum}`);
+            if (nextBtn) nextBtn.style.display = 'inline-block';
+            
+            if (!answeredStreetQuestions[questionNum]) {
+                answeredStreetQuestions[questionNum] = true;
+                awardPoints(75); 
+            }
+
+            streetCodeDiscovered[questionNum - 1] = choiceLetter;
+            updateStreetCodeDisplays();
+        } else {
+            feedbackEl.className = 'feedback-msg feedback-error';
+            feedbackEl.textContent = 'Dead end or safety risk. Re-evaluate your approach.';
+        }
+    }
+
+    function updateStreetCodeDisplays() {
+        const slots = ['s-slot-1', 's-slot-1-q2', 's-slot-2', 's-slot-2-q3', 's-slot-3', 's-slot-3-q4', 's-slot-4'];
+        slots.forEach(id => {
+            const el = document.getElementById(id);
+            if(el) {
+                if(id.startsWith('s-slot-1')) el.textContent = streetCodeDiscovered[0];
+                if(id.startsWith('s-slot-2')) el.textContent = streetCodeDiscovered[1];
+                if(id.startsWith('s-slot-3')) el.textContent = streetCodeDiscovered[2];
+                if(id.startsWith('s-slot-4')) el.textContent = streetCodeDiscovered[3];
+            }
+        });
+    }
+
+    function verifyStreetCode() {
+        const codeInput = document.getElementById('street-code');
+        const codeFeedback = document.getElementById('street-code-feedback');
+        if (!codeInput || !codeFeedback) return;
+        
+        const inputVal = codeInput.value.trim().toUpperCase();
+        codeFeedback.style.display = 'block';
+
+        if (inputVal === 'LIBE') {
+            codeFeedback.className = 'feedback-msg feedback-success';
+            codeFeedback.textContent = 'Liberation Code Verified! Entering Farmer X Homestead with elite street-smart resilience...';
+            awardPoints(400); 
+            setTimeout(() => {
+                goToSlide('slide-2'); 
+            }, 1200);
+        } else {
+            codeFeedback.className = 'feedback-msg feedback-error';
+            codeFeedback.textContent = 'Invalid code. Review your 4 letters (L-I-B-E).';
+        }
+    }
+        </script>
 
         <div class="nav-buttons">
             <button class="btn btn-secondary" onclick="goToSlide('street-4')">Back</button>
