@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer X: The Watershed Apprenticeship</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --primary: #27ae60;
+            --primary-hover: #219653;
+            --secondary: #e67e22;
+            --error: #c0392b;
+            --sage-bg: #fef9e7;
+            --sage-border: #f39c12;
+            --survival-bg: #fdf2f2;
+            --survival-border: #e74c3c;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        .slide {
+            display: none;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-top: 0;
+        }
+
+        p, li {
+            line-height: 1.6;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-survival {
+            background-color: var(--error);
+        }
+
+        .quest-box {
+            background: #f9fbfb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .options-list li {
+            margin: 10px 0;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            background: white;
+            border: 2px solid #cbd5e1;
+            padding: 12px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary);
+            background: #f0fdf4;
+        }
+
+        .sidetrack-box {
+            background: var(--sage-bg);
+            border-left: 5px solid var(--sage-border);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 15px;
+        }
+
+        .survival-box {
+            background: var(--survival-bg);
+            border-left: 5px solid var(--survival-border);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 15px;
+        }
+
+        .feedback-msg {
+            font-weight: bold;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .feedback-error {
+            background: #fde8e8;
+            color: var(--error);
+        }
+
+        .feedback-success {
+            background: #def7ec;
+            color: #03543f;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- SLIDE 1: Chapter One - The Homestead -->
+    <div class="slide active" id="slide-1">
+        <h2>Chapter One: The Homestead</h2>
+        <p>The game opens on the porch of Farmer X’s homestead just outside Lebanon, Oregon. A rusted John Deere sits idle in the distance, its front loader frozen mid-lift. A weathered foreclosure notice from the bank is pinned to the screen door, fluttering in the early autumn wind.</p>
+        <p>Farmer X sits nursing a cracked rib and a heavily braced arm, staring at empty ledger books. For twenty years, he did everything alone until a PTO shaft caught his jacket. Now, a lost season has wiped out cash flow, and his traditional wholesale buyer dropped his contract.</p>
+        <p>As the incoming trainee, you must step up and open the first ledger to learn how the business actually survives.</p>
+        <div class="nav-buttons">
+            <div></div>
+            <button class="btn" onclick="nextSlide()">Begin Chapter 1 Diagnostics</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: Chapter 1 - Question 1 -->
+    <div class="slide" id="slide-2">
+        <h2>Chapter 1 (Quest 1): The Crop Diversification Trap</h2>
+        <p><strong>The Dilemma:</strong> Farmer X relied 100% on a single commodity crop that just crashed in market value.</p>
+        <p><em>Game Challenge: Select the strategy that protects a small farm from total market collapse.</em></p>
+        
+        <div class="quest-box" id="q1-container">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleChoice(1, 'correct', 3)">A) Implement multi-tier revenue streams, mixing specialty crops and culinary mushrooms with traditional produce.</button></li>
+                <li><button class="option-btn" onclick="handleChoice(1, 'wrong', 3)">B) Double down on the exact same failing commodity crop next season hoping prices rebound.</button></li>
+            </ul>
+            <div id="feedback-1" class="feedback-msg"></div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="prevSlide()">Back</button>
+            <button class="btn" id="next-btn-1" style="display:none;" onclick="nextSlide()">Proceed to Chapter 2 Gate</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: Survival Sidetrack for Q1 -->
+    <div class="slide" id="slide-3">
+        <h2>Survival Sidetrack: The Foraging Loop</h2>
+        <div class="survival-box">
+            <p><strong>Setback:</strong> Chasing single-commodity booms leaves you broke when the market shifts. Farmer X sends you out to the timber lot to learn resilience.</p>
+            <p><strong>Lesson:</strong> You forage for wild chanterelles and oyster mushrooms under an off-grid botanist, learning natural diversity before returning to business realities.</p>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-survival" onclick="goToSlide(1)">Return to Chapter Start & Re-try</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: Chapter 2 Gate & Introduction -->
+    <div class="slide" id="slide-4">
+        <h2>Chapter Two: The Tool Shed & Soil Management</h2>
+        <p>The rusted hinges of the tool shed groan open, releasing the sharp scent of linseed oil and iron. Farmer X tosses you a tarnished brass soil core sampler.</p>
+        <p>"The ledger numbers kept the bank from locking the front gate today," Farmer X grunts. "Now comes the real test. If your dirt is dead, everything you plant turns to dust before July."</p>
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(1)">Back</button>
+            <button class="btn" onclick="nextSlide()">Begin Chapter 2 Field Tests</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: Chapter 2 - Question 1 (Soil pH) -->
+    <div class="slide" id="slide-5">
+        <h2>Chapter 2 (Quest 1): The Acidic Lower Bottomland</h2>
+        <p><strong>The Dilemma:</strong> Your soil meter fluctuates before settling on an acidic <strong>5.4 pH</strong> in the lower bottomland plots, locking up essential phosphorus.</p>
+        <p><em>Game Challenge: Determine the correct corrective action.</em></p>
+        
+        <div class="quest-box" id="q2-container">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleChoice(2, 'correct', 6)">A) Apply agricultural limestone at calculated buffer capacity rates to steadily raise pH toward the 6.5 target.</button></li>
+                <li><button class="option-btn" onclick="handleChoice(2, 'wrong', 6)">B) Pour cheap synthetic liquid nitrogen directly onto the acidic soil to force immediate green growth.</button></li>
+            </ul>
+            <div id="feedback-2" class="feedback-msg"></div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(3)">Back</button>
+            <button class="btn" id="next-btn-2" style="display:none;" onclick="nextSlide()">Complete Chapter 2</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: Sage Sidetrack for Chapter 2 -->
+    <div class="slide" id="slide-6">
+        <h2>Consulting the Extension Agent</h2>
+        <div class="sidetrack-box">
+            <p><strong>Extension Advisor:</strong> "Chemical quick-fixes on severe acid soils just burn out your microbial life. Review your lime requirement calculations and buffer curves."</p>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(4)">Return to Chapter 2 & Re-try</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: Conclusion & Summary -->
+    <div class="slide" id="slide-7">
+        <h2>Chapters 1 & 2 Completed!</h2>
+        <p>You have successfully navigated Farmer X's homestead ledger diagnostics and soil acidity hurdles. You earned your first 500 XP and unlocked advanced irrigation and cover-crop modules.</p>
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(4)">Back</button>
+            <button class="btn" onclick="goToSlide(0)">Restart Journey</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+        currentSlide = index;
+        window.scrollTo(0, 0);
+    }
+
+    function nextSlide() {
+        if (currentSlide < slides.length - 1) {
+            showSlide(currentSlide + 1);
+        }
+    }
+
+    function prevSlide() {
+        if (currentSlide > 0) {
+            showSlide(currentSlide - 1);
+        }
+    }
+
+    function goToSlide(index) {
+        showSlide(index);
+    }
+
+    function handleChoice(questionNum, status, sidetrackSlideIndex) {
+        const feedbackEl = document.getElementById(`feedback-${questionNum}`);
+        feedbackEl.style.display = 'block';
+
+        if (status === 'correct') {
+            feedbackEl.className = 'feedback-msg feedback-success';
+            feedbackEl.textContent = 'Correct! Protocol verified. Progression unlocked.';
+            document.getElementById(`next-btn-${questionNum}`).style.display = 'inline-block';
+        } else {
+            feedbackEl.className = 'feedback-msg feedback-error';
+            feedbackEl.textContent = 'Incorrect action. Diverting to sidetrack/setback...';
+            setTimeout(() => {
+                goToSlide(sidetrackSlideIndex);
+            }, 1200);
+        }
+    }
+</script>
+
+</body>
+</html>
