@@ -134,14 +134,6 @@
             background: #f0fdf4;
         }
 
-        .survival-box {
-            background: var(--survival-bg);
-            border-left: 5px solid var(--survival-border);
-            padding: 20px;
-            border-radius: 0 8px 8px 0;
-            margin-top: 15px;
-        }
-
         .feedback-msg {
             font-weight: bold;
             margin-top: 15px;
@@ -201,7 +193,8 @@
         <span>Apprentice Score: <span id="points-display">0</span> XP</span>
         <span>Status: Active Field Trainee</span>
     </div>
-<!-- SLIDE 1: Entry Track Selection -->
+
+    <!-- SLIDE 1: Entry Track Selection -->
     <div class="slide active" id="slide-1">
         <h2>Farmer X: Choose Your Entry Path</h2>
         <p>Before stepping onto the homestead porch, select your starting background. Each path sets a different level of initial difficulty and survival mechanics.</p>
@@ -218,10 +211,11 @@
             <button class="btn btn-survival" onclick="goToSlide('street-1')">Select Street-to-Soil Path</button>
         </div>
     </div>
+
     <!-- STREET TRACK SLIDE 1: The Transition -->
     <div class="slide" id="street-1">
         <h2>Street Track (1 of 4): The Transition at 18</h2>
-        <div class="code-clue-display">Street Code Progress: [ <span id="s-slot-1">_</span> ] </div>
+        <div class="code-clue-display">Street Code Progress: [ <span id="s-slot-1">_</span> ] [ _ ] [ _ ] [ _ ]</div>
         <p><strong>The Reality:</strong> You just turned 18. The caseworker hands you a trash bag with your clothes, a bus pass, and a birth certificate. It's dusk on a cold Oregon evening in downtown. You have no money and nowhere to sleep.</p>
         <p><em>Challenge: Secure immediate safety and map survival resources without risking arrest or exposure.</em></p>
         
@@ -242,7 +236,7 @@
     <!-- STREET TRACK SLIDE 2: Educational Deficit -->
     <div class="slide" id="street-2">
         <h2>Street Track (2 of 4): The Educational Barrier</h2>
-        <div class="code-clue-display">Street Code Progress: [ <span id="s-slot-1-q2">L</span> ] [ <span id="s-slot-2">_</span> ] </div>
+        <div class="code-clue-display">Street Code Progress: [ <span id="s-slot-1-q2">L</span> ] [ <span id="s-slot-2">_</span> ] [ _ ] [ _ ]</div>
         <p><strong>The Reality: Data Deficit.</strong> Every job or housing application requires a high school diploma or GED you couldn't finish while bouncing through 7 foster placements.</p>
         <p><em>Challenge: Overcome credential barriers with zero tuition money.</em></p>
         
@@ -263,7 +257,7 @@
     <!-- STREET TRACK SLIDE 3: Bureaucracy & Health -->
     <div class="slide" id="street-3">
         <h2>Street Track (3 of 4): Navigating Bureaucracy</h2>
-        <div class="code-clue-display">Street Code Progress: [ L ] [ <span id="s-slot-2-q3">I</span> ] [ <span id="s-slot-3">_</span> ] </div>
+        <div class="code-clue-display">Street Code Progress: [ L ] [ <span id="s-slot-2-q3">I</span> ] [ <span id="s-slot-3">_</span> ] [ _ ]</div>
         <p><strong>The Reality: Administrative Gridlock.</strong> Your food stamps got delayed due to a paperwork error, and a dental abscess is throbbing in your jaw.</p>
         <p><em>Challenge: Fight through bureaucratic red tape to access public health infrastructure.</em></p>
         
@@ -323,8 +317,39 @@
         </div>
     </div>
 
+    <!-- SLIDE 2: Chapter 1 - Question 1 -->
+    <div class="slide" id="slide-2">
+        <h2>Chapter 1 (Quest 1 of 4): The Crop Diversification Trap</h2>
+        <div class="code-clue-display">Code Progress: [ <span id="slot-1">_</span> ] [ _ ] [ _ ] [ _ ]</div>
+        <p><strong>The Dilemma:</strong> Farmer X relied 100% on a single commodity crop that just crashed in market value.</p>
+        <p><em>Game Challenge: Select the strategy that protects a small farm from total market collapse.</em></p>
+        
+        <div class="quest-box" id="q1-container">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleChoice(1, 'A', 'correct', 3)"><strong>A)</strong> Implement multi-tier revenue streams, mixing specialty crops and culinary mushrooms with traditional produce.</button></li>
+                <li><button class="option-btn" onclick="handleChoice(1, 'B', 'wrong', 3)"><strong>B)</strong> Double down on the exact same failing commodity crop next season.</button></li>
+            </ul>
+            <div id="feedback-1" class="feedback-msg"></div>
+        </div>
+    </div>
 
-    let streetCodeDiscovered = ;
+</div>
+
+<script>
+    let currentPoints = 0;
+    function awardPoints(pts) {
+        currentPoints += pts;
+        const display = document.getElementById('points-display');
+        if(display) display.textContent = currentPoints;
+    }
+
+    function goToSlide(slideId) {
+        document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(slideId);
+        if(target) target.classList.add('active');
+    }
+
+    let streetCodeDiscovered = ["_", "_", "_", "_"];
     let answeredStreetQuestions = {};
 
     function handleStreetChoice(questionNum, choiceLetter, status) {
@@ -383,363 +408,6 @@
             codeFeedback.className = 'feedback-msg feedback-error';
             codeFeedback.textContent = 'Invalid code. Review your 4 letters (L-I-B-E).';
         }
-    }
-    let answeredStreetQuestions = {};
-
-    function handleStreetChoice(questionNum, choiceLetter, status) {
-        const feedbackEl = document.getElementById(`s-feedback-${questionNum}`);
-        feedbackEl.style.display = 'block';
-
-        if (status === 'correct') {
-            feedbackEl.className = 'feedback-msg feedback-success';
-            feedbackEl.textContent = `Correct! Resource secured. Code letter unlocked: '${choiceLetter}'`;
-            document.getElementById(`s-next-btn-${questionNum}`).style.display = 'inline-block';
-            
-            if (!answeredStreetQuestions[questionNum]) {
-                answeredStreetQuestions[questionNum] = true;
-                awardPoints(75); // Higher XP reward for high difficulty track
-            }
-
-            streetCodeDiscovered[questionNum - 1] = choiceLetter;
-            updateStreetCodeDisplays();
-        } else {
-            feedbackEl.className = 'feedback-msg feedback-error';
-            feedbackEl.textContent = 'Dead end or safety risk. Re-evaluate your approach.';
-        }
-    }
-
-    function updateStreetCodeDisplays() {
-        const slots = ['s-slot-1', 's-slot-1-q2', 's-slot-2', 's-slot-2-q3', 's-slot-3', 's-slot-3-q4', 's-slot-4'];
-        slots.forEach(id => {
-            const el = document.getElementById(id);
-            if(el) {
-                if(id.startsWith('s-slot-1')) el.textContent = streetCodeDiscovered[0];
-                if(id.startsWith('s-slot-2')) el.textContent = streetCodeDiscovered[1];
-                if(id.startsWith('s-slot-3')) el.textContent = streetCodeDiscovered[2];
-                if(id.startsWith('s-slot-4')) el.textContent = streetCodeDiscovered[3];
-            }
-        });
-    }
-
-    function verifyStreetCode() {
-        const inputVal = document.getElementById('street-code').value.trim().toUpperCase();
-        const codeFeedback = document.getElementById('street-code-feedback');
-        codeFeedback.style.display = 'block';
-
-        if (inputVal === 'LIBE') {
-            codeFeedback.className = 'feedback-msg feedback-success';
-            codeFeedback.textContent = 'Liberation Code Verified! Entering Farmer X Homestead with elite street-smart resilience...';
-            awardPoints(400); // Massive bonus XP
-            setTimeout(() => {
-                goToSlide(2); // Jumps directly to Chapter 1 Question 1 on the farm
-            }, 1200);
-        } else {
-            codeFeedback.className = 'feedback-msg feedback-error';
-            codeFeedback.textContent = 'Invalid code. Review your 4 letters (L-I-B-E).';
-        }
-    }
-    <!-- SLIDE 2: Chapter 1 - Question 1 -->
-    <div class="slide" id="slide-2">
-        <h2>Chapter 1 (Quest 1 of 4): The Crop Diversification Trap</h2>
-        <div class="code-clue-display">Code Progress: [ <span id="slot-1">_</span> ] [ _ ] [ _ ] [ _ ]</div>
-        <p><strong>The Dilemma:</strong> Farmer X relied 100% on a single commodity crop that just crashed in market value.</p>
-        <p><em>Game Challenge: Select the strategy that protects a small farm from total market collapse.</em></p>
-        
-        <div class="quest-box" id="q1-container">
-            <ul class="options-list">
-                <li><button class="option-btn" onclick="handleChoice(1, 'A', 'correct', 3)"><strong>A)</strong> Implement multi-tier revenue streams, mixing specialty crops and culinary mushrooms with traditional produce.</button></li>
-                <li><button class="option-btn" onclick="handleChoice(1, 'B', 'wrong', 3)"><strong>B)</strong> Double down on the exact same failing commodity crop next season hoping prices rebound.</button></li>
-            </ul>
-            <div id="feedback-1" class="feedback-msg"></div>
-        </div>
-
-        <div class="nav-buttons">
-            <button class="btn btn-secondary" onclick="goToSlide(1)">Back</button>
-            <button class="btn" id="next-btn-1" style="display:none;" onclick="goToSlide(4)">Proceed to Question 2</button>
-        </div>
-    </div>
-
-    <!-- SLIDE 3: Common Sidetrack / Survival Loop -->
-    <div class="slide" id="slide-3">
-        <h2>Survival & Resilience Sidetrack: The Timber Camp</h2>
-        <div class="survival-box">
-            <p><strong>Setback:</strong> Shortcuts or bad strategies collapse your enterprise. Farmer X sends you out to the timber lot: <em>"If you're going to survive out here when systems fail, learn how nature adapts."</em></p>
-            <p><strong>Foraging Lesson:</strong> You live in a canvas tent for a week, learning to forage wild chanterelles and oyster mushrooms while avoiding toxic lookalikes. You gain resource awareness before returning to the ledger.</p>
-        </div>
-        <div class="nav-buttons">
-            <button class="btn btn-survival" onclick="returnToLastQuestion()">Return to Ledger & Try Again</button>
-        </div>
-    </div>
-
-    <!-- SLIDE 4: Chapter 1 - Question 2 -->
-    <div class="slide" id="slide-4">
-        <h2>Chapter 1 (Quest 2 of 4): The Physical Audit</h2>
-        <div class="code-clue-display">Code Progress: [ <span id="slot-1-q2">A</span> ] [ <span id="slot-2">_</span> ] [ _ ] [ _ ]</div>
-        <p><strong>The Dilemma:</strong> With Farmer X's mobility limited, tasks that took one hour now take a full day.</p>
-        <p><em>Game Challenge: Identify how to handle core farm tasks safely without risking injury.</em></p>
-        
-        <div class="quest-box" id="q2-container">
-            <ul class="options-list">
-                <li><button class="option-btn" onclick="handleChoice(2, 'G', 'correct', 3)"><strong>G)</strong> Deploy a cooperative network and volunteer labor-sharing model for hand-harvesting and weeding.</button></li>
-                <li><button class="option-btn" onclick="handleChoice(2, 'X', 'wrong', 3)"><strong>X)</strong> Attempt to operate all heavy machinery with a braced arm and fractured rib alone.</button></li>
-            </ul>
-            <div id="feedback-2" class="feedback-msg"></div>
-        </div>
-
-        <div class="nav-buttons">
-            <button class="btn btn-secondary" onclick="goToSlide(2)">Back</button>
-            <button class="btn" id="next-btn-2" style="display:none;" onclick="goToSlide(5)">Proceed to Question 3</button>
-        </div>
-    </div>
-
-    <!-- SLIDE 5: Chapter 1 - Question 3 -->
-    <div class="slide" id="slide-5">
-        <h2>Chapter 1 (Quest 3 of 4): The Fixed-Cost Reality Check</h2>
-        <div class="code-clue-display">Code Progress: [ A ] [ <span id="slot-2-q3">G</span> ] [ <span id="slot-3">_</span> ] [ _ ]</div>
-        <p><strong>The Dilemma:</strong> Property taxes and equipment loans are due in 90 days with zero revenue coming in.</p>
-        <p><em>Game Challenge: Calculate immediate cash burn rate and determine acreage allocation.</em></p>
-        
-        <div class="quest-box" id="q3-container">
-            <ul class="options-list">
-                <li><button class="option-btn" onclick="handleChoice(3, 'R', 'correct', 3)"><strong>R)</strong> Audit liabilities, draft enterprise budgets, and negotiate MOUs to bring fast-turnaround cash crops into idle acreage.</button></li>
-                <li><button class="option-btn" onclick="handleChoice(3, 'Z', 'wrong', 3)"><strong>Z)</strong> Ignore bank notices and hope the land magically generates funds on its own.</button></li>
-            </ul>
-            <div id="feedback-3" class="feedback-msg"></div>
-        </div>
-
-        <div class="nav-buttons">
-            <button class="btn btn-secondary" onclick="goToSlide(4)">Back</button>
-            <button class="btn" id="next-btn-3" style="display:none;" onclick="goToSlide(6)">Proceed to Question 4</button>
-        </div>
-    </div>
-
-    <!-- SLIDE 6: Chapter 1 - Question 4 -->
-    <div class="slide" id="slide-6">
-        <h2>Chapter 1 (Quest 4 of 4): Soil Baseline Calibration</h2>
-        <div class="code-clue-display">Code Progress: [ A ] [ G ] [ <span id="slot-3-q4">R</span> ] [ <span id="slot-4">_</span> ]</div>
-        <p><strong>The Dilemma:</strong> Before planting, you must set baseline nutrient parameters for the valley floor.</p>
-        <p><em>Game Challenge: Identify the correct target soil pH baseline discussed on the homestead porch.</em></p>
-        
-        <div class="quest-box" id="q4-container">
-            <ul class="options-list">
-                <li><button class="option-btn" onclick="handleChoice(4, 'O', 'correct', 3)"><strong>O)</strong> Maintain a target soil pH around 6.5 to prevent nitrogen and phosphorus lockout in heavy clay loams.</button></li>
-                <li><button class="option-btn" onclick="handleChoice(4, 'W', 'wrong', 3)"><strong>W)</strong> Let soil drift down to 4.0 pH to encourage acidic weed growth.</button></li>
-            </ul>
-            <div id="feedback-4" class="feedback-msg"></div>
-        </div>
-
-        <div class="nav-buttons">
-            <button class="btn btn-secondary" onclick="goToSlide(5)">Back</button>
-            <button class="btn" id="next-btn-4" style="display:none;" onclick="goToSlide(7)">Proceed to Security Code Gate</button>
-        </div>
-    </div>
-
-    <!-- SLIDE 7: The Security Code Gate -->
-    <div class="slide" id="slide-7">
-        <h2>Level 2 Security Code Gate</h2>
-        <p>You have successfully answered all four diagnostic quests and collected the four secret letters from the correct multiple-choice options: <strong>A - G - R - O</strong>.</p>
-        <p>Enter the 4-letter code below to unlock the heavy iron doors leading into <strong>Level 2: The Tool Shed & Soil Management</strong>.</p>
-        
-        <div class="quest-box">
-            <label for="gate-code"><strong>Enter 4-Letter Clearance Code:</strong></label>
-            <div class="code-input-box">
-                <input type="text" id="gate-code" class="code-input" placeholder="Enter code here..." style="text-transform: uppercase;">
-                <button class="btn" style="margin-top:0;" onclick="verifyCode()">Unlock Gate</button>
-            </div>
-            <div id="code-feedback" class="feedback-msg"></div>
-        </div>
-
-        <div class="nav-buttons">
-            <button class="btn btn-secondary" onclick="goToSlide(6)">Back</button>
-            <div></div>
-        </div>
-    </div>
-
-    <!-- SLIDE 8: Chapter 2 - Level 2 Unlocked -->
-    <div class="slide" id="slide-8">
-        <h2>Chapter Two: Level 2 Tool Shed Unlocked!</h2>
-        <p>The heavy iron gate clicks open, releasing the sharp scent of linseed oil and iron. Farmer X tosses you a tarnished brass soil core sampler.</p>
-        <p>"You passed the gate, kid. Now comes the real field work," Farmer X grunts, sliding over the soil testing kit. You are officially ready to advance deeper into production management.</p>
-        <div class="nav-buttons">
-            <button class="btn btn-secondary" onclick="goToSlide(7)">Back</button>
-            <button class="btn" onclick="goToSlide('slide-hub')">Access Track Hub</button>
-        </div>
-    </div>
-
-    <!-- SLIDE 9: Participant Hub & Track Selection -->
-    <div class="slide" id="slide-hub">
-        <h2>Farmer X: Hub & Track Selection</h2>
-        <p>You have cleared Chapter 1! Enter your participant ID below to unlock the advanced training tracks.</p>
-        
-        <div class="quest-box" id="auth-gate-section" style="background: #eef2f7; border: 1px solid #cbd5e1; border-radius: 8px; padding: 20px; margin-top: 20px;">
-            <h3 style="margin-top: 0; color: #2c3e50;">Participant Activation Gate</h3>
-            <div id="sign-in-form" style="display: flex; gap: 10px; margin-top: 15px;">
-                <input type="text" id="participant-id" placeholder="Enter Email or ID..." style="padding: 10px; font-size: 1rem; border: 2px solid #cbd5e1; border-radius: 6px; flex-grow: 1;">
-                <button class="btn" style="margin-top: 0;" onclick="activateTracks()">Activate Session</button>
-            </div>
-            
-            <div id="active-user-msg" style="display: none; font-weight: bold; color: #27ae60; margin-top: 10px;">
-                Session Active for: <span id="display-user"></span> | <a href="#" onclick="resetSession()" style="font-size: 0.85rem; color: #c0392b;">Switch User</a>
-            </div>
-
-            <!-- UNLOCKED TRACK BUTTONS -->
-            <div id="track-buttons-container" style="display: none; margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
-                <a href="chapter2.html" class="btn" id="btn-ch2" onclick="logRoute('Chapter 2')">Chapter 2: Soil Management</a>
-                <a href="farmer-track-s2.html" class="btn btn-secondary" id="btn-farmer" onclick="logRoute('Farmer SOP')">Farmer SOP Track (Stage 2)</a>
-                <a href="academic-track-s2.html" class="btn" id="btn-academic" style="background-color: #2980b9;" onclick="logRoute('Academic')">Academic Track (Stage 2)</a>
-            </div>
-        </div>
-
-        <div class="nav-buttons">
-            <button class="btn btn-secondary" onclick="goToSlide(8)">Back</button>
-            <div></div>
-        </div>
-    </div>
-
-</div>
-
-<script>
-    let creditPoints = 0; 
-    function awardPoints(amount) { 
-        creditPoints += amount; 
-        document.getElementById('points-display').textContent = creditPoints; 
-    }
-
-    let currentSlide = 1;
-    let lastFailedQuestionSlide = 2;
-    let codeDiscovered = ["_", "_", "_", "_"];
-    let answeredQuestions = {};
-    const slides = document.querySelectorAll('.slide');
-
-    function showSlide(target) {
-        slides.forEach((slide) => {
-            slide.classList.remove('active');
-        });
-
-        if (typeof target === 'number') {
-            if (slides[target - 1]) {
-                slides[target - 1].classList.add('active');
-                currentSlide = target;
-            }
-        } else if (typeof target === 'string') {
-            const targetEl = document.getElementById(target);
-            if (targetEl) {
-                targetEl.classList.add('active');
-            }
-        }
-        window.scrollTo(0, 0);
-    }
-
-    function goToSlide(target) {
-        showSlide(target);
-    }
-
-    function handleChoice(questionNum, choiceLetter, status, sidetrackSlideIndex) {
-        const feedbackEl = document.getElementById(`feedback-${questionNum}`);
-        feedbackEl.style.display = 'block';
-
-        const questionSlideMap = { 1: 2, 2: 4, 3: 5, 4: 6 };
-        lastFailedQuestionSlide = questionSlideMap[questionNum];
-
-        if (status === 'correct') {
-            feedbackEl.className = 'feedback-msg feedback-success';
-            feedbackEl.textContent = `Correct! Protocol verified. Code letter unlocked: '${choiceLetter}'`;
-            document.getElementById(`next-btn-${questionNum}`).style.display = 'inline-block';
-            
-            // Award points only once per question
-            if (!answeredQuestions[questionNum]) {
-                answeredQuestions[questionNum] = true;
-                awardPoints(50);
-            }
-
-            // Store code letter
-            codeDiscovered[questionNum - 1] = choiceLetter;
-            updateCodeDisplays();
-        } else {
-            feedbackEl.className = 'feedback-msg feedback-error';
-            feedbackEl.textContent = 'Incorrect action. Diverting to timber sidetrack...';
-            setTimeout(() => {
-                goToSlide(sidetrackSlideIndex); // Goes to Slide 3 (survival sidetrack)
-            }, 1200);
-        }
-    }
-
-    function updateCodeDisplays() {
-        // Update visual indicators across slides
-        const slots = ['slot-1', 'slot-1-q2', 'slot-2', 'slot-2-q3', 'slot-3', 'slot-3-q4', 'slot-4'];
-        slots.forEach(id => {
-            const el = document.getElementById(id);
-            if(el) {
-                if(id.startsWith('slot-1')) el.textContent = codeDiscovered[0];
-                if(id.startsWith('slot-2')) el.textContent = codeDiscovered[1];
-                if(id.startsWith('slot-3')) el.textContent = codeDiscovered[2];
-                if(id.startsWith('slot-4')) el.textContent = codeDiscovered[3];
-            }
-        });
-    }
-
-    function returnToLastQuestion() {
-        goToSlide(lastFailedQuestionSlide);
-    }
-
-    function verifyCode() {
-        const inputVal = document.getElementById('gate-code').value.trim().toUpperCase();
-        const codeFeedback = document.getElementById('code-feedback');
-        codeFeedback.style.display = 'block';
-
-        if (inputVal === 'AGRO') {
-            codeFeedback.className = 'feedback-msg feedback-success';
-            codeFeedback.textContent = 'Access Granted! Opening Chapter 2...';
-            awardPoints(300); // Bonus XP for unlocking Level 2 gate
-            setTimeout(() => {
-                goToSlide(8); // Advances to Slide 8 (Level 2 Unlocked)
-            }, 1000);
-        } else {
-            codeFeedback.className = 'feedback-msg feedback-error';
-            codeFeedback.textContent = 'Invalid code. Review the letters revealed from your four correct choices (A-G-R-O).';
-        }
-    }
-
-    // Participant Session & Track Activation Logic
-    window.addEventListener('DOMContentLoaded', () => {
-        const savedUser = localStorage.getItem('farmerX_participant');
-        if (savedUser) {
-            unlockTracksUI(savedUser);
-        }
-    });
-
-    function activateTracks() {
-        const inputVal = document.getElementById('participant-id').value.trim();
-        if (inputVal.length < 3) {
-            alert('Please enter a valid participant ID or email.');
-            return;
-        }
-        localStorage.setItem('farmerX_participant', inputVal);
-        unlockTracksUI(inputVal);
-    }
-
-    function unlockTracksUI(userId) {
-        const formEl = document.getElementById('sign-in-form');
-        if(formEl) formEl.style.display = 'none';
-        
-        const msgDiv = document.getElementById('active-user-msg');
-        if(msgDiv) msgDiv.style.display = 'block';
-        
-        const displayUser = document.getElementById('display-user');
-        if(displayUser) displayUser.textContent = userId;
-        
-        const container = document.getElementById('track-buttons-container');
-        if(container) container.style.display = 'flex';
-    }
-
-    function resetSession() {
-        localStorage.removeItem('farmerX_participant');
-        location.reload();
-    }
-
-    function logRoute(trackName) {
-        const user = localStorage.getItem('farmerX_participant');
-        console.log(`User ${user} launched track: ${trackName}`);
     }
 </script>
 
