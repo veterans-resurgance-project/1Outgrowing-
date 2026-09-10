@@ -202,7 +202,7 @@
         <div class="quest-box" style="margin-bottom: 20px;">
             <h3 style="color: #2c3e50; margin-top:0;">Path A: Standard Apprenticeship (Moderate Difficulty)</h3>
             <p>Step directly onto Farmer X’s porch outside Lebanon, Oregon, facing a farm foreclosure and broken equipment.</p>
-            <button class="btn" onclick="goToSlide(2)">Select Standard Path</button>
+            <button class="btn" onclick="goToSlide('slide-2')">Select Standard Path</button>
         </div>
 
         <div class="quest-box" style="background: #fdf2f2; border-color: #e74c3c;">
@@ -228,7 +228,7 @@
         </div>
 
         <div class="nav-buttons">
-            <button class="btn btn-secondary" onclick="goToSlide(1)">Back to Path Select</button>
+            <button class="btn btn-secondary" onclick="goToSlide('slide-1')">Back to Path Select</button>
             <button class="btn" id="s-next-btn-1" style="display:none;" onclick="goToSlide('street-2')">Proceed to Education Hurdle</button>
         </div>
     </div>
@@ -302,9 +302,40 @@
         <p>You have navigated the system, secured your credentials, and mapped out public resources. Your collected clearance code letters spell: <strong>L - I - B - E</strong>.</p>
         <p>Enter the 4-letter code below to bridge from street survival directly into the <strong>Farmer X Homestead Apprenticeship</strong> as a hardened survivor.</p>
         
-        <div class="quest-box>
+        <div class="quest-box">
+            <label for="street-code"><strong>Enter 4-Letter Street Code (LIBE):</strong></label>
+            <div class="code-input-box">
+                <input type="text" id="street-code" class="code-input" placeholder="Enter code here..." style="text-transform: uppercase;">
+                <button class="btn" style="margin-top:0;" onclick="verifyStreetCode()">Unlock Farm Bridge</button>
+            </div>
+            <div id="street-code-feedback" class="feedback-msg"></div>
+        </div>
 
-            <script>
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide('street-4')">Back</button>
+            <div></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: Chapter 1 - Question 1 -->
+    <div class="slide" id="slide-2">
+        <h2>Chapter 1 (Quest 1 of 4): The Crop Diversification Trap</h2>
+        <div class="code-clue-display">Code Progress: [ <span id="slot-1">_</span> ] [ _ ] [ _ ] [ _ ]</div>
+        <p><strong>The Dilemma:</strong> Farmer X relied 100% on a single commodity crop that just crashed in market value.</p>
+        <p><em>Game Challenge: Select the strategy that protects a small farm from total market collapse.</em></p>
+        
+        <div class="quest-box" id="q1-container">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleChoice(1, 'A', 'correct', 3)"><strong>A)</strong> Implement multi-tier revenue streams, mixing specialty crops and culinary mushrooms with traditional produce.</button></li>
+                <li><button class="option-btn" onclick="handleChoice(1, 'B', 'wrong', 3)"><strong>B)</strong> Double down on the exact same failing commodity crop next season.</button></li>
+            </ul>
+            <div id="feedback-1" class="feedback-msg"></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
     let currentPoints = 0;
     function awardPoints(pts) {
         currentPoints += pts;
@@ -314,7 +345,6 @@
 
     function goToSlide(slideId) {
         document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
-        // Convert numbers to string or format as 'slide-ID' if passed as a plain number
         let targetId = typeof slideId === 'number' ? 'slide-' + slideId : slideId;
         const target = document.getElementById(targetId);
         if(target) {
@@ -380,108 +410,27 @@
                 goToSlide('slide-2'); 
             }, 1200);
         } else {
+            codeFeedback.className = 'feedback-mp feedback-error';
             codeFeedback.className = 'feedback-msg feedback-error';
             codeFeedback.textContent = 'Invalid code. Review your 4 letters (L-I-B-E).';
         }
     }
-        </script>
 
-        <div class="nav-buttons">
-            <button class="btn btn-secondary" onclick="goToSlide('street-4')">Back</button>
-            <div></div>
-        </div>
-    </div>
-
-    <!-- SLIDE 2: Chapter 1 - Question 1 -->
-    <div class="slide" id="slide-2">
-        <h2>Chapter 1 (Quest 1 of 4): The Crop Diversification Trap</h2>
-        <div class="code-clue-display">Code Progress: [ <span id="slot-1">_</span> ] [ _ ] [ _ ] [ _ ]</div>
-        <p><strong>The Dilemma:</strong> Farmer X relied 100% on a single commodity crop that just crashed in market value.</p>
-        <p><em>Game Challenge: Select the strategy that protects a small farm from total market collapse.</em></p>
-        
-        <div class="quest-box" id="q1-container">
-            <ul class="options-list">
-                <li><button class="option-btn" onclick="handleChoice(1, 'A', 'correct', 3)"><strong>A)</strong> Implement multi-tier revenue streams, mixing specialty crops and culinary mushrooms with traditional produce.</button></li>
-                <li><button class="option-btn" onclick="handleChoice(1, 'B', 'wrong', 3)"><strong>B)</strong> Double down on the exact same failing commodity crop next season.</button></li>
-            </ul>
-            <div id="feedback-1" class="feedback-msg"></div>
-        </div>
-    </div>
-
-</div>
-
-<script>
-    let currentPoints = 0;
-    function awardPoints(pts) {
-        currentPoints += pts;
-        const display = document.getElementById('points-display');
-        if(display) display.textContent = currentPoints;
-    }
-
-    function goToSlide(slideId) {
-        document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
-        const target = document.getElementById(slideId);
-        if(target) target.classList.add('active');
-    }
-
-    let streetCodeDiscovered = ["_", "_", "_", "_"];
-    let answeredStreetQuestions = {};
-
-    function handleStreetChoice(questionNum, choiceLetter, status) {
-        const feedbackEl = document.getElementById(`s-feedback-${questionNum}`);
+    function handleChoice(qNum, choiceLetter, status, maxQ) {
+        const feedbackEl = document.getElementById(`feedback-${qNum}`);
         if (!feedbackEl) return;
         feedbackEl.style.display = 'block';
 
         if (status === 'correct') {
             feedbackEl.className = 'feedback-msg feedback-success';
-            feedbackEl.textContent = `Correct! Resource secured. Code letter unlocked: '${choiceLetter}'`;
-            const nextBtn = document.getElementById(`s-next-btn-${questionNum}`);
-            if (nextBtn) nextBtn.style.display = 'inline-block';
-            
-            if (!answeredStreetQuestions[questionNum]) {
-                answeredStreetQuestions[questionNum] = true;
-                awardPoints(75); 
-            }
-
-            streetCodeDiscovered[questionNum - 1] = choiceLetter;
-            updateStreetCodeDisplays();
+            feedbackEl.textContent = 'Correct strategy implemented! Progressing...';
+            awardPoints(100);
+            setTimeout(() => {
+                goToSlide('slide-2');
+            }, 1000);
         } else {
             feedbackEl.className = 'feedback-msg feedback-error';
-            feedbackEl.textContent = 'Dead end or safety risk. Re-evaluate your approach.';
-        }
-    }
-
-    function updateStreetCodeDisplays() {
-        const slots = ['s-slot-1', 's-slot-1-q2', 's-slot-2', 's-slot-2-q3', 's-slot-3', 's-slot-3-q4', 's-slot-4'];
-        slots.forEach(id => {
-            const el = document.getElementById(id);
-            if(el) {
-                if(id.startsWith('s-slot-1')) el.textContent = streetCodeDiscovered[0];
-                if(id.startsWith('s-slot-2')) el.textContent = streetCodeDiscovered[1];
-                if(id.startsWith('s-slot-3')) el.textContent = streetCodeDiscovered[2];
-                if(id.startsWith('s-slot-4')) el.textContent = streetCodeDiscovered[3];
-            }
-        });
-    }
-
-    function verifyStreetCode() {
-        const codeInput = document.getElementById('street-code');
-        const codeFeedback = document.getElementById('street-code-feedback');
-        if (!codeInput || !codeFeedback) return;
-        
-        const inputVal = codeInput.value.trim().toUpperCase();
-        codeFeedback.style.display = 'block';
-
-        if (inputVal === 'LIBE') {
-            codeFeedback.className = 'feedback-msg feedback-success';
-            codeFeedback.textContent = 'Liberation Code Verified! Entering Farmer X Homestead with elite street-smart resilience...';
-            awardPoints(400); 
-            setTimeout(() => {
-                goToSlide(2); 
-            }, 1200);
-        } else {
-            codeFeedback.className = 'feedback-msg feedback-error';
-            codeFeedback.textContent = 'Invalid code. Review your 4 letters (L-I-B-E).';
+            feedbackEl.textContent = 'Incorrect approach. Try again.';
         }
     }
 </script>
