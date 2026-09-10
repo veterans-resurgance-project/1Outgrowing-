@@ -335,7 +335,8 @@
 
 </div>
 
-<script>
+    
+         <script>
     let currentPoints = 0;
     function awardPoints(pts) {
         currentPoints += pts;
@@ -410,12 +411,12 @@
                 goToSlide('slide-2'); 
             }, 1200);
         } else {
-            codeFeedback.className = 'feedback-mp feedback-error';
             codeFeedback.className = 'feedback-msg feedback-error';
             codeFeedback.textContent = 'Invalid code. Review your 4 letters (L-I-B-E).';
         }
     }
 
+    let standardCodeDiscovered = ["_", "_", "_", "_"];
     function handleChoice(qNum, choiceLetter, status, maxQ) {
         const feedbackEl = document.getElementById(`feedback-${qNum}`);
         if (!feedbackEl) return;
@@ -425,15 +426,25 @@
             feedbackEl.className = 'feedback-msg feedback-success';
             feedbackEl.textContent = 'Correct strategy implemented! Progressing...';
             awardPoints(100);
+            
+            standardCodeDiscovered[qNum - 1] = choiceLetter;
+            const slotEl = document.getElementById(`slot-${qNum}`);
+            if(slotEl) slotEl.textContent = choiceLetter;
+
             setTimeout(() => {
-                goToSlide('slide-2');
+                let nextSlideNum = qNum + 1;
+                if (nextSlideNum <= maxQ) {
+                    goToSlide('slide-' + nextSlideNum);
+                } else {
+                    goToSlide('farm-complete');
+                }
             }, 1000);
         } else {
             feedbackEl.className = 'feedback-msg feedback-error';
             feedbackEl.textContent = 'Incorrect approach. Try again.';
         }
     }
-</script>
+         </script>   
 
 </body>
 </html>
