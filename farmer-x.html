@@ -201,16 +201,125 @@
         <span>Apprentice Score: <span id="points-display">0</span> XP</span>
         <span>Status: Active Field Trainee</span>
     </div>
-
-    <!-- SLIDE 1: Chapter One - The Homestead -->
+<!-- SLIDE 1: Entry Track Selection -->
     <div class="slide active" id="slide-1">
-        <h2>Chapter One: The Homestead</h2>
-        <p>The game opens on the porch of Farmer X’s homestead just outside Lebanon, Oregon. A rusted John Deere sits idle in the distance, its front loader frozen mid-lift. A weathered foreclosure notice from the bank is pinned to the screen door, fluttering in the early autumn wind.</p>
-        <p>Farmer X sits nursing a cracked rib and a heavily braced arm, staring at empty ledger books. For twenty years, he did everything alone until a PTO shaft caught his jacket. Now, a lost season has wiped out cash flow, and his traditional wholesale buyer dropped his contract.</p>
-        <p>As the incoming trainee, you must pass <strong>four consecutive operational diagnostics</strong>. Each correct choice awards 50 Credit Points and reveals one letter of a 4-letter security code needed to unlock Level 2.</p>
+        <h2>Farmer X: Choose Your Entry Path</h2>
+        <p>Before stepping onto the homestead porch, select your starting background. Each path sets a different level of initial difficulty and survival mechanics.</p>
+        
+        <div class="quest-box" style="margin-bottom: 20px;">
+            <h3 style="color: #2c3e50; margin-top:0;">Path A: Standard Apprenticeship (Moderate Difficulty)</h3>
+            <p>Step directly onto Farmer X’s porch outside Lebanon, Oregon, facing a farm foreclosure and broken equipment.</p>
+            <button class="btn" onclick="goToSlide(2)">Select Standard Path</button>
+        </div>
+
+        <div class="quest-box" style="background: #fdf2f2; border-color: #e74c3c;">
+            <h3 style="color: #c0392b; margin-top:0;">Path B: Streets to Soil (High Difficulty / Aged-Out Foster Track)</h3>
+            <p>You aged out of the foster system with a cardboard box, zero dollars, no high school diploma, and no safety net. You start on the street with hard lessons in resource navigation.</p>
+            <button class="btn btn-survival" onclick="goToSlide('street-1')">Select Street-to-Soil Path</button>
+        </div>
+    </div>
+    <!-- STREET TRACK SLIDE 1: The Transition -->
+    <div class="slide" id="street-1">
+        <h2>Street Track (1 of 4): The Transition at 18</h2>
+        <div class="code-clue-display">Street Code Progress: [ <span id="s-slot-1">_</span> ] [ _ ] [ _ ] [ _ ]</div>
+        <p><strong>The Reality:</strong> You just turned 18. The caseworker hands you a trash bag with your clothes, a bus pass, and a birth certificate. It's dusk on a cold Oregon evening in downtown. You have no money and nowhere to sleep.</p>
+        <p><em>Challenge: Secure immediate safety and map survival resources without risking arrest or exposure.</em></p>
+        
+        <div class="quest-box">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleStreetChoice(1, 'L', 'correct')"><strong>A)</strong> Head to the public library to map resource centers, connect with youth housing advocates, and check warming/cooling shelter schedules.</button></li>
+                <li><button class="option-btn" onclick="handleStreetChoice(1, 'X', 'wrong')"><strong>B)</strong> Hide behind a commercial strip-mall loading dock without scouting security or weather exposure.</button></li>
+            </ul>
+            <div id="s-feedback-1" class="feedback-msg"></div>
+        </div>
+
         <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(1)">Back to Path Select</button>
+            <button class="btn" id="s-next-btn-1" style="display:none;" onclick="goToSlide('street-2')">Proceed to Education Hurdle</button>
+        </div>
+    </div>
+
+    <!-- STREET TRACK SLIDE 2: Educational Deficit -->
+    <div class="slide" id="street-2">
+        <h2>Street Track (2 of 4): The Educational Barrier</h2>
+        <div class="code-clue-display">Street Code Progress: [ <span id="s-slot-1-q2">L</span> ] [ <span id="s-slot-2">_</span> ] [ _ ] [ _ ]</div>
+        <p><strong>The Reality: Data Deficit.</strong> Every job or housing application requires a high school diploma or GED you couldn't finish while bouncing through 7 foster placements.</p>
+        <p><em>Challenge: Overcome credential barriers with zero tuition money.</em></p>
+        
+        <div class="quest-box">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleStreetChoice(2, 'I', 'correct')"><strong>A)</strong> Enroll in a community college adult high school completion program utilizing state tuition waivers for former foster youth.</button></li>
+                <li><button class="option-btn" onclick="handleStreetChoice(2, 'Z', 'wrong')"><strong>B)</strong> Pay out of pocket for a shady online testing scam found on an unverified flyer.</button></li>
+            </ul>
+            <div id="s-feedback-2" class="feedback-msg"></div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide('street-1')">Back</button>
+            <button class="btn" id="s-next-btn-2" style="display:none;" onclick="goToSlide('street-3')">Proceed to Bureaucracy Hurdle</button>
+        </div>
+    </div>
+
+    <!-- STREET TRACK SLIDE 3: Bureaucracy & Health -->
+    <div class="slide" id="street-3">
+        <h2>Street Track (3 of 4): Navigating Bureaucracy</h2>
+        <div class="code-clue-display">Street Code Progress: [ L ] [ <span id="s-slot-2-q3">I</span> ] [ <span id="s-slot-3">_</span> ] [ _ ]</div>
+        <p><strong>The Reality: Administrative Gridlock.</strong> Your food stamps got delayed due to a paperwork error, and a dental abscess is throbbing in your jaw.</p>
+        <p><em>Challenge: Fight through bureaucratic red tape to access public health infrastructure.</em></p>
+        
+        <div class="quest-box">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleStreetChoice(3, 'B', 'correct')"><strong>A)</strong> Request a state administrative hearing with a legal aid youth advocate and visit a Federally Qualified Health Center (FQHC) for sliding-scale care.</button></li>
+                <li><button class="option-btn" onclick="handleStreetChoice(3, 'Y', 'wrong')"><strong>B)</strong> Give up on public systems entirely and try to isolate without medical help.</button></li>
+            </ul>
+            <div id="s-feedback-3" class="feedback-msg"></div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide('street-2')">Back</button>
+            <button class="btn" id="s-next-btn-3" style="display:none;" onclick="goToSlide('street-4')">Proceed to Bridge to Agriculture</button>
+        </div>
+    </div>
+
+    <!-- STREET TRACK SLIDE 4: The Bridge to Ag -->
+    <div class="slide" id="street-4">
+        <h2>Street Track (4 of 4): The Bridge to Agriculture</h2>
+        <div class="code-clue-display">Street Code Progress: [ L ] [ I ] [ <span id="s-slot-3-q4">B</span> ] [ <span id="s-slot-4">_</span> ]</div>
+        <p><strong>The Reality: Vocational Pipeline.</strong> You stabilized your housing and education. Now you need a land-based career that provides technical training, housing, and a living wage.</p>
+        <p><em>Challenge: Bridge from urban instability into professional conservation or farming.</em></p>
+        
+        <div class="quest-box">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleStreetChoice(4, 'E', 'correct')"><strong>A)</strong> Apply for an AmeriCorps watershed restoration corps or a paid farm apprentice training program offering stipends and housing.</button></li>
+                <li><button class="option-btn" onclick="handleStreetChoice(4, 'W', 'wrong')"><strong>B)</strong> Take an illegal cash-in-hand gig with exploitative operators who pocket your wages.</button></li>
+            </ul>
+            <div id="s-feedback-4" class="feedback-msg"></div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide('street-3')">Back</button>
+            <button class="btn" id="s-next-btn-4" style="display:none;" onclick="goToSlide('street-gate')">Proceed to Street Liberation Gate</button>
+        </div>
+    </div>
+
+    <!-- STREET TRACK SLIDE 5: The Liberation Gate -->
+    <div class="slide" id="street-gate">
+        <h2>Street Track Clearance: The Liberation Gate</h2>
+        <p>You have navigated the system, secured your credentials, and mapped out public resources. Your collected clearance code letters spell: <strong>L - I - B - E</strong>.</p>
+        <p>Enter the 4-letter code below to bridge from street survival directly into the <strong>Farmer X Homestead Apprenticeship</strong> as a hardened survivor.</p>
+        
+        <div class="quest-box">
+            <label for="street-code"><strong>Enter 4-Letter Street Code (LIBE):</strong></label>
+            <div class="code-input-box">
+                <input type="text" id="street-code" class="code-input" placeholder="Enter code here..." style="text-transform: uppercase;">
+                <button class="btn" style="margin-top:0;" onclick="verifyStreetCode()">Unlock Farm Bridge</button>
+            </div>
+            <div id="street-code-feedback" class="feedback-msg"></div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide('street-4')">Back</button>
             <div></div>
-            <button class="btn" onclick="goToSlide(2)">Begin Chapter 1 Diagnostics</button>
         </div>
     </div>
 
