@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer X: Chapter 2 - The Tool Shed & Soil Management</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --primary: #27ae60;
+            --primary-hover: #219653;
+            --secondary: #e67e22;
+            --error: #c0392b;
+            --sage-bg: #fef9e7;
+            --sage-border: #f39c12;
+            --survival-bg: #fdf2f2;
+            --survival-border: #e74c3c;
+            --hud-bg: #e8f8f5;
+            --hud-border: #1abc9c;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        .hud-bar {
+            background: var(--hud-bg);
+            border: 1px solid var(--hud-border);
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: #0e6251;
+        }
+
+        .slide {
+            display: none;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-top: 0;
+        }
+
+        p, li {
+            line-height: 1.6;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-survival {
+            background-color: var(--error);
+        }
+
+        .quest-box {
+            background: #f9fbfb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .options-list li {
+            margin: 10px 0;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            background: white;
+            border: 2px solid #cbd5e1;
+            padding: 12px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary);
+            background: #f0fdf4;
+        }
+
+        .survival-box {
+            background: var(--survival-bg);
+            border-left: 5px solid var(--survival-border);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 15px;
+        }
+
+        .feedback-msg {
+            font-weight: bold;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .feedback-error {
+            background: #fde8e8;
+            color: var(--error);
+        }
+
+        .feedback-success {
+            background: #def7ec;
+            color: #03543f;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+        }
+
+        .code-input-box {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .code-input {
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            flex-grow: 1;
+        }
+
+        .code-clue-display {
+            background: #e8f4fd;
+            border-left: 5px solid #3498db;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 0 6px 6px 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- GLOBAL HUD BAR -->
+    <div class="hud-bar">
+        <span>Chapter 2 Score: <span id="points-display">500</span> XP</span>
+        <span>Status: Level 2 Field Trainee</span>
+    </div>
+
+    <!-- SLIDE 1: Chapter 2 Intro -->
+    <div class="slide active" id="slide-1">
+        <h2>Chapter Two: The Tool Shed & Soil Management</h2>
+        <p>The heavy iron gate clicks open, releasing the sharp scent of linseed oil and iron. Farmer X tosses you a tarnished brass soil core sampler and a digital meter.</p>
+        <p>"You cleared the homestead gate, kid. Now comes the dirt work," Farmer X grunts. "If your soil chemistry is dead, every seed we drop in the bottomland is just throwing money away."</p>
+        <p>Pass <strong>four field diagnostics</strong> to discover the secret 4-letter security code (**S-O-I-L**) required to unlock Chapter 3.</p>
+        <div class="nav-buttons">
+            <a href="farmer-x.html" class="btn btn-secondary">Back to Chapter 1</a>
+            <button class="btn" onclick="goToSlide(2)">Begin Chapter 2 Field Tests</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: Chapter 2 - Question 1 -->
+    <div class="slide" id="slide-2">
+        <h2>Chapter 2 (Quest 1 of 4): The Acidic Lower Bottomland</h2>
+        <div class="code-clue-display">Level 2 Code Progress: [ <span id="slot-1">_</span> ] [ _ ] [ _ ] [ _ ]</div>
+        <p><strong>The Dilemma:</strong> Your soil meter settles on an acidic <strong>5.4 pH</strong> in the lower bottomland plots, locking up phosphorus.</p>
+        <p><em>Game Challenge: Select the correct soil amendment protocol.</em></p>
+        
+        <div class="quest-box" id="q1-container">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleChoice(1, 'S', 'correct', 3)"><strong>S)</strong> Apply agricultural limestone at calculated buffer capacity rates to steadily raise pH toward the 6.5 target.</button></li>
+                <li><button class="option-btn" onclick="handleChoice(1, 'X', 'wrong', 3)"><strong>X)</strong> Pour synthetic liquid nitrogen directly onto the acid patch to force quick color.</button></li>
+            </ul>
+            <div id="feedback-1" class="feedback-msg"></div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(1)">Back</button>
+            <button class="btn" id="next-btn-1" style="display:none;" onclick="goToSlide(4)">Proceed to Field Test 2</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: Chapter 2 Sidetrack / Extension Loop -->
+    <div class="slide" id="slide-3">
+        <h2>Extension Agent Setback: Soil Lab Review</h2>
+        <div class="survival-box">
+            <p><strong>Setback:</strong> Chemical quick-fixes on severe acid soils burn out your microbial life. The county extension agent pulls you aside.</p>
+            <p><strong>Lesson:</strong> Review your lime requirement calculations and buffer curves before tampering with bottomland chemistry again.</p>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-survival" onclick="returnToLastQuestion()">Return to Field Test & Try Again</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: Chapter 2 - Question 2 -->
+    <div class="slide" id="slide-4">
+        <h2>Chapter 2 (Quest 2 of 4): Organic Matter Deficit</h2>
+        <div class="code-clue-display">Level 2 Code Progress: [ <span id="slot-1-q2">S</span> ] [ <span id="slot-2">_</span> ] [ _ ] [ _ ]</div>
+        <p><strong>The Dilemma:</strong> Decades of continuous tilling have stripped organic matter, leaving the dirt compacted like concrete.</p>
+        <p><em>Game Challenge: Select the correct structural remediation method.</em></p>
+        
+        <div class="quest-box" id="q2-container">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleChoice(2, 'O', 'correct', 3)"><strong>O)</strong> Implement multi-species cover crop mixes and no-till incorporation to rebuild fungal networks.</button></li>
+                <li><button class="option-btn" onclick="handleChoice(2, 'Z', 'wrong', 3)"><strong>Z)</strong> Deep-rip the clay pan with heavy machinery during a torrential autumn downpour.</button></li>
+            </ul>
+            <div id="feedback-2" class="feedback-msg"></div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(2)">Back</button>
+            <button class="btn" id="next-btn-2" style="display:none;" onclick="goToSlide(5)">Proceed to Field Test 3</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: Chapter 2 - Question 3 -->
+    <div class="slide" id="slide-5">
+        <h2>Chapter 2 (Quest 3 of 4): Irrigation Mainline Pressure</h2>
+        <div class="code-clue-display">Level 2 Code Progress: [ S ] [ <span id="slot-2-q3">O</span> ] [ <span id="slot-3">_</span> ] [ _ ]</div>
+        <p><strong>The Dilemma:</strong> A sudden main line pressure drop threatens to leave root plugs dry during a heatwave.</p>
+        <p><em>Game Challenge: Select the correct diagnostic response.</em></p>
+        
+        <div class="quest-box" id="q3-container">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleChoice(3, 'I', 'correct', 3)"><strong>I)</strong> Isolate sub-main manifolds, check pressure regulators, and inspect for rodent chew damage on polyethylene lines.</button></li>
+                <li><button class="option-btn" onclick="handleChoice(3, 'E', 'wrong', 3)"><strong>E)</strong> Ignore the drop and increase the main pump throttle to maximum capacity.</button></li>
+            </ul>
+            <div id="feedback-3" class="feedback-msg"></div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(4)">Back</button>
+            <button class="btn" id="next-btn-3" style="display:none;" onclick="goToSlide(6)">Proceed to Field Test 4</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: Chapter 2 - Question 4 -->
+    <div class="slide" id="slide-6">
+        <h2>Chapter 2 (Quest 4 of 4): Seed Bed Final Calibration</h2>
+        <div class="code-clue-display">Level 2 Code Progress: [ S ] [ O ] [ <span id="slot-3-q4">I</span> ] [ <span id="slot-4">_</span> ]</div>
+        <p><strong>The Dilemma:</strong> Before drilling cover seed, moisture depth must be verified across all three beds.</p>
+        <p><em>Game Challenge: Select the proper planting depth threshold.</em></p>
+        
+        <div class="quest-box" id="q4-container">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleChoice(4, 'L', 'correct', 3)"><strong>L)</strong> Target a uniform seed depth matching three times the seed diameter into consistent moisture.</button></li>
+                <li><button class="option-btn" onclick="handleChoice(4, 'B', 'wrong', 3)"><strong>B)</strong> Broadcast seed haphazardly across sun-baked crust without harrowing.</button></li>
+            </ul>
+            <div id="feedback-4" class="feedback-msg"></div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(5)">Back</button>
+            <button class="btn" id="next-btn-4" style="display:none;" onclick="goToSlide(7)">Proceed to Chapter 3 Gate</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: Chapter 2 Security Code Gate -->
+    <div class="slide" id="slide-7">
+        <h2>Chapter 3 Security Code Gate</h2>
+        <p>You have successfully completed all four soil management diagnostics and uncovered the secret code letters: <strong>S - O - I - L</strong>.</p>
+        <p>Enter the 4-letter code below to unlock access into <strong>Chapter 3: Nurturing & Irrigation Infrastructure</strong>.</p>
+        
+        <div class="quest-box">
+            <label for="gate-code"><strong>Enter Chapter 3 Code:</strong></label>
+            <div class="code-input-box">
+                <input type="text" id="gate-code" class="code-input" placeholder="Enter code here..." style="text-transform: uppercase;">
+                <button class="btn" style="margin-top:0;" onclick="verifyCode()">Unlock Chapter 3</button>
+            </div>
+            <div id="code-feedback" class="feedback-msg"></div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(6)">Back</button>
+            <div></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: Chapter 3 Unlocked Placeholder -->
+    <div class="slide" id="slide-8">
+        <h2>Chapter Three Unlocked!</h2>
+        <p>The gate swings open toward the main irrigation pump house and nursery beds. You have mastered soil chemistry and core baseline prep.</p>
+        <p><em>(Placeholder ready for Chapter 3 script content expansion.)</em></p>
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(7)">Back</button>
+            <a href="farmer-x.html" class="btn">Return to Chapter 1 Hub</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let creditPoints = 500; 
+    function awardPoints(amount) { 
+        creditPoints += amount; 
+        document.getElementById('points-display').textContent = creditPoints; 
+    }
+
+    let currentSlide = 1;
+    let lastFailedQuestionSlide = 2;
+    let codeDiscovered = ["_", "_", "_", "_"];
+    let answeredQuestions = {};
+    const slides = document.querySelectorAll('.slide');
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === (index - 1));
+        });
+        currentSlide = index;
+        window.scrollTo(0, 0);
+    }
+
+    function goToSlide(index) {
+        showSlide(index);
+    }
+
+    function handleChoice(questionNum, choiceLetter, status, sidetrackSlideIndex) {
+        const feedbackEl = document.getElementById(`feedback-${questionNum}`);
+        feedbackEl.style.display = 'block';
+
+        const questionSlideMap = { 1: 2, 2: 4, 3: 5, 4: 6 };
+        lastFailedQuestionSlide = questionSlideMap[questionNum];
+
+        if (status === 'correct') {
+            feedbackEl.className = 'feedback-msg feedback-success';
+            feedbackEl.textContent = `Correct! Field protocol verified. Code letter unlocked: '${choiceLetter}'`;
+            document.getElementById(`next-btn-${questionNum}`).style.display = 'inline-block';
+            
+            if (!answeredQuestions[questionNum]) {
+                answeredQuestions[questionNum] = true;
+                awardPoints(100);
+            }
+
+            codeDiscovered[questionNum - 1] = choiceLetter;
+            updateCodeDisplays();
+        } else {
+            feedbackEl.className = 'feedback-msg feedback-error';
+            feedbackEl.textContent = 'Incorrect action. Consulting extension agent...';
+            setTimeout(() => {
+                goToSlide(sidetrackSlideIndex);
+            }, 1200);
+        }
+    }
+
+    function updateCodeDisplays() {
+        const slots = ['slot-1', 'slot-1-q2', 'slot-2', 'slot-2-q3', 'slot-3', 'slot-3-q4', 'slot-4'];
+        slots.forEach(id => {
+            const el = document.getElementById(id);
+            if(el) {
+                if(id.startsWith('slot-1')) el.textContent = codeDiscovered[0];
+                if(id.startsWith('slot-2')) el.textContent = codeDiscovered[1];
+                if(id.startsWith('slot-3')) el.textContent = codeDisothermal = codeDiscovered[2];
+                if(id.startsWith('slot-4')) el.textContent = codeDiscovered[3];
+            }
+        });
+        // Fix reference bug safely
+        document.getElementById('slot-3').textContent = codeDiscovered[2];
+    }
+
+    function returnToLastQuestion() {
+        goToSlide(lastFailedQuestionSlide);
+    }
+
+    function verifyCode() {
+        const inputVal = document.getElementById('gate-code').value.trim().toUpperCase();
+        const codeFeedback = document.getElementById('code-feedback');
+        codeFeedback.style.display = 'block';
+
+        if (inputVal === 'SOIL') {
+            codeFeedback.className = 'feedback-msg feedback-success';
+            codeFeedback.textContent = 'Access Granted! Opening Chapter 3...';
+            awardPoints(400);
+            setTimeout(() => {
+                goToSlide(8);
+            }, 1000);
+        } else {
+            codeFeedback.className = 'feedback-msg feedback-error';
+            codeFeedback.textContent = 'Invalid code. Review the letters revealed from your four correct choices (S-O-I-L).';
+        }
+    }
+</script>
+
+</body>
+</html>
