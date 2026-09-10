@@ -322,7 +322,61 @@
             <div></div>
         </div>
     </div>
+let streetCodeDiscovered = ["_", "_", "_", "_"];
+    let answeredStreetQuestions = {};
 
+    function handleStreetChoice(questionNum, choiceLetter, status) {
+        const feedbackEl = document.getElementById(`s-feedback-${questionNum}`);
+        feedbackEl.style.display = 'block';
+
+        if (status === 'correct') {
+            feedbackEl.className = 'feedback-msg feedback-success';
+            feedbackEl.textContent = `Correct! Resource secured. Code letter unlocked: '${choiceLetter}'`;
+            document.getElementById(`s-next-btn-${questionNum}`).style.display = 'inline-block';
+            
+            if (!answeredStreetQuestions[questionNum]) {
+                answeredStreetQuestions[questionNum] = true;
+                awardPoints(75); // Higher XP reward for high difficulty track
+            }
+
+            streetCodeDiscovered[questionNum - 1] = choiceLetter;
+            updateStreetCodeDisplays();
+        } else {
+            feedbackEl.className = 'feedback-msg feedback-error';
+            feedbackEl.textContent = 'Dead end or safety risk. Re-evaluate your approach.';
+        }
+    }
+
+    function updateStreetCodeDisplays() {
+        const slots = ['s-slot-1', 's-slot-1-q2', 's-slot-2', 's-slot-2-q3', 's-slot-3', 's-slot-3-q4', 's-slot-4'];
+        slots.forEach(id => {
+            const el = document.getElementById(id);
+            if(el) {
+                if(id.startsWith('s-slot-1')) el.textContent = streetCodeDiscovered[0];
+                if(id.startsWith('s-slot-2')) el.textContent = streetCodeDiscovered[1];
+                if(id.startsWith('s-slot-3')) el.textContent = streetCodeDiscovered[2];
+                if(id.startsWith('s-slot-4')) el.textContent = streetCodeDiscovered[3];
+            }
+        });
+    }
+
+    function verifyStreetCode() {
+        const inputVal = document.getElementById('street-code').value.trim().toUpperCase();
+        const codeFeedback = document.getElementById('street-code-feedback');
+        codeFeedback.style.display = 'block';
+
+        if (inputVal === 'LIBE') {
+            codeFeedback.className = 'feedback-msg feedback-success';
+            codeFeedback.textContent = 'Liberation Code Verified! Entering Farmer X Homestead with elite street-smart resilience...';
+            awardPoints(400); // Massive bonus XP
+            setTimeout(() => {
+                goToSlide(2); // Jumps directly to Chapter 1 Question 1 on the farm
+            }, 1200);
+        } else {
+            codeFeedback.className = 'feedback-msg feedback-error';
+            codeFeedback.textContent = 'Invalid code. Review your 4 letters (L-I-B-E).';
+        }
+    }
     <!-- SLIDE 2: Chapter 1 - Question 1 -->
     <div class="slide" id="slide-2">
         <h2>Chapter 1 (Quest 1 of 4): The Crop Diversification Trap</h2>
