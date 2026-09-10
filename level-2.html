@@ -1,0 +1,59 @@
+<!-- Intake & Level Gate Form -->
+<div id="intake-gate">
+  <h3>Level 1: Personnel Intake & Baseline Assessment</h3>
+  <p>Complete this checkpoint to unlock Level 2: Field Operations.</p>
+  
+  <!-- Replace YOUR_FORM_ID with your actual Formspree endpoint ID -->
+  <form id="level-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+    <label>Your Name: <input type="text" name="name" required></label><br><br>
+    <label>Email Address: <input type="email" name="email" required></label><br><br>
+    <label>Previous Forestry/Ag Experience: 
+      <select name="experience">
+        <option value="none">None / Eager to Learn</option>
+        <option value="intermediate">Some Field Experience</option>
+        <option value="veteran">Military / Professional Veteran</option>
+      </select>
+    </label><br><br>
+    <button type="submit">Submit & Unlock Level 2</button>
+  </form>
+  <p id="form-status" style="color: red; display: none;"></p>
+</div>
+
+<!-- Hidden Next Level Content -->
+<div id="next-level-content" style="display: none;">
+  <h2>Checkpoint Cleared!</h2>
+  <p>Welcome to <strong>Level 2: Field Safety & Bidding Protocols</strong>.</p>
+  <a href="level-2.html"><button>Proceed to Level 2 Hub</button></a>
+</div>
+
+<!-- JavaScript to Handle Submission and Unlock -->
+<script>
+  const form = document.getElementById('level-form');
+  
+  form.addEventListener('submit', async function(event) {
+    event.preventDefault();
+    const formData = new FormData(form);
+    const statusMsg = document.getElementById('form-status');
+    
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+      
+      if (response.ok) {
+        // Hide the form gate and reveal the next level
+        document.getElementById('intake-gate').style.display = 'none';
+        document.getElementById('next-level-content').style.display = 'block';
+        sessionStorage.setItem('level2_unlocked', 'true');
+      } else {
+        statusMsg.style.display = 'block';
+        statusMsg.textContent = 'Submission failed. Please check your inputs and try again.';
+      }
+    } catch (error) {
+      statusMsg.style.display = 'block';
+      statusMsg.textContent = 'Network error. Please try again.';
+    }
+  });
+</script>
