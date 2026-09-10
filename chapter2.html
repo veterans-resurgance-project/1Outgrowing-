@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer X: The Watershed Apprenticeship</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --primary: #27ae60;
+            --primary-hover: #219653;
+            --secondary: #e67e22;
+            --error: #c0392b;
+            --sage-bg: #fef9e7;
+            --sage-border: #f39c12;
+            --survival-bg: #fdf2f2;
+            --survival-border: #e74c3c;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        .slide {
+            display: none;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-top: 0;
+        }
+
+        p, li {
+            line-height: 1.6;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-survival {
+            background-color: var(--error);
+        }
+
+        /* Quest & Multiple Choice Styles */
+        .quest-box {
+            background: #f9fbfb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .options-list li {
+            margin: 10px 0;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            background: white;
+            border: 2px solid #cbd5e1;
+            padding: 12px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary);
+            background: #f0fdf4;
+        }
+
+        /* Sidetrack & Survival Boxes */
+        .sidetrack-box {
+            background: var(--sage-bg);
+            border-left: 5px solid var(--sage-border);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 15px;
+        }
+
+        .survival-box {
+            background: var(--survival-bg);
+            border-left: 5px solid var(--survival-border);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 15px;
+        }
+
+        .feedback-msg {
+            font-weight: bold;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .feedback-error {
+            background: #fde8e8;
+            color: var(--error);
+        }
+
+        .feedback-success {
+            background: #def7ec;
+            color: #03543f;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- SLIDE 1: Chapter One - The Homestead Porch -->
+    <div class="slide active" id="slide-1">
+        <h2>Chapter One: The Homestead</h2>
+        <p>The game opens on the porch of Farmer X’s homestead just outside Lebanon, Oregon. A rusted John Deere sits idle in the distance, its front loader frozen mid-lift. A weathered foreclosure notice from the bank is pinned to the screen door, fluttering in the early autumn wind.</p>
+        <p>Farmer X sits nursing a cracked rib and a heavily braced arm, staring at empty ledger books. For twenty years, he did everything alone—tilling, planting, harvesting, and hauling—until a PTO shaft caught his jacket and changed everything in a split second. Now, a lost season has wiped out cash flow, and his traditional wholesale buyer dropped his contract.</p>
+        <p>As the incoming AFTI trainee, you must step up and open the first ledger. To save this farm, you cannot just do physical labor; you have to learn how the business actually survives.</p>
+        <div class="nav-buttons">
+            <div></div>
+            <button class="btn" onclick="nextSlide()">Begin Level 1: Diagnostic & Assessment Gate</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: Level 1 - Question 1 (Crop Diversification Trap) -->
+    <div class="slide" id="slide-2">
+        <h2>Level 1 (Part 1): The Crop Diversification Trap</h2>
+        <p><strong>The Dilemma:</strong> Farmer X relied 100% on a single commodity crop that just crashed in market value.</p>
+        <p><em>Game Challenge: Select the strategy that protects a small farm from total market collapse.</em></p>
+        
+        <div class="quest-box" id="q1-container">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleChoice(1, 'correct')">A) Implement multi-tier revenue streams, mixing high-value specialty crops and culinary mushrooms with traditional produce.</button></li>
+                <li><button class="option-btn" onclick="handleChoice(1, 'wrong')">B) Double down on the exact same failing commodity crop next season hoping prices rebound.</button></li>
+            </ul>
+            <div id="feedback-1" class="feedback-msg"></div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="prevSlide()">Back</button>
+            <button class="btn" id="next-btn-1" style="display:none;" onclick="nextSlide()">Proceed to Question 2</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: Survival / Sage Sidetrack 1 -->
+    <div class="slide" id="slide-3">
+        <h2>Consulting the Extension Agent</h2>
+        <div class="sidetrack-box">
+            <p><strong>Extension Advisor:</strong> "Chasing single-commodity booms in the valley is a gambler's game. If the market dips or pests hit that one crop, you're wiped out. Take a look at diversified farm models before touching the soil again."</p>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(1)">Return to Chapter Start & Re-try</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: Level 1 - Question 2 (The Physical Audit) -->
+    <div class="slide" id="slide-4">
+        <h2>Level 1 (Part 2): The Physical Audit</h2>
+        <p><strong>The Dilemma:</strong> With Farmer X's mobility limited, tasks that took one hour now take a full day, leading to missed windows.</p>
+        <p><em>Game Challenge: Identify which core farm tasks can be safely delegated versus what requires specialized machinery.</em></p>
+        
+        <div class="quest-box" id="q2-container">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleChoice(2, 'correct')">A) Deploy a cooperative network and volunteer labor-sharing model for hand-harvesting and weeding, reserving heavy tractor work for trained operators.</button></li>
+                <li><button class="option-btn" onclick="handleChoice(2, 'wrong')">B) Attempt to operate all heavy machinery with a braced arm and fractured rib alone.</button></li>
+            </ul>
+            <div id="feedback-2" class="feedback-msg"></div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(1)">Back</button>
+            <button class="btn" id="next-btn-2" style="display:none;" onclick="nextSlide()">Proceed to Question 3</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: Survival / Sage Sidetrack 2 -->
+    <div class="slide" id="slide-5">
+        <h2>Safety & Labor Warning</h2>
+        <div class="survival-box">
+            <p><strong>Safety Inspector:</strong> "Trying to muscle machinery with an injury is how people end up permanently disabled or dead out here. Respect the safety boundaries and utilize community work-sharing networks."</p>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-survival" onclick="goToSlide(3)">Return to Question 2</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: Level 1 - Question 3 (The Fixed-Cost Reality Check) -->
+    <div class="slide" id="slide-6">
+        <h2>Level 1 (Part 3): The Fixed-Cost Reality Check</h2>
+        <p><strong>The Dilemma:</strong> Property taxes and equipment loans are due in 90 days, but zero revenue is coming in.</p>
+        <p><em>Game Challenge: Calculate immediate cash burn rate and determine acreage allocation for debt service.</em></p>
+        
+        <div class="quest-box" id="q3-container">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleChoice(3, 'correct')">A) Audit liabilities, draft enterprise budgets, and negotiate MOUs to bring fast-turnaround cash crops into idle acreage.</button></li>
+                <li><button class="option-btn" onclick="handleChoice(3, 'wrong')">B) Ignore the bank notices and hope the land magically generates funds on its own.</button></li>
+            </ul>
+            <div id="feedback-3" class="feedback-msg"></div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(3)">Back</button>
+            <button class="btn" id="next-btn-3" style="display:none;" onclick="nextSlide()">View Completion & Reward</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: Reward & Level 2 Unlock -->
+    <div class="slide" id="slide-7">
+        <h2>Diagnostic Cleared! +500 XP & Credit Points Earned</h2>
+        <p>You have successfully solved Farmer X’s diagnostic questions, input your baseline profile data, and proved you understand the threat of the Bank Boss.</p>
+        <p>Farmer X slides his soil testing kit across the table and grants you access to <strong>Level 2: The Tool Shed & Soil Management</strong>.</p>
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(5)">Back</button>
+            <button class="btn" onclick="goToSlide(0)">Restart Journey</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+        currentSlide = index;
+        window.scrollTo(0, 0);
+    }
+
+    function nextSlide() {
+        if (currentSlide < slides.length - 1) {
+            showSlide(currentSlide + 1);
+        }
+    }
+
+    function prevSlide() {
+        if (currentSlide > 0) {
+            showSlide(currentSlide - 1);
+        }
+    }
+
+    function goToSlide(index) {
+        showSlide(index);
+    }
+
+    function handleChoice(questionNum, status) {
+        const feedbackEl = document.getElementById(`feedback-${questionNum}`);
+        feedbackEl.style.display = 'block';
+
+        if (status === 'correct') {
+            feedbackEl.className = 'feedback-msg feedback-success';
+            feedbackEl.textContent = 'Correct! Assessment protocol validated. Next gate unlocked.';
+            document.getElementById(`next-btn-${questionNum}`).style.display = 'inline-block';
+        } else {
+            feedbackEl.className = 'feedback-msg feedback-error';
+            feedbackEl.textContent = 'Incorrect assessment. Diverting to advisor feedback...';
+            setTimeout(() => {
+                goToSlide(questionNum === 1 ? 2 : (questionNum === 2 ? 4 : 4));
+            }, 1200);
+        }
+    }
+</script>
+
+</body>
+</html>
