@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer X: The Watershed Apprenticeship</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --primary: #27ae60;
+            --primary-hover: #219653;
+            --secondary: #e67e22;
+            --error: #c0392b;
+            --sage-bg: #fef9e7;
+            --sage-border: #f39c12;
+            --survival-bg: #fdf2f2;
+            --survival-border: #e74c3c;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        .slide {
+            display: none;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-top: 0;
+        }
+
+        p, li {
+            line-height: 1.6;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-survival {
+            background-color: var(--error);
+        }
+
+        /* Quest & Multiple Choice Styles */
+        .quest-box {
+            background: #f9fbfb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .options-list li {
+            margin: 10px 0;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            background: white;
+            border: 2px solid #cbd5e1;
+            padding: 12px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary);
+            background: #f0fdf4;
+        }
+
+        /* Sidetrack & Survival Boxes */
+        .sidetrack-box {
+            background: var(--sage-bg);
+            border-left: 5px solid var(--sage-border);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 15px;
+        }
+
+        .survival-box {
+            background: var(--survival-bg);
+            border-left: 5px solid var(--survival-border);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 15px;
+        }
+
+        .feedback-msg {
+            font-weight: bold;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .feedback-error {
+            background: #fde8e8;
+            color: var(--error);
+        }
+
+        .feedback-success {
+            background: #def7ec;
+            color: #03543f;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- SLIDE 1: Chapter Three - The Encounter -->
+    <div class="slide active" id="slide-1">
+        <h2>Chapter Three: The Encounter</h2>
+        <p>After completing the preliminary digital research and scouring the library archives, the young apprentice finally stepped out of the valley terminal and walked up the gravel drive to meet Farmer X in person. Farmer X sat on an overturned five-gallon bucket outside his weathered cedar barn, wiping the blade of his hori-hori knife.</p>
+        <p>"So you pulled the files from the network," Farmer X grunted, sizing up the new arrival. He tapped a field notebook detailing baseline numbers: <strong>6.2, 7.0, 5.5, 6.8</strong>. "Theory is fine on a screen, kid, but out here in the dirt, a half-point error on a soil test will cost you a thousand dollars in wasted amendments before August. Let's see if you can apply what you researched."</p>
+        <div class="nav-buttons">
+            <div></div>
+            <button class="btn" onclick="nextSlide()">Begin Level 1: The First Furrow</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: Level 1 - Quest 1 (pH & Soil Correction) -->
+    <div class="slide" id="slide-2">
+        <h2>Level 1: The First Furrow & The pH Riddle</h2>
+        <p><em>Standing in the lower test plot, your soil meter fluctuates wildly before settling on an acidic reading of <strong>5.4 pH</strong> against your target of <strong>6.5 pH</strong>. What is your immediate corrective action?</em></p>
+        
+        <div class="quest-box" id="q1-container">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleChoice(1, 'correct')">A) Apply agricultural limestone at calculated buffer capacity rates to steadily raise pH and unlock nutrient pathways.</button></li>
+                <li><button class="option-btn" onclick="handleChoice(1, 'wrong')">B) Skip limestone, dump cheap synthetic heavy nitrogen boost directly onto acidic soil to force rapid growth.</button></li>
+            </ul>
+            <div id="feedback-1" class="feedback-msg"></div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="prevSlide()">Back</button>
+            <button class="btn" id="next-btn-1" style="display:none;" onclick="nextSlide()">Proceed to Level 2</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: Survival Sidetrack (The Tent in the Woods & Foraging) -->
+    <div class="slide" id="slide-3">
+        <h2>Survival Sidetrack: The Tent in the Woods</h2>
+        <div class="survival-box">
+            <p><strong>The Setback:</strong> Your synthetic shortcut destroys the remaining soil microbes, collapsing the crop within a week. Farmer X tosses your broken hoe aside: <em>"Pack your gear. You've earned a week out in the backcountry timber lot. If you're going to survive out here when crops fail, learn how the forest feeds those who pay attention."</em></p>
+            <p><strong>Foraging & Resilience Training:</strong> Living in a canvas tent under a cedar canopy, you learn to spot edible wild treasures like *Pleurotus ostreatus* (oyster mushrooms) and *Chanterelles* while avoiding toxic lookalikes like *Galerina marginata*. An off-grid botanist hands you a recovery token: <em>"Nature uses balance, not quick-fixes."</em></p>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-survival" onclick="goToSlide(1)">Return to Chapter Three & Re-try Question</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: Level 2 - Quest 2 (Chance Tragedy & Cover Crop Pivot) -->
+    <div class="slide" id="slide-4">
+        <h2>Level 2: The Chance Tragedy & The Pivot</h2>
+        <p><em>A freak late-spring frost blackens your tender lettuce shoots, and the irrigation pump blows out. Farmer X watches calmly: "Tragedy doesn't schedule an appointment. What's our next move?"</em></p>
+        
+        <div class="quest-box" id="q2-container">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleChoice(2, 'correct')">A) Emergency-disk the ruined plot and broadcast a rapid cover crop (crimson clover and daikon radish) to fix nitrogen and break up crust.</button></li>
+                <li><button class="option-btn" onclick="handleChoice(2, 'wrong')">B) Try to force-water dead frost-bitten roots with bucket brigades, hoping they will magically bounce back.</button></li>
+            </ul>
+            <div id="feedback-2" class="feedback-msg"></div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(2)">Back</button>
+            <button class="btn" id="next-btn-2" style="display:none;" onclick="nextSlide()">Proceed to Levels 3-6</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: Secondary Setback / Sage Consultation Sidetrack -->
+    <div class="slide" id="slide-5">
+        <h2>Consulting the Sage: Extension & Field Veteran</h2>
+        <div class="sidetrack-box">
+            <p><strong>The Mentor's Note:</strong> "Bucket brigades against a deep frost and blown pump won't save dead tissue, kid. You're fighting reality instead of adapting to it. Head down to the extension office or check your field manuals on cover crop resilience, then reset your strategy."</p>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(4)">Return to Level 2 & Re-try Question</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: Levels 3 to 6 Summary & Commercial Deployment -->
+    <div class="slide" id="slide-6">
+        <h2>Levels 3 through 6: Production & Deployment</h2>
+        <p>Having navigated soil chemistry, field setbacks, and survival foraging, you advance into active farming operations:</p>
+        <ul>
+            <li><strong>Level 3 (Planting):</strong> Seedbed preparation and root-plug transplanting mastery.</li>
+            <li><strong>Level 4 (Tending):</strong> Weed mitigation, pest identification, and irrigation troubleshooting.</li>
+            <li><strong>Level 5 (Harvesting):</strong> Cold-chain crate sorting and peak maturity windows.</li>
+            <li><strong>Level 6 (Master Steward):</strong> Commercial farm deployment to alleviate the regional labor crisis.</li>
+        </ul>
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="goToSlide(4)">Back</button>
+            <button class="btn btn-secondary" onclick="goToSlide(1)">Restart Journey</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+        currentSlide = index;
+        window.scrollTo(0, 0);
+    }
+
+    function nextSlide() {
+        if (currentSlide < slides.length - 1) {
+            showSlide(currentSlide + 1);
+        }
+    }
+
+    function prevSlide() {
+        if (currentSlide > 0) {
+            showSlide(currentSlide - 1);
+        }
+    }
+
+    function goToSlide(index) {
+        showSlide(index);
+    }
+
+    function handleChoice(questionNum, status) {
+        const feedbackEl = document.getElementById(`feedback-${questionNum}`);
+        feedbackEl.style.display = 'block';
+
+        if (status === 'correct') {
+            feedbackEl.className = 'feedback-msg feedback-success';
+            feedbackEl.textContent = 'Correct! Field strategy verified. Progression unlocked.';
+            document.getElementById(`next-btn-${questionNum}`).style.display = 'inline-block';
+        } else {
+            feedbackEl.className = 'feedback-msg feedback-error';
+            feedbackEl.textContent = 'Incorrect action taken. Diverting to corrective sidetrack...';
+            setTimeout(() => {
+                // Route to respective punishment / sidetrack slide (Slide 3 for Q1 setback, Slide 5 for Q2 sage advice)
+                goToSlide(questionNum === 1 ? 2 : 4); // 0-indexed slide mapping offset
+            }, 1200);
+        }
+    }
+</script>
+
+</body>
+</html>
