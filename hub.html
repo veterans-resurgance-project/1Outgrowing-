@@ -1,0 +1,9 @@
+function verifyCode() {
+    const inputVal = document.getElementById('gate-code').value.trim();
+    if (inputVal === '6.5' || inputVal === '65' || inputVal === '6500') {
+        // Successfully unlocked Gate Two - send them to the next standalone file
+        window.location.href = 'gate-two.html';
+    } else {
+        alert('Incorrect clearance code.');
+    }
+}
