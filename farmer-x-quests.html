@@ -350,21 +350,23 @@
         }
     }
 
-    function verifyCode() {
+  function verifyCode() {
         const inputVal = document.getElementById('gate-code').value.trim();
         const codeFeedback = document.getElementById('code-feedback');
         codeFeedback.style.display = 'block';
 
         if (inputVal === '6.5' || inputVal === '65' || inputVal === '6500') {
             codeFeedback.className = 'feedback-msg feedback-success';
-            codeFeedback.textContent = 'Access Granted! Opening Chapter 2...';
+            codeFeedback.textContent = 'Access Granted! Unlocking toolshed and routing to Hub...';
             setTimeout(() => {
-                nextSlide();
-            }, 1000);
+                // Redirects directly to your next standalone hub or gate file
+                window.location.href = 'hub-2.html'; 
+            }, 1200);
         } else {
             codeFeedback.className = 'feedback-msg feedback-error';
             codeFeedback.textContent = 'Invalid code. Check your field manual for the soil pH baseline numbers.';
         }
+  
     }
     </script>
 
