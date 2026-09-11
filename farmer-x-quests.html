@@ -378,3 +378,316 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFTI - Academic &amp; Training Track</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --primary: #27ae60;
+            --primary-hover: #219653;
+            --secondary: #3b82f6;
+            --error: #ef4444;
+            --hud-bg: #144d29;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            padding: 30px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .hud-bar {
+            background: var(--hud-bg);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .slide {
+            display: none;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        h2 {
+            color: #2ecc71;
+            margin-top: 0;
+        }
+
+        p, li {
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 15px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .quest-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .options-list li {
+            margin: 10px 0;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            background: #0f172a;
+            color: #f8fafc;
+            border: 2px solid #334155;
+            padding: 12px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary);
+            background: #1e293b;
+        }
+
+        .feedback-msg {
+            font-weight: bold;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .feedback-error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+
+        .feedback-success {
+            background: rgba(46, 204, 113, 0.2);
+            color: #4ade80;
+        }
+
+        .code-clue-display {
+            background: rgba(52, 152, 219, 0.15);
+            border-left: 5px solid #3498db;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 0 6px 6px 0;
+            font-weight: bold;
+            color: #93c5fd;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- GLOBAL HUD BAR -->
+    <div class="hud-bar">
+        <span>Academic Score: <span id="points-display">0</span> XP</span>
+        <span>Status: Certification Candidate</span>
+    </div>
+
+    <!-- ACADEMIC SLIDE 1: Module 1 -->
+    <div class="slide active" id="slide-1">
+        <h2>Module 1: Soil Microbiology &amp; Nutrient Cycling</h2>
+        <div class="code-clue-display">Certification Progress: [ <span id="slot-1">_</span> ] [ _ ] [ _ ] [ _ ]</div>
+        <p><strong>Core Concept:</strong> Understanding the role of mycorrhizal networks in perennial root systems.</p>
+        <p><em>Assessment Question: What is the primary function of arbuscular mycorrhizal fungi in crop root zones?</em></p>
+        
+        <div class="quest-box">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleAcademicChoice(1, 'M', 'correct', 4)"><strong>A)</strong> Facilitate symbiotic exchange of phosphorus and water in exchange for plant carbon.</button></li>
+                <li><button class="option-btn" onclick="handleAcademicChoice(1, 'X', 'wrong', 4)"><strong>B)</strong> Deplete trace minerals to force the root system deeper.</button></li>
+            </ul>
+            <div id="feedback-1" class="feedback-msg"></div>
+        </div>
+        <div style="margin-top: 20px;">
+            <a href="index.html" class="btn btn-secondary">Return to Portal Home</a>
+        </div>
+    </div>
+
+    <!-- ACADEMIC SLIDE 2: Module 2 -->
+    <div class="slide" id="slide-2">
+        <h2>Module 2: Water Rights &amp; Watershed Management</h2>
+        <div class="code-clue-display">Certification Progress: [ <span id="slot-1-display">M</span> ] [ <span id="slot-2">_</span> ] [ _ ] [ _ ]</div>
+        <p><strong>Core Concept:</strong> Navigating Oregon water rights and riparian zone protection.</p>
+        <p><em>Assessment Question: Which practice best protects bank stability and water temperature along agricultural creeks?</em></p>
+        
+        <div class="quest-box">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleAcademicChoice(2, 'A', 'correct', 4)"><strong>A)</strong> Planting multi-tiered riparian buffer strips with native Willamette Valley shrubs and conifers.</button></li>
+                <li><button class="option-btn" onclick="handleAcademicChoice(2, 'Z', 'wrong', 4)"><strong>B)</strong> Clearing all streamside vegetation to maximize direct sunlight exposure.</button></li>
+            </ul>
+            <div id="feedback-2" class="feedback-msg"></div>
+        </div>
+    </div>
+
+    <!-- ACADEMIC SLIDE 3: Module 3 -->
+    <div class="slide" id="slide-3">
+        <h2>Module 3: Standard Operating Procedures (SOPs)</h2>
+        <div class="code-clue-display">Certification Progress: [ M ] [ <span id="slot-2-display">A</span> ] [ <span id="slot-3">_</span> ] [ _ ]</div>
+        <p><strong>Core Concept:</strong> Fleet management and equipment safety compliance.</p>
+        <p><em>Assessment Question: What is the first required check before operating commercial agricultural machinery?</em></p>
+        
+        <div class="quest-box">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleAcademicChoice(3, 'P', 'correct', 4)"><strong>A)</strong> Perform a comprehensive pre-trip walkthrough covering fluid levels, safety guards, and PTO brakes.</button></li>
+                <li><button class="option-btn" onclick="handleAcademicChoice(3, 'W', 'wrong', 4)"><strong>B)</strong> Immediately start the engine and test brakes at top speed in the field.</button></li>
+            </ul>
+            <div id="feedback-3" class="feedback-msg"></div>
+        </div>
+    </div>
+
+    <!-- ACADEMIC SLIDE 4: Module 4 -->
+    <div class="slide" id="slide-4">
+        <h2>Module 4: Cooperative Land-Linking</h2>
+        <div class="code-clue-display">Certification Progress: [ M ] [ A ] [ <span id="slot-3-display">P</span> ] [ <span id="slot-4">_</span> ]</div>
+        <p><strong>Core Concept:</strong> Structuring land-access agreements between landowners and incoming apprentices.</p>
+        <p><em>Assessment Question: What mechanism provides mutual legal security for long-term farm incubation?</em></p>
+        
+        <div class="quest-box">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleAcademicChoice(4, 'S', 'correct', 4)"><strong>A)</strong> A clear ground lease with defined stewardship metrics, liability sharing, and crop-sharing terms.</button></li>
+                <li><button class="option-btn" onclick="handleAcademicChoice(4, 'X', 'wrong', 4)"><strong>B)</strong> A verbal handshake with no written documentation.</button></li>
+            </ul>
+            <div id="feedback-4" class="feedback-msg"></div>
+        </div>
+    </div>
+
+    <!-- ACADEMIC COMPLETE SLIDE -->
+    <div class="slide" id="academic-complete">
+        <h2>Certification Achieved: MAPS Credential Unlocked</h2>
+        <p>You have successfully completed all four academic core modules for the AFTI portal. Your certification code is <strong>M - A - P - S</strong>.</p>
+        <p>You are now fully certified to lead specialized agricultural teams across the Willamette Valley.</p>
+        <div class="quest-box">
+            <a href="index.html" class="btn">Return to AFTI Portal Home</a>
+        </div>
+    </div>
+<script>
+    let academicPoints = 0;
+    function awardPoints(pts) {
+        academicPoints += pts;
+        const display = document.getElementById('points-display');
+        if(display) display.textContent = academicPoints;
+    }
+
+    function goToSlide(slideId) {
+        document.querySelectorAll('.slide').forEach(s => {
+            s.classList.remove('active');
+            s.style.display = 'none';
+        });
+        
+        let targetId = typeof slideId === 'number' ? 'slide-' + slideId : slideId;
+        const target = document.getElementById(targetId);
+        if(target) {
+            target.classList.add('active');
+            target.style.display = 'block';
+        } else {
+            console.error("Could not find slide with ID:", targetId);
+        }
+    }
+
+    // Initialize display states when the page loads
+    window.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.slide').forEach(s => {
+            if (s.classList.contains('active')) {
+                s.style.display = 'block';
+            } else {
+                s.style.display = 'none';
+            }
+        });
+    });
+
+    function handleAcademicChoice(qNum, choiceLetter, status, maxQ) {
+        const feedbackEl = document.getElementById(`feedback-${qNum}`);
+        if (!feedbackEl) return;
+        feedbackEl.style.display = 'block';
+
+        if (status === 'correct') {
+            feedbackEl.className = 'feedback-msg feedback-success';
+            feedbackEl.textContent = 'Correct! Module passed. Advancing...';
+            awardPoints(100);
+            
+            const slotEl = document.getElementById(`slot-${qNum}`);
+            if(slotEl) slotEl.textContent = choiceLetter;
+
+            setTimeout(() => {
+                let nextSlideNum = qNum + 1;
+                if (nextSlideNum <= maxQ) {
+                    goToSlide('slide-' + nextSlideNum);
+                } else {
+                    goToSlide('academic-complete');
+                }
+            }, 1000);
+        } else {
+            feedbackEl.className = 'feedback-msg feedback-error';
+            feedbackEl.textContent = 'Incorrect framework. Re-evaluate industry protocols.';
+        }
+    }
+</script>
+</div>
+
+<script>
+
+</script>
+
+</body>
+</html>
