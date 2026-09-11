@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFTI - Advanced Soil &amp; Agronomy Track</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --primary: #27ae60;
+            --primary-hover: #219653;
+            --secondary: #3b82f6;
+            --error: #ef4444;
+            --hud-bg: #144d29;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            padding: 30px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .hud-bar {
+            background: var(--hud-bg);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .slide {
+            display: none;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        h2 {
+            color: #2ecc71;
+            margin-top: 0;
+        }
+
+        p, li {
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 15px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .quest-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .options-list li {
+            margin: 10px 0;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            background: #0f172a;
+            color: #f8fafc;
+            border: 2px solid #334155;
+            padding: 12px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary);
+            background: #1e293b;
+        }
+
+        .feedback-msg {
+            font-weight: bold;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .feedback-error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+
+        .feedback-success {
+            background: rgba(46, 204, 113, 0.2);
+            color: #4ade80;
+        }
+
+        .code-clue-display {
+            background: rgba(52, 152, 219, 0.15);
+            border-left: 5px solid #3498db;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 0 6px 6px 0;
+            font-weight: bold;
+            color: #93c5fd;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- GLOBAL HUD BAR -->
+    <div class="hud-bar">
+        <span>Agronomy Score: <span id="points-display">0</span> XP</span>
+        <span>Track: Advanced Soil Management</span>
+    </div>
+
+    <!-- AGRONOMY SLIDE 1 -->
+    <div class="slide active" id="slide-1">
+        <h2>Module 1: Cover Cropping &amp; Biomass Management</h2>
+        <div class="code-clue-display">Agronomy Progress: [ <span id="slot-1">_</span> ] [ _ ] [ _ ]</div>
+        <p><strong>Core Concept:</strong> Maximizing organic matter and nitrogen fixation in Willamette Valley winter rotations.</p>
+        <p><em>Assessment Question: When is the optimal window to terminate a winter vetch and cereal rye cover crop for maximum nitrogen release?</em></p>
+        
+        <div class="quest-box">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleAgronomyChoice(1, 'N', 'correct', 3)"><strong>A)</strong> At early flowering (anthesis) of the cereal rye to balance carbon-to-nitrogen ratios.</button></li>
+                <li><button class="option-btn" onclick="handleAgronomyChoice(1, 'X', 'wrong', 3)"><strong>B)</strong> Wait until the plants are completely dead and woody in mid-summer.</button></li>
+            </ul>
+            <div id="feedback-1" class="feedback-msg"></div>
+        </div>
+    </div>
+
+    <!-- AGRONOMY SLIDE 2 -->
+    <div class="slide" id="slide-2">
+        <h2>Module 2: Cation Exchange Capacity (CEC)</h2>
+        <div class="code-clue-display">Agronomy Progress: [ <span id="slot-1-display">N</span> ] [ <span id="slot-2">_</span> ] [ _ ]</div>
+        <p><strong>Core Concept:</strong> Evaluating nutrient retention capabilities in clay loam vs. sandy soils.</p>
+        <p><em>Assessment Question: What does a high Cation Exchange Capacity (CEC) indicate regarding fertilizer applications?</em></p>
+        
+        <div class="quest-box">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleAgronomyChoice(2, 'P', 'correct', 3)"><strong>A)</strong> The soil can hold onto more nutrient cations (like calcium, magnesium, and potassium) against leaching.</button></li>
+                <li><button class="option-btn" onclick="handleAgronomyChoice(2, 'Z', 'wrong', 3)"><strong>B)</strong> Nutrients will wash out immediately with the first autumn rainfall.</button></li>
+            </ul>
+            <div id="feedback-2" class="feedback-msg"></div>
+        </div>
+    </div>
+
+    <!-- AGRONOMY SLIDE 3 -->
+    <div class="slide" id="slide-3">
+        <h2>Module 3: Biological Till &amp; Compaction Mitigation</h2>
+        <div class="code-clue-display">Agronomy Progress: [ N ] [ <span id="slot-2-display">P</span> ] [ <span id="slot-3">_</span> ]</div>
+        <p><strong>Core Concept:</strong> Relieving heavy equipment compaction without destroying soil aggregates.</p>
+        <p><em>Assessment Question: Which strategy best addresses deep plow-pan compaction beneath pasture beds?</em></p>
+        
+        <div class="quest-box">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleAgronomyChoice(3, 'K', 'correct', 3)"><strong>A)</strong> Utilizing deep-rooting biodrill cover crops like daikon radish alongside non-inversion sub-soiling.</button></li>
+                <li><button class="option-btn" onclick="handleAgronomyChoice(3, 'W', 'wrong', 3)"><strong>B)</strong> Repeatedly rototilling the top two inches at high speed.</button></li>
+            </ul>
+            <div id="feedback-3" class="feedback-msg"></div>
+        </div>
+    </div>
+
+    <!-- AGRONOMY COMPLETE SLIDE -->
+    <div class="slide" id="agronomy-complete">
+        <h2>Agronomy Certification Unlocked: N - P - K</h2>
+        <p>You have successfully mastered advanced soil fertility, cover crop termination, and compaction relief. Your agronomy validation code is <strong>N-P-K</strong>.</p>
+        <div class="quest-box" style="display: flex; gap: 15px; flex-wrap: wrap;">
+            <a href="hub-2.html" class="btn">Return to Hub 2</a>
+            <a href="index.html" class="btn btn-secondary">Return to Portal Home</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let agroPoints = 0;
+    function awardPoints(pts) {
+        agroPoints += pts;
+        const display = document.getElementById('points-display');
+        if(display) display.textContent = agroPoints;
+    }
+
+    function goToSlide(slideId) {
+        document.querySelectorAll('.slide').forEach(s => {
+            s.classList.remove('active');
+            s.style.display = 'none';
+        });
+        
+        let targetId = typeof slideId === 'number' ? 'slide-' + slideId : slideId;
+        const target = document.getElementById(targetId);
+        if(target) {
+            target.classList.add('active');
+            target.style.display = 'block';
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        goToSlide(1);
+    });
+
+    function handleAgronomyChoice(qNum, choiceLetter, status, maxQ) {
+        const feedbackEl = document.getElementById(`feedback-${qNum}`);
+        if (!feedbackEl) return;
+        feedbackEl.style.display = 'block';
+
+        if (status === 'correct') {
+            feedbackEl.className = 'feedback-msg feedback-success';
+            feedbackEl.textContent = 'Correct! Soil metric verified. Advancing...';
+            awardPoints(150);
+            
+            const slotEl = document.getElementById(`slot-${qNum}`);
+            if(slotEl) slotEl.textContent = choiceLetter;
+
+            setTimeout(() => {
+                let nextSlideNum = qNum + 1;
+                if (nextSlideNum <= maxQ) {
+                    goToSlide('slide-' + nextSlideNum);
+                } else {
+                    goToSlide('agronomy-complete');
+                }
+            }, 1000);
+        } else {
+            feedbackEl.className = 'feedback-msg feedback-error';
+            feedbackEl.textContent = 'Agronomic error. Review soil science parameters.';
+        }
+    }
+</script>
+
+</body>
+</html>
