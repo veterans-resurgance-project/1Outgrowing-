@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<!-- Track Switcher Buttons -->
-      <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem;">
-        <a href="farmer-x.html" style="background-color: #27ae60; color: #ffffff; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.95rem; display: inline-block; transition: background 0.2s; box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);">Launch Farmer X Simulation</a>
-        
-        <a href="academic-track.html" style="background-color: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.25); padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-block; transition: background 0.2s;">Academic &amp; Training Track</a>
-     
-        <a href="farmer-x-quests" style="background-color: #27ae60; color: #ffffff; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.95rem; display: inline-block; transition: background 0.2s; box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);">Farmer and Apprentise</a>
-      </div>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AFTI - Academic &amp; Training Track</title>
@@ -60,6 +50,32 @@
             align-items: center;
             font-weight: bold;
             color: #ffffff;
+        }
+
+        .nav-switch-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-switch-bar a {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+
+        .nav-switch-bar a:hover {
+            background-color: var(--primary);
+            border-color: var(--primary);
         }
 
         .slide {
@@ -169,6 +185,13 @@
 
 <div class="container">
 
+    <!-- TRACK SWITCHER NAVIGATION BAR -->
+    <div class="nav-switch-bar">
+        <a href="farmer-x.html">Farmer X Simulation</a>
+        <a href="academic-track.html">Academic Track</a>
+        <a href="farmer-x-quests.html">Farmer &amp; Apprentice Quests</a>
+    </div>
+
     <!-- GLOBAL HUD BAR -->
     <div class="hud-bar">
         <span>Academic Score: <span id="points-display">0</span> XP</span>
@@ -251,6 +274,9 @@
             <a href="index.html" class="btn">Return to AFTI Portal Home</a>
         </div>
     </div>
+
+</div>
+
 <script>
     let academicPoints = 0;
     function awardPoints(pts) {
@@ -275,7 +301,6 @@
         }
     }
 
-    // Initialize display states when the page loads
     window.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.slide').forEach(s => {
             if (s.classList.contains('active')) {
@@ -312,11 +337,6 @@
             feedbackEl.textContent = 'Incorrect framework. Re-evaluate industry protocols.';
         }
     }
-</script>
-</div>
-
-<script>
-
 </script>
 
 </body>
