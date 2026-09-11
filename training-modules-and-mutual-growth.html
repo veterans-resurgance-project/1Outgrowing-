@@ -241,9 +241,6 @@
             <a href="index.html" class="btn">Return to AFTI Portal Home</a>
         </div>
     </div>
-
-</div>
-
 <script>
     let academicPoints = 0;
     function awardPoints(pts) {
@@ -253,15 +250,31 @@
     }
 
     function goToSlide(slideId) {
-        document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.slide').forEach(s => {
+            s.classList.remove('active');
+            s.style.display = 'none';
+        });
+        
         let targetId = typeof slideId === 'number' ? 'slide-' + slideId : slideId;
         const target = document.getElementById(targetId);
         if(target) {
             target.classList.add('active');
+            target.style.display = 'block';
         } else {
             console.error("Could not find slide with ID:", targetId);
         }
     }
+
+    // Initialize display states when the page loads
+    window.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.slide').forEach(s => {
+            if (s.classList.contains('active')) {
+                s.style.display = 'block';
+            } else {
+                s.style.display = 'none';
+            }
+        });
+    });
 
     function handleAcademicChoice(qNum, choiceLetter, status, maxQ) {
         const feedbackEl = document.getElementById(`feedback-${qNum}`);
@@ -289,6 +302,11 @@
             feedbackEl.textContent = 'Incorrect framework. Re-evaluate industry protocols.';
         }
     }
+</script>
+</div>
+
+<script>
+
 </script>
 
 </body>
