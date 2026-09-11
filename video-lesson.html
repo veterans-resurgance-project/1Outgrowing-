@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFTI - Field Video Lesson</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --primary: #27ae60;
+            --primary-hover: #219653;
+            --secondary: #3b82f6;
+            --hud-bg: #144d29;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            padding: 30px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .hud-bar {
+            background: var(--hud-bg);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        h2 {
+            color: #2ecc71;
+            margin-top: 0;
+        }
+
+        p {
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            margin: 20px 0;
+            border-radius: 8px;
+            background: #000;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .notes-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- GLOBAL HUD BAR -->
+    <div class="hud-bar">
+        <span>AFTI Visual Field Briefing</span>
+        <span>Module: Operational Walkthrough</span>
+    </div>
+
+    <h2>Field Demonstration &amp; Instruction</h2>
+    <p>Review the visual breakdown below before proceeding back to your active tracks. Pay close attention to equipment safety measures and soil indicators.</p>
+
+    <!-- EMBEDDED YOUTUBE VIDEO SLOT -->
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="AFTI YouTube Lesson" allowfullscreen></iframe>
+    </div>
+
+    <!-- LESSON NOTES / SUMMARY BOX -->
+    <div class="notes-box">
+        <h3 style="color: #38bdf8; margin-top: 0;">Key Takeaways &amp; Operator Notes</h3>
+        <p>1. Ensure all pre-trip checklist items are verified visually and mechanically prior to starting heavy engines.</p>
+        <p>2. Cross-reference soil core sample baseline targets (such as optimal pH ranges) before implementing soil amendments.</p>
+        <p>3. Document all completed operational milestones in your field ledger.</p>
+    </div>
+
+    <!-- NAVIGATION ACTIONS -->
+    <div class="nav-buttons">
+        <a href="hub-2.html" class="btn">Return to Hub 2</a>
+        <a href="index.html" class="btn btn-secondary">Return to Portal Home</a>
+    </div>
+
+</div>
+
+</body>
+</html>
