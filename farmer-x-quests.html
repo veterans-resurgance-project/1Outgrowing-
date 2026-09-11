@@ -303,7 +303,8 @@
 
 </div>
 
-<script>
+
+    <script>
     let currentSlide = 0;
     let lastFailedQuestionSlide = 2;
     const slides = document.querySelectorAll('.slide');
@@ -336,7 +337,6 @@
         const feedbackEl = document.getElementById(`feedback-${questionNum}`);
         feedbackEl.style.display = 'block';
 
-        // Map question number to its respective slide index
         const questionSlideMap = { 1: 2, 2: 4, 3: 5, 4: 6 };
         lastFailedQuestionSlide = questionSlideMap[questionNum];
 
@@ -346,115 +346,27 @@
             document.getElementById(`next-btn-${questionNum}`).style.display = 'inline-block';
         } else {
             feedbackEl.className = 'feedback-msg feedback-error';
-            feedbackEl.textContent = 'Incorrect action. Diverting to timber sidetrack...';
-            setTimeout(() => {
-                goToSlide(sidetrackSlideIndex); // Goes to Slide 3 (survival sidetrack)
-            }, 1200);
+            feedbackEl.textContent = 'Incorrect action. Review protocol.';
         }
-    }
-
-    function returnToLastQuestion() {
-        goToSlide(lastFailedQuestionSlide);
     }
 
     function verifyCode() {
         const inputVal = document.getElementById('gate-code').value.trim();
-        const codeFeedback = document.margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-            color: #ffffff;
-        }
-
-        .slide {
-            display: none;
-        }
-
-        .slide.active {
-            display: block;
-        }
-
-        h2 {
-            color: #2ecc71;
-            margin-top: 0;
-        }
-
-        p, li {
-            line-height: 1.6;
-            color: #cbd5e1;
-        }
-
-        .btn {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 15px;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn:hover {
-            background-color: var(--primary-hover);
-        }
-
-        .btn-secondary {
-            background-color: var(--secondary);
-        }
-
-        .quest-box {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 15px;
-        }
-
-        .options-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .options-list li {
-            margin: 10px 0;
-        }
-
-        .option-btn {
-            width: 100%;
-            text-align: left;
-            background: #0f172a;
-            color: #f8fafc;
-            border: 2px solid #334155;
-            padding: 12px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.2s;
-        }
-
-        .option-btn:hover {
-            border-color: var(--primary);
-            background: #1e293b;
-        }('code-feedback');
+        const codeFeedback = document.getElementById('code-feedback');
         codeFeedback.style.display = 'block';
 
-        // Correct code requirement (accepts 6.5, 65, or 6500 based on baseline numbers)
         if (inputVal === '6.5' || inputVal === '65' || inputVal === '6500') {
             codeFeedback.className = 'feedback-msg feedback-success';
             codeFeedback.textContent = 'Access Granted! Opening Chapter 2...';
             setTimeout(() => {
-                nextSlide(); // Advances to Slide 8 (Level 2 Unlocked)
+                nextSlide();
             }, 1000);
         } else {
             codeFeedback.className = 'feedback-msg feedback-error';
             codeFeedback.textContent = 'Invalid code. Check your field manual for the soil pH baseline numbers.';
         }
     }
-</script>
+    </script>
 
 </body>
 </html>
