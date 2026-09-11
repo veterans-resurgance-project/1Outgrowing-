@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFTI - Specific Lesson Pathway</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --primary: #27ae60;
+            --primary-hover: #219653;
+            --secondary: #3b82f6;
+            --error: #ef4444;
+            --hud-bg: #144d29;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            padding: 30px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .hud-bar {
+            background: var(--hud-bg);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .slide {
+            display: none;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        h2 {
+            color: #2ecc71;
+            margin-top: 0;
+        }
+
+        p, li {
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 15px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .quest-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .options-list li {
+            margin: 10px 0;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            background: #0f172a;
+            color: #f8fafc;
+            border: 2px solid #334155;
+            padding: 12px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary);
+            background: #1e293b;
+        }
+
+        .feedback-msg {
+            font-weight: bold;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .feedback-error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+
+        .feedback-success {
+            background: rgba(46, 204, 113, 0.2);
+            color: #4ade80;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            margin: 15px 0;
+            border-radius: 8px;
+            background: #000;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- GLOBAL HUD BAR -->
+    <div class="hud-bar">
+        <span>Lesson Score: <span id="points-display">0</span> XP</span>
+        <span>Track: Specific Pathway Module</span>
+    </div>
+
+    <!-- LESSON SLIDE 1: Video Briefing -->
+    <div class="slide active" id="slide-1">
+        <h2>Module Step 1: Visual Briefing</h2>
+        <p>Watch the instructional briefing below before attempting the pathway diagnostics.</p>
+        
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="Lesson Briefing Video" allowfullscreen></iframe>
+        </div>
+
+        <button class="btn" onclick="goToSlide(2)">Proceed to Assessment</button>
+    </div>
+
+    <!-- LESSON SLIDE 2: Question 1 -->
+    <div class="slide" id="slide-2">
+        <h2>Module Step 2: Core Practical Application</h2>
+        <p><em>Assessment Question: Based on the operational parameters covered in the briefing, select the correct course of action.</em></p>
+        
+        <div class="quest-box">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handlePathwayChoice(1, 'correct', 3)"><strong>A)</strong> Execute standard protocol, ensuring all safety margins and baseline checks are fully documented.</button></li>
+                <li><button class="option-btn" onclick="handlePathwayChoice(1, 'wrong', 3)"><strong>B)</strong> Bypass structural checks to expedite field turnaround time.</button></li>
+            </ul>
+            <div id="feedback-1" class="feedback-msg"></div>
+        </div>
+    </div>
+
+    <!-- LESSON SLIDE 3: Question 2 -->
+    <div class="slide" id="slide-3">
+        <h2>Module Step 3: Advanced Field Verification</h2>
+        <p><em>Assessment Question: How should discrepancies in baseline sensor readings be handled in the field?</em></p>
+        
+        <div class="quest-box">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handlePathwayChoice(2, 'correct', 'complete')"><strong>A)</strong> Recalibrate instruments against known control standards before continuing operations.</button></li>
+                <li><button class="option-btn" onclick="handlePathwayChoice(2, 'wrong', 'complete')"><strong>B)</strong> Ignore minor data variances and proceed with baseline assumptions.</button></li>
+            </ul>
+            <div id="feedback-2" class="feedback-msg"></div>
+        </div>
+    </div>
+
+    <!-- PATHWAY COMPLETE SLIDE -->
+    <div class="slide" id="pathway-complete">
+        <h2>Pathway Certification Unlocked</h2>
+        <p>You have successfully completed this standalone lesson pathway, integrating both visual instruction and technical diagnostics.</p>
+        <div class="quest-box" style="display: flex; gap: 15px; flex-wrap: wrap;">
+            <a href="hub-2.html" class="btn">Return to Hub 2</a>
+            <a href="index.html" class="btn btn-secondary">Return to Portal Home</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let lessonPoints = 0;
+    function awardPoints(pts) {
+        lessonPoints += pts;
+        const display = document.getElementById('points-display');
+        if(display) display.textContent = lessonPoints;
+    }
+
+    function goToSlide(slideId) {
+        document.querySelectorAll('.slide').forEach(s => {
+            s.classList.remove('active');
+            s.style.display = 'none';
+        });
+        
+        let targetId = typeof slideId === 'number' ? 'slide-' + slideId : slideId;
+        const target = document.getElementById(targetId);
+        if(target) {
+            target.classList.add('active');
+            target.style.display = 'block';
+        }
+        window.scrollTo(0, 0);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        goToSlide(1);
+    });
+
+    function handlePathwayChoice(qNum, status, nextStep) {
+        const feedbackEl = document.getElementById(`feedback-${qNum}`);
+        if (!feedbackEl) return;
+        feedbackEl.style.display = 'block';
+
+        if (status === 'correct') {
+            feedbackEl.className = 'feedback-msg feedback-success';
+            feedbackEl.textContent = 'Correct! Protocol verified. Advancing...';
+            awardPoints(150);
+
+            setTimeout(() => {
+                if (nextStep === 'complete') {
+                    goToSlide('pathway-complete');
+                } else {
+                    goToSlide('slide-' + (qNum + 2)); // maps to next question slide
+                }
+            }, 1000);
+        } else {
+            feedbackEl.className = 'feedback-msg feedback-error';
+            feedbackEl.textContent = 'Operational error. Re-evaluate lesson guidelines.';
+        }
+    }
+</script>
+
+</body>
+</html>
