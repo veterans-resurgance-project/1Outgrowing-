@@ -19,9 +19,12 @@
 </div>
 
 <script>
-    // Initialize state on page load based on session storage
     document.addEventListener("DOMContentLoaded", () => {
         updateBypassUI();
+        const pointsDisplay = document.getElementById('global-points');
+        if (pointsDisplay) {
+            pointsDisplay.innerText = localStorage.getItem('afti_global_xp') || 400;
+        }
     });
 
     function toggleTestBypass() {
@@ -50,26 +53,8 @@
             statusText.style.color = '#4ade80';
         }
     }
-
-    // Updated XP function to respect the bypass flag
-    function awardXP(amount = 50) {
-        const bypassActive = sessionStorage.getItem('afti_test_bypass') === 'true';
-        if (bypassActive) {
-            console.log("Audit Bypass Active: XP reward ignored.");
-            return; // Stops points from being added
-        }
-        
-        let currentXP = parseInt(localStorage.getItem('afti_global_xp')) || 400;
-        currentXP += amount;
-        localStorage.setItem('afti_global_xp', currentXP);
-        
-        // Update display if element exists on page
-        const pointsDisplay = document.getElementById('global-points');
-        if (pointsDisplay) {
-            pointsDisplay.innerText = currentXP;
-        }
-    }
 </script>
+
   <!-- Universal Navigation Bar -->
   <nav style="background: #144d29; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); flex-wrap: wrap; gap: 1rem; position: sticky; top: 0; z-index: 1000;">
     <div style="font-weight: 900; font-size: 1.25rem; letter-spacing: -0.5px; color: #ffffff;">AFTI Portal</div>
@@ -97,32 +82,41 @@
         The Agricultural Future &amp; Training Initiative (AFTI) bridges the critical divide between under-utilized rural land and the next generation of agricultural professionals. By combining rigorous vocational training, custom advisory SOP alignment, and cooperative land-linking across Linn County, we create private trained teams that deliver mutual economic revitalization and long-term food security.
       </p>
 
-      <!-- Hook Cards Grid -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; margin-top: 2rem;">
+      <!-- Balanced 4-Box Hook Cards Grid -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin-top: 2rem;">
         
         <div style="background: rgba(15, 23, 42, 0.9); padding: 1.5rem; border-radius: 12px; border: 1px solid #334155; backdrop-filter: blur(4px);">
           <h3 style="color: #27ae60; margin-top: 0; margin-bottom: 0.5rem; font-size: 1.1rem;">🌱 For Aspiring Growers</h3>
-          <p style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5; margin: 0;">Step into active cohorts or preparatory waitlists, build elite vocational skills, and access land without ownership barriers.</p>
+          <p style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5; margin: 0;">Step into active cohorts, build elite vocational skills, and access land without ownership barriers.</p>
         </div>
 
         <div style="background: rgba(15, 23, 42, 0.9); padding: 1.5rem; border-radius: 12px; border: 1px solid #334155; backdrop-filter: blur(4px);">
           <h3 style="color: #27ae60; margin-top: 0; margin-bottom: 0.5rem; font-size: 1.1rem;">🚜 For Farmers &amp; Landowners</h3>
-          <p style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5; margin: 0;">Deploy trusted trained teams trained in your exact SOPs, unlock secondary income, and keep idle acreage productive.</p>
+          <p style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5; margin: 0;">Deploy trained teams in your exact SOPs, unlock secondary income, and keep idle acreage productive.</p>
         </div>
 
         <div style="background: rgba(15, 23, 42, 0.9); padding: 1.5rem; border-radius: 12px; border: 1px solid #334155; backdrop-filter: blur(4px);">
           <h3 style="color: #27ae60; margin-top: 0; margin-bottom: 0.5rem; font-size: 1.1rem;">🤝 For the Community</h3>
-          <p style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5; margin: 0;">Protect rural agricultural heritage while allocating fresh harvest yields directly to local food security initiatives.</p>
+          <p style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5; margin: 0;">Protect rural heritage while allocating fresh harvest yields directly to local food security initiatives.</p>
+        </div>
+
+        <div style="background: rgba(15, 23, 42, 0.9); padding: 1.5rem; border-radius: 12px; border: 1px solid #38bdf8; backdrop-filter: blur(4px);">
+          <h3 style="color: #38bdf8; margin-top: 0; margin-bottom: 0.5rem; font-size: 1.1rem;">📈 Economic Stimulus</h3>
+          <p style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5; margin: 0;">Revitalize local ecosystems, stimulate regional agri-markets, and foster sustainable land stewardship.</p>
         </div>
 
       </div>
 
-      <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem;">
-        <a href="farmer-x.html" style="background-color: #27ae60; color: #ffffff; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.95rem; display: inline-block; transition: background 0.2s; box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);">Farm-Industrial-SOPs</a>
-        
-        <a href="academic-track.html" style="background-color: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.25); padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-block; transition: background 0.2s;">Academic &amp; Training Track</a>
-     
-        <a href="farmer-apprentice-story.html" style="background-color: #27ae60; color: #ffffff; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.95rem; display: inline-block; transition: background 0.2s; box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);">Farmer and Apprentice Simulation</a>
+      <!-- Action Buttons: Highlighted Simulation Button on top/prominent, smaller SOP/Academic below -->
+      <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 2.5rem;">
+        <a href="farmer-apprentice-story.html" style="background: linear-gradient(135deg, #27ae60, #2ecc71); color: #ffffff; padding: 1.1rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 800; font-size: 1.15rem; text-align: center; display: block; transition: all 0.2s; box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4); border: 1px solid rgba(255,255,255,0.2);">
+          🚀 Enter Farmer and Apprentice Simulation
+        </a>
+
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <a href="farmer-x.html" style="background-color: rgba(15, 23, 42, 0.8); color: #cbd5e1; border: 1px solid #334155; padding: 0.6rem 1.25rem; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.2s;">Farm-Industrial-SOPs</a>
+          <a href="academic-track.html" style="background-color: rgba(15, 23, 42, 0.8); color: #cbd5e1; border: 1px solid #334155; padding: 0.6rem 1.25rem; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.2s;">Academic &amp; Training Track</a>
+        </div>
       </div>  
     </div>
 
@@ -153,171 +147,6 @@
       </div>
     </div>
 
-    <!-- AFTI Educational & Legal Reference Module -->
-    <div class="simulation-command-section" style="background: #1e293b; border-radius: 12px; padding: 30px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 3rem; color: #f8fafc;">
-        
-        <!-- HEADER & NAVIGATION PROGRESSION -->
-        <div style="background: #144d29; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 12px 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; font-weight: bold;">
-            <span>Module: Willamette Valley Agricultural Legal &amp; Paperwork Reference</span>
-            <span id="reading-progress" style="color: #4ade80;">Step 1 of 3: Core Frameworks</span>
-        </div>
-
-        <!-- TAB / SECTION CONTAINER -->
-        <div id="info-step-1" class="info-step-pane">
-            <h2 style="color: #2ecc71; margin-top: 0; font-size: 1.6rem;">Legal &amp; Administrative Instruments Overview</h2>
-            <p style="color: #cbd5e1; line-height: 1.6;">Before negotiating land-links or structuring farm resilience models in Linn County, operators must master the administrative paperwork required by Oregon state statutes and county planning commissions.</p>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 20px;">
-                <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 20px;">
-                    <h3 style="color: #38bdf8; margin-top: 0; font-size: 1.1rem;">1. EFU Zoning Compliance</h3>
-                    <p style="font-size: 0.9rem; color: #cbd5e1; line-height: 1.5;">Exclusive Farm Use (EFU) zoning protects agricultural soils from suburban sprawl but strictly limits non-farm commercial activities, requiring careful permitting for agritourism or retail stands.</p>
-                </div>
-                <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 20px;">
-                    <h3 style="color: #38bdf8; margin-top: 0; font-size: 1.1rem;">2. Special Farm-Use Tax Assessment</h3>
-                    <p style="font-size: 0.9rem; color: #cbd5e1; line-height: 1.5;">Properties maintain heavy property tax deferrals by proving statutory minimum annual gross farm income ($3,000+), making income tracking mandatory for tenants.</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="info-step-2" class="info-step-pane" style="display: none;">
-            <h2 style="color: #2ecc71; margin-top: 0; font-size: 1.6rem;">Sample Paperwork &amp; Form Excerpts</h2>
-            <p style="color: #cbd5e1; line-height: 1.6;">Review these standard clauses extracted from regional agricultural agreements and county planning applications:</p>
-            
-            <div style="background: rgba(15, 23, 42, 0.7); border-left: 4px solid #3498db; border-radius: 0 8px 8px 0; padding: 18px; margin-bottom: 15px;">
-                <strong style="color: #93c5fd; display: block; margin-bottom: 6px;">Oregon Agricultural Lease &amp; Land-Link Excerpt</strong>
-                <p style="font-size: 0.9rem; color: #cbd5e1; margin: 0; line-height: 1.5;"><em>"The Landowner leases approximately 15 acres of EFU-zoned tillable acreage in Linn County (Tax Lot T12S R2W Sec. 14) for a 3-year term. In lieu of cash rent, the Operator provides 15% of gross harvest proceeds and assumes full responsibility for maintaining minimum gross income requirements for tax deferral."</em></p>
-            </div>
-
-            <div style="background: rgba(15, 23, 42, 0.7); border-left: 4px solid #27ae60; border-radius: 0 8px 8px 0; padding: 18px;">
-                <strong style="color: #4ade80; display: block; margin-bottom: 6px;">Linn County Conditional Use Permit Checklist</strong>
-                <p style="font-size: 0.9rem; color: #cbd5e1; margin: 0; line-height: 1.5;">Requires a formal site plan map, parking layout, and written narrative proving that at least <strong>70% of all goods sold on-site</strong> are grown directly on the property per ORS 215.283.</p>
-            </div>
-        </div>
-
-        <div id="info-step-3" class="info-step-pane" style="display: none;">
-            <h2 style="color: #2ecc71; margin-top: 0; font-size: 1.6rem;">Proposal Templates &amp; Negotiation Models</h2>
-            <p style="color: #cbd5e1; line-height: 1.6;">When presenting to retiring generational landowners, choose the right structural proposal model based on their primary concern:</p>
-            
-            <ul style="color: #cbd5e1; line-height: 1.7; padding-left: 20px; font-size: 0.95rem;">
-                <li><strong>The Graduated Incubator Proposal:</strong> Best for skeptical landowners. Starts with a small 2-5 acre footprint, scaling up over 3 years as trust and documentation standards are proven.</li>
-                <li><strong>The Stewardship Ground Lease:</strong> Focuses heavily on soil health metrics, cover cropping, and non-inversion tillage as partial payment for discounted land rates.</li>
-                <li><strong>The Sweat-Equity Succession Model:</strong> Designed for farms with no heirs, tying operational labor directly to fractional equipment ownership and eventual buyout options.</li>
-            </ul>
-        </div>
-
-        <!-- CONTROLS / STEP ADVANCEMENT -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-            <button id="prev-btn" onclick="switchInfoStep(-1)" style="background-color: #334155; color: #cbd5e1; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer; visibility: hidden;">Previous</button>
-            <button id="next-btn" onclick="switchInfoStep(1)" style="background-color: #27ae60; color: white; border: none; padding: 10px 22px; border-radius: 6px; font-weight: 600; cursor: pointer;">Next Section</button>
-        </div>
-
-    </div>
-
-    <!-- Training Command Center Hub -->
-<div style="background: #1e293b; border-radius: 12px; padding: 30px; border: 1px solid rgba(255,255,255,0.1); color: #f8fafc; margin: 20px 0;">
-    <div style="background: #144d29; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 10px 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; flex-wrap: wrap; gap: 10px;">
-        <span>AFTI Global XP: <span id="global-points">400</span></span>
-        <span>Willamette Valley Sector: Active</span>
-    </div>
-    
-    <h2 style="color: #2ecc71; margin-top: 0; font-size: 1.5rem;">Training Command Center</h2>
-    <p style="color: #cbd5e1; line-height: 1.5;">Select an active training track below to deploy modular simulation files and manage field diagnostics.</p>
-
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-top: 20px;">
-        
-        <!-- Farmer X Track -->
-        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-                <h3 style="color: #38bdf8; margin-top: 0; margin-bottom: 8px; font-size: 1.1rem;">Farmer X Operations</h3>
-                <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 15px;">Master high-yield indoor intercropping and direct-to-restaurant market runs.</p>
-            </div>
-            <a href="farmer-x.html" style="background-color: #27ae60; color: white; padding: 8px 12px; border-radius: 6px; text-align: center; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Launch Track</a>
-        </div>
-
-        <!-- NEW Module: Mycological & Botanical Screening Deck -->
-        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-                <span style="color: #4ade80; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em;">New Module</span>
-                <h3 style="color: #38bdf8; margin-top: 4px; margin-bottom: 8px; font-size: 1.1rem;">The Mycological &amp; Botanical Screening Deck</h3>
-                <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 15px;">(The Mushroom &amp; Plant Detective Game) — Practice visual ID for wild foraged species.</p>
-            </div>
-            <a href="The-Mycological-Botanical-Screening-Deck.html" style="background-color: #27ae60; color: white; padding: 8px 12px; border-radius: 6px; text-align: center; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Launch Screening Deck</a>
-        </div>
-
-        <!-- NEW Module: Plant Pest ID -->
-        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-                <span style="color: #4ade80; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em;">New Module</span>
-                <h3 style="color: #38bdf8; margin-top: 4px; margin-bottom: 8px; font-size: 1.1rem;">Plant &amp; Pest Identification</h3>
-                <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 15px;">Diagnose foliar spotting, blights, and crop stress indicators in the field.</p>
-            </div>
-            <a href="plant-pest-id.html" style="background-color: #27ae60; color: white; padding: 8px 12px; border-radius: 6px; text-align: center; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Launch Pest ID</a>
-        </div>
-
-        <!-- Legal & Land-Linking Track -->
-        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-                <h3 style="color: #38bdf8; margin-top: 0; margin-bottom: 8px; font-size: 1.1rem;">Legal &amp; Land-Linking</h3>
-                <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 15px;">Navigate Linn County EFU zoning, tax deferrals, and generational lease agreements.</p>
-            </div>
-            <a href="land-link.html" style="background-color: #27ae60; color: white; padding: 8px 12px; border-radius: 6px; text-align: center; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Launch Track</a>
-        </div>
-
-    </div>
-</div>
-
   </main>
-
-  <script>
-    let currentInfoStep = 1;
-    const totalInfoSteps = 3;
-
-    function switchInfoStep(direction) {
-        currentInfoStep += direction;
-        if (currentInfoStep < 1) currentInfoStep = 1;
-        if (currentInfoStep > totalInfoSteps) currentInfoStep = totalInfoSteps;
-
-        // Hide all panes
-        for (let i = 1; i <= totalInfoSteps; i++) {
-            document.getElementById('info-step-' + i).style.display = 'none';
-        }
-
-        // Show active pane
-        document.getElementById('info-step-' + currentInfoStep).style.display = 'block';
-
-        // Update progress text
-        const titles = [
-            "Step 1 of 3: Core Frameworks",
-            "Step 2 of 3: Paperwork & Forms",
-            "Step 3 of 3: Proposal Templates"
-        ];
-        document.getElementById('reading-progress').textContent = titles[currentInfoStep - 1];
-
-        // Button visibility logic
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-
-        prevBtn.style.visibility = currentInfoStep === 1 ? 'hidden' : 'visible';
-        
-        if (currentInfoStep === totalInfoSteps) {
-            nextBtn.textContent = "Complete Briefing & Proceed";
-            nextBtn.style.backgroundColor = "#3b82f6";
-        } else {
-            nextBtn.textContent = "Next Section";
-            nextBtn.style.backgroundColor = "#27ae60";
-        }
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        const savedXP = localStorage.getItem('afti_xp');
-        if (savedXP) {
-            const pointEl = document.getElementById('global-points');
-            if (pointEl) pointEl.textContent = savedXP;
-        } else {
-            localStorage.setItem('afti_xp', '400');
-        }
-    });
-</script>
-
 </body>
 </html>
