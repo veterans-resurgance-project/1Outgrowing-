@@ -13,6 +13,7 @@
             --text-color: #f8fafc; 
             --primary: #27ae60; 
             --hud-bg: #144d29; 
+            --accent: #38bdf8;
         }
         body { 
             font-family: system-ui, sans-serif; 
@@ -42,12 +43,14 @@
             margin-bottom: 25px; 
             display: flex; 
             justify-content: space-between; 
+            align-items: center;
             font-weight: bold; 
             border: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.9rem;
         }
         .story-image-slot { 
             width: 100%; 
-            height: 200px; 
+            height: 220px; 
             background: #0f172a; 
             border-radius: 10px; 
             border: 1px solid rgba(56,189,248,0.3); 
@@ -57,8 +60,9 @@
             margin-bottom: 25px; 
             color: #94a3b8;
             text-align: center;
-            padding: 10px;
+            padding: 15px;
             box-sizing: border-box;
+            font-style: italic;
         }
         .prose-block {
             line-height: 1.7;
@@ -66,16 +70,24 @@
             margin-bottom: 25px;
             font-size: 1.05rem;
         }
+        .prose-block p {
+            margin-bottom: 15px;
+        }
+        .choices-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
         .choice-btn { 
             background: #0f172a; 
             border: 1px solid #334155; 
             color: #f8fafc; 
-            padding: 16px; 
+            padding: 16px 20px; 
             border-radius: 8px; 
             cursor: pointer; 
             width: 100%; 
             text-align: left; 
-            margin-top: 10px; 
             display: flex;
             flex-direction: column;
             gap: 5px;
@@ -86,92 +98,195 @@
             background: rgba(39,174,96,0.1); 
             transform: translateY(-2px);
         }
+        .choice-title {
+            font-weight: bold;
+            color: #4ade80;
+            font-size: 1.05rem;
+        }
+        .choice-desc {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <!-- GLOBAL HUD -->
     <div class="hud-bar">
-        <span>Global XP: <span id="global-points" style="color: #4ade80;">400</span></span>
-        <button onclick="toggleTestBypass()" id="test-mode-btn" style="background: #334155; color: #cbd5e1; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem;">Enable Test Bypass</button>
+        <span>Path: <span id="hud-track" style="color: var(--accent);">Not Selected</span></span>
+        <div>
+            <span>Global XP: <span id="global-points" style="color: #4ade80;">400</span></span>
+            <button onclick="toggleTestBypass()" id="test-mode-btn" style="margin-left: 15px; background: #334155; color: #cbd5e1; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.75rem;">Enable Test Bypass</button>
+        </div>
     </div>
 
-    <!-- DYNAMIC STORY VIEWPORT (Handles Gatekeeper & Track Branches) -->
+    <!-- DYNAMIC STORY VIEWPORT -->
     <div id="story-viewport">
-        <div class="story-image-slot">🍄 [Illustration: Inspecting struggling oyster mushroom blocks showing signs of competing mold]</div>
-        <h3 style="color: #fff; margin-top: 0;">The Substrate Crisis</h3>
-        <div class="prose-block">
-            <p>Your low-cost inoculation setup is showing early signs of trouble. White mycelial blocks are starting to develop strange, rapid-growing orange patches alongside the pins. If you misidentify this, your entire market batch could be ruined—or worse, toxic.</p>
-            <p>To safely navigate this crisis, you need to apply the diagnostic protocols learned in the <strong>Mycological &amp; Botanical Screening Deck</strong>.</p>
-        </div>
-        
-        <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 20px;">
-            <label style="display: block; font-size: 0.85rem; color: #38bdf8; margin-bottom: 8px; font-weight: bold;">Enter Screening Module Pass Key:</label>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <input type="text" id="myco-key-input" placeholder="MYCO-PASS-XXXXXX" style="flex: 1; padding: 10px; border-radius: 6px; background: #0f172a; border: 1px solid #334155; color: #fff; font-family: monospace; min-width: 200px;">
-                <button onclick="verifyModuleKey('MYCO', 'myco-key-input', 'myco-error', unlockSuccessBranch)" style="background: #27ae60; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer;">Unlock Branch</button>
-            </div>
-            <p id="myco-error" style="color: #ef4444; font-size: 0.85rem; margin-top: 8px; display: none;"></p>
-        </div>
+        <!-- Injected via JavaScript -->
     </div>
 </div>
 
 <script>
-    // This function triggers automatically once the core script verifies the MYCO pass key
-    function unlockSuccessBranch() {
-        // Pulls the user's active track (defaults to foster if none set yet)
-        const userTrack = localStorage.getItem('afti_active_track') || 'foster'; 
-        
-        let branchHTML = '';
+    // Story Node Graph
+    const storyNodes = {
+        intro: {
+            image: "🌲 [Illustration: Early morning mist rising over a diverse Willamette Valley homestead]",
+            title: "Roots &amp; Resilience: The Agrarian Gateway",
+            prose: `
+                <p>The soil of the valley has a long memory. For generations, people have come to this land seeking roots, sustainability, and a fresh start. Our protagonist stands at a crossroads, staring out over a neglected plot of earth bordered by towering Douglas-firs and wild berry thickets.</p>
+                <p>The dream is simple: build a regenerative homestead, master the craft of the land, and carve out an independent living. But how you get your footing changes everything. Every path demands grit, but the resources—and the hurdles—look vastly different depending on where you start.</p>
+                <p><em>Choose your background to begin your journey:</em></p>
+            `,
+            choices: [
+                {
+                    title: "The Foster-Alum Route (High Resilience, Scrappy Start)",
+                    desc: "You just turned 18. Left out in the streets with a single bag holding your meager belongings, it's almost dark, cold, and the city lights are blurring. You possess unmatched adaptability and a deep instinct for survival.",
+                    action: "selectTrack('foster', 'Foster-Alum Track', 'foster_start')"
+                },
+                {
+                    title: "The Standard Bootstrap Route (Balanced Grind)",
+                    desc: "You’ve scraped together a small savings account from off-farm labor. Balancing a day job while slowly buying tools, learning extension guidelines, and trying to secure a long-term lease.",
+                    action: "selectTrack('standard', 'Standard Bootstrap', 'standard_start')"
+                },
+                {
+                    title: "The Capital-Backed Route (Privileged Backing)",
+                    desc: "Family support or early investments have provided you with land access and startup capital. The challenge isn't survival—it's avoiding over-capitalization and earning local respect.",
+                    action: "selectTrack('capital', 'Capital-Backed Track', 'capital_start')"
+                }
+            ]
+        },
 
-        if (userTrack === 'foster') {
-            branchHTML = `
-                <div class="story-image-slot" style="border-color: #4ade80;">🍄 [Illustration: Sharing salvaged jars and spawn blocks around a community kitchen table]</div>
-                <h3 style="color: #4ade80; margin-top: 0;">The Mutual Aid Pivot (Foster-Alum Track)</h3>
-                <div class="prose-block">
-                    <p>You recognize the orange mold immediately from your screening deck: it's <em>Neurospora</em> (bread mold), quick to colonize pasteurized straw but harmless to human touch—though it will out-compete your oyster mycelium if left unchecked.</p>
-                    <p>With no budget to buy new commercial spawn, you lean on your network. A grower down the valley has a spare clean-room hood and extra liquid culture. Instead of throwing your blocks out, you salvage the healthy centers and trade labor for clean grain jars.</p>
-                </div>
-                <button class="choice-btn" onclick="advanceChapter('foster_market_launch')">
-                    <span style="color: #4ade80; font-weight: bold;">Result: Scrappy Resilience Unlocked (+100 XP)</span>
-                    <span style="font-size: 0.85rem; color: #94a3b8;">Take your salvaged blocks to the local Saturday farm market. &rarr;</span>
-                </button>
-            `;
-        } else if (userTrack === 'capital') {
-            branchHTML = `
-                <div class="story-image-slot" style="border-color: #38bdf8;">🔬 [Illustration: Stepping into a pristine, climate-controlled laboratory container with digital hygrometers]</div>
-                <h3 style="color: #38bdf8; margin-top: 0;">The Over-Engineered Pivot (Capital-Backed Track)</h3>
-                <div class="prose-block">
-                    <p>Because you had the capital to build a high-end positive-pressure inoculation room, the contamination surprise shouldn't have happened. Your diagnostic review reveals that your automated HEPA intake filter was installed backward, pulling in unfiltered barn dust.</p>
-                    <p>You have the funds to call an HVAC technician immediately, but doing so costs a hefty service fee and bruises your pride in front of the local agricultural coop.</p>
-                </div>
-                <button class="choice-btn" onclick="advanceChapter('capital_contractor_fix')">
-                    <span style="color: #38bdf8; font-weight: bold;">Result: Capital Correction (-150 Cash, +50 XP)</span>
-                    <span style="font-size: 0.85rem; color: #94a3b8;">Call the commercial contractor to fix the system and recalibrate sensors. &rarr;</span>
-                </button>
-            `;
-        } else {
-            // Standard Track
-            branchHTML = `
-                <div class="story-image-slot" style="border-color: #27ae60;">🛠️ [Illustration: Re-sterilizing mason jars on a propane burner outside a garage shed]</div>
-                <h3 style="color: #4ade80; margin-top: 0;">The Steady Grind (Standard Bootstrap Track)</h3>
-                <div class="prose-block">
-                    <p>You caught the contamination early thanks to your diligent record-keeping. You lose about twenty percent of your batch, but your DIY steam-sterilization barrel held up. You reset your substrate moisture levels and double-check your core temperatures.</p>
-                </div>
-                <button class="choice-btn" onclick="advanceChapter('standard_market_prep')">
-                    <span style="color: #4ade80; font-weight: bold;">Result: Hard-Learned Margin (+75 XP)</span>
-                    <span style="font-size: 0.85rem; color: #94a3b8;">Proceed with the remaining eighty percent for your roadside stand. &rarr;</span>
-                </button>
-            `;
+        foster_start: {
+            image: "🌆 [Illustration: Cold, dim city street corner at dusk with heavy shadows and distant neon signs]",
+            title: "The Turning Point: Day Zero",
+            prose: `
+                <p>The heavy institutional glass doors close behind you for the last time. You just turned 18. You're standing out on the concrete sidewalk as a damp Pacific Northwest chill sets into the evening air, holding a single canvas bag with your meager belongings.</p>
+                <p>It's almost dark, the temperature is dropping fast, and the city feels vast, indifferent, and expensive. You have no safety net, no family couch to crash on, and only a few crumpled bills in your pocket.</p>
+                <p>You need to make a move before night fully takes over. What do you do?</p>
+            `,
+            choices: [
+                {
+                    title: "Option A: Head toward the public transit hub to find a 24-hour shelter or mutual aid network",
+                    desc: "Connect with local community resources, safeguard your belongings, and look for immediate transitional housing support.",
+                    action: "resolveChoice('foster_shelter', 50, 'Shelter & Mutual Aid Network Located (+50 XP)')"
+                },
+                {
+                    title: "Option B: Walk toward the edge of town where the industrial grid meets the agricultural valley",
+                    desc: "Scout out an abandoned tool shed or sheltered perimeter near public lands to set up a temporary camp under your tarp.",
+                    action: "resolveChoice('foster_outskirts', 50, 'Perimeter Scouted & Camp Established (+50 XP)')"
+                }
+            ]
+        },
+
+        standard_start: {
+            image: "🛠️ [Illustration: Working late in a garage workshop, repairing a secondhand rototiller by flashlight]",
+            title: "The Bootstrap Reality",
+            prose: `
+                <p>You've locked down a modest agricultural lease with a five-year option, but the ground has been heavily compacted. You're working forty hours a week off-farm just to pay rent.</p>
+                <p>The weekend is here, and you have two days to decide how to break ground on your first cash-flow experiment.</p>
+            `,
+            choices: [
+                {
+                    title: "Option A: Rent a heavy subsoiler to bust the hardpan",
+                    desc: "Fast mechanical intervention, high rental cost.",
+                    action: "resolveChoice('standard_mechanical', 50, 'Mechanical Hardpan Busted (+50 XP)')"
+                },
+                {
+                    title: "Option B: Sheet mulch with local cardboard and manure",
+                    desc: "Slower biological remediation, builds immediate fungal activity.",
+                    action: "resolveChoice('standard_biological', 50, 'Biological Sheet Mulch Deployed (+50 XP)')"
+                }
+            ]
+        },
+
+        capital_start: {
+            image: "🚜 [Illustration: Walking a clean, fenced acreage with architectural blueprints and a soil test report]",
+            title: "The Capital Advantage",
+            prose: `
+                <p>The land is yours—free and clear, backed by a family micro-grant. You have modern fencing, a clean well, and enough capital to buy a small compact tractor right out of the gate.</p>
+                <p>How do you begin your first operational phase?</p>
+            `,
+            choices: [
+                {
+                    title: "Option A: Invest heavily in automated irrigation and high tunnels",
+                    desc: "Optimize labor efficiency and maximize output volume right away.",
+                    action: "resolveChoice('capital_automated', 50, 'High-Tech Infrastructure Installed (+50 XP)')"
+                },
+                {
+                    title: "Option B: Pause machinery purchases and spend a season mapping water flow",
+                    desc: "Observe natural contours, drainage patterns, and micro-climates before building.",
+                    action: "resolveChoice('capital_observational', 50, 'Hydrological Mapping Completed (+50 XP)')"
+                }
+            ]
         }
+    };
 
-        document.getElementById('story-viewport').innerHTML = branchHTML;
+    function renderNode(nodeKey) {
+        const node = storyNodes[nodeKey];
+        if (!node) return;
+
+        // Update HUD track display
+        const activeTrackName = localStorage.getItem('afti_track_name') || 'Not Selected';
+        document.getElementById('hud-track').innerText = activeTrackName;
+
+        let html = `
+            <div class="story-image-slot">${node.image}</div>
+            <h2 style="color: #fff; margin-top: 0; font-size: 1.4rem;">${node.title}</h2>
+            <div class="prose-block">${node.prose}</div>
+            <div class="choices-container">
+        `;
+
+        node.choices.forEach(choice => {
+            html += `
+                <button class="choice-btn" onclick="${choice.action}">
+                    <span class="choice-title">${choice.title}</span>
+                    <span class="choice-desc">${choice.desc}</span>
+                </button>
+            `;
+        });
+
+        html += `</div>`;
+        document.getElementById('story-viewport').innerHTML = html;
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function advanceChapter(nextChapterKey) {
-        alert(`Transitioning to next story node: ${nextChapterKey}`);
+    function selectTrack(trackCode, trackLabel, startNodeKey) {
+        localStorage.setItem('afti_active_track', trackCode);
+        localStorage.setItem('afti_track_name', trackLabel);
+        renderNode(startNodeKey);
     }
+
+    function resolveChoice(nextNodeKey, xpReward, successMessage) {
+        // Award XP using core utility
+        awardGlobalXP(xpReward);
+        
+        // Render confirmation landing/explanation page before next problem
+        document.getElementById('story-viewport').innerHTML = `
+            <div style="text-align: center; padding: 40px 20px;">
+                <div style="background: #144d29; border-radius: 50px; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; font-size: 1.5rem; color: #4ade80;">✓</div>
+                <h3 style="color: #4ade80; margin-top: 0; font-size: 1.3rem;">Milestone Reached</h3>
+                <p style="font-size: 1.1rem; color: #f8fafc; margin-bottom: 10px; font-weight: bold;">${successMessage}</p>
+                <p style="color: #94a3b8; max-width: 450px; margin: 0 auto 30px auto; font-size: 0.95ln;">Your strategic decision has been logged to your verified portfolio of effort. You are ready to face the next agricultural challenge.</p>
+                <button class="choice-btn" style="max-width: 300px; margin: 0 auto; text-align: center; justify-content: center; background: #27ae60; color: white;" onclick="alert('Next problem chapter loading soon! Stay tuned as we expand the storyline.')">
+                    <span class="choice-title" style="color: white;">Proceed to Next Challenge &rarr;</span>
+                </button>
+            </div>
+        `;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Initialize engine on load
+    document.addEventListener("DOMContentLoaded", () => {
+        // If track isn't set yet, show intro. Otherwise, resume or show intro.
+        const activeTrack = localStorage.getItem('afti_active_track');
+        if (!activeTrack) {
+            renderNode('intro');
+        } else {
+            // Default to intro if resetting, or let them pick fresh
+            renderNode('intro');
+        }
+    });
 </script>
 
 </body>
