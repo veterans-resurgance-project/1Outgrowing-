@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Agrarian Gateway: Farmer &amp; Apprentice</title>
+    <!-- LINK TO CORE UTILITY -->
+    <script src="afti-core.js"></script>
+    <style>
+        /* Styles from our CYOA template */
+        :root { --bg-color: #0f172a; --card-bg: #1e293b; --text-color: #f8fafc; --primary: #27ae60; --hud-bg: #144d29; }
+        body { font-family: system-ui, sans-serif; background: var(--bg-color); color: var(--text-color); padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { width: 100%; max-width: 800px; background: var(--card-bg); border-radius: 14px; padding: 35px; border: 1px solid rgba(255,255,255,0.1); }
+        .hud-bar { background: var(--hud-bg); border-radius: 8px; padding: 10px 18px; margin-bottom: 25px; display: flex; justify-content: space-between; font-weight: bold; }
+        .story-image-slot { width: 100%; height: 200px; background: #0f172a; border-radius: 10px; border: 1px solid rgba(56,189,248,0.3); display: flex; align-items: center; justify-content: center; margin-bottom: 25px; color: #94a3b8; }
+        .choice-btn { background: #0f172a; border: 1px solid #334155; color: #f8fafc; padding: 16px; border-radius: 8px; cursor: pointer; width: 100%; text-align: left; margin-top: 10px; }
+        .choice-btn:hover { border-color: var(--primary); background: rgba(39,174,96,0.1); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="hud-bar">
+        <span>Global XP: <span id="global-points" style="color: #4ade80;">400</span></span>
+        <button onclick="toggleTestBypass()" id="test-mode-btn" style="background: #334155; color: #cbd5e1; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Enable Test Bypass</button>
+    </div>
+
+    <!-- LOCKED STORY NODE EXAMPLE -->
+    <div id="story-viewport">
+        <div class="story-image-slot">🍄 [Illustration: Contaminated substrate logs requiring identification]</div>
+        <h3>The Substrate Crisis</h3>
+        <p>Your mushroom beds show strange discoloration. To safely triage this without destroying your harvest, you must provide your Mycological Screening clearance code.</p>
+        
+        <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+            <label style="display: block; font-size: 0.85rem; color: #38bdf8; margin-bottom: 8px; font-weight: bold;">Enter Screening Module Pass Key:</label>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="myco-key-input" placeholder="MYCO-PASS-XXXXXX" style="flex: 1; padding: 10px; border-radius: 6px; background: #0f172a; border: 1px solid #334155; color: #fff; font-family: monospace;">
+                <button onclick="verifyModuleKey('MYCO', 'myco-key-input', 'myco-error', unlockSuccessBranch)" style="background: #27ae60; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer;">Unlock Branch</button>
+            </div>
+            <p id="myco-error" style="color: #ef4444; font-size: 0.85rem; margin-top: 8px; display: none;"></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function unlockSuccessBranch() {
+        document.getElementById('story-viewport').innerHTML = `
+            <div class="story-image-slot" style="border-color: #27ae60;">✨ [Illustration: Healthy flush of gourmet mushrooms thriving under proper management]</div>
+            <h3 style="color: #4ade80;">Crisis Averted!</h3>
+            <p>Your rigorous research paid off. You correctly isolated the sterile culture, discarded the competing mold, and successfully harvested your first commercial flush.</p>
+            <button class="choice-btn" onclick="location.reload()">Continue Journey &rarr;</button>
+        `;
+    }
+</script>
+
+</body>
+</html>
