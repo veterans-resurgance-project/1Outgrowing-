@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AFTI - Training Landing Command Center</title>
@@ -103,7 +102,7 @@
         /* PRIMARY ACTION BUTTONS */
         .primary-actions {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 15px;
             margin-bottom: 30px;
         }
@@ -212,8 +211,10 @@
         <div id="track-caption" class="image-caption">Active View: Central Operations Hub &amp; Field Command</div>
     </div>
 
-    <!-- PRIMARY ACTION BUTTONS (Farmer & Apprentice Focus) -->
+    <!-- PRIMARY ACTION BUTTONS -->
     <div class="primary-actions">
+        
+        <!-- Farmer Track -->
         <a href="hub-2.html" class="portal-btn" 
            onmouseover="updatePreview('https://images.unsplash.com/photo-1592417817098-8f3d692a465b?auto=format&fit=crop&w=900&q=80', 'Active Track: Farmer X Operational Toolshed &amp; Fleet Mechanics')"
            onmouseout="resetPreview()">
@@ -221,12 +222,30 @@
             <span><span>Advanced Fleet, Soil Systems &amp; Field Ops</span></span>
         </a>
 
+        <!-- Apprentice Track -->
         <a href="agronomy-track.html" class="portal-btn"
            onmouseover="updatePreview('https://images.unsplash.com/photo-1574943320219-553eb213f72d?auto=format&fit=crop&w=900&q=80', 'Active Track: Apprentice Soil Science &amp; Diagnostics')"
            onmouseout="resetPreview()">
             Apprentice Track
             <span><span>Soil Fertility, Cover Cropping &amp; Diagnostics</span></span>
         </a>
+
+        <!-- Screening Deck -->
+        <a href="The-Mycological-Botanical-Screening-Deck.html" class="portal-btn"
+           onmouseover="updatePreview('https://images.unsplash.com/photo-1542385151-efd9000785a0?auto=format&fit=crop&w=900&q=80', 'Active Track: Mycological &amp; Botanical Screening Deck (Mushroom &amp; Plant Detective Game)')"
+           onmouseout="resetPreview()">
+            Screening Deck
+            <span><span>(The Mushroom &amp; Plant Detective Game)</span></span>
+        </a>
+
+        <!-- Plant & Pest ID -->
+        <a href="plant-pest-id.html" class="portal-btn"
+           onmouseover="updatePreview('https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=900&q=80', 'Active Track: Plant &amp; Pest Identification Field Diagnostics')"
+           onmouseout="resetPreview()">
+            Plant &amp; Pest ID
+            <span><span>Foliar Spotting, Blights &amp; Crop Stress Diagnostics</span></span>
+        </a>
+
     </div>
 
     <hr class="section-divider">
