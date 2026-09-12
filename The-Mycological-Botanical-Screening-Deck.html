@@ -195,25 +195,38 @@
         </div>
     </div>
 
-    <!-- STEP 7: COMPLETION PAGE -->
-    <div class="question-step" id="q-step-7" style="display: none; text-align: center; padding: 20px 0;">
-        <div style="background: #144d29; border-radius: 50px; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; font-size: 1.5rem; color: #4ade80;">✓</div>
-        <h2 style="color: #2ecc71; margin-top: 0;">Screening Deck Complete!</h2>
-        <p style="max-width: 450px; margin: 0 auto 25px auto;">You have successfully cleared all 6 specimens in this deck.</p>
-        
-        <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 15px; max-width: 300px; margin: 0 auto 25px auto; display: flex; justify-content: space-between;">
-            <span>Total Global XP:</span>
-            <span style="color: #4ade80; font-weight: bold;" id="completion-xp-display">400</span>
-        </div>
-
-        <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
-            <a href="training-modules-and-mutual-growth.html" style="background-color: #27ae60; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold;">Return to Portal</a>
-            <a href="index.html" style="background-color: #334155; color: #cbd5e1; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold;">Home Hub</a>
-        </div>
+<!-- STEP 7: COMPLETION PAGE WITH KEY GENERATION -->
+<div class="question-step" id="q-step-7" style="display: none; text-align: center; padding: 20px 0;">
+    <div style="background: #144d29; border-radius: 50px; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; font-size: 1.5rem; color: #4ade80;">✓</div>
+    <h2 style="color: #2ecc71; margin-top: 0;">Screening Deck Complete!</h2>
+    <p style="max-width: 450px; margin: 0 auto 25px auto;">You have successfully cleared all 6 specimens in this deck.</p>
+    
+    <!-- PASS KEY DISPLAY BOX -->
+    <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid #38bdf8; border-radius: 8px; padding: 20px; max-width: 400px; margin: 0 auto 25px auto; text-align: left;">
+        <span style="font-size: 0.8rem; color: #38bdf8; font-weight: bold; text-transform: uppercase;">Story Engine Pass Key Generated:</span>
+        <div id="display-pass-key" style="font-family: monospace; font-size: 1.1rem; color: #4ade80; background: #0f172a; padding: 10px; border-radius: 5px; margin-top: 8px; text-align: center; border: 1px dashed rgba(255,255,255,0.2);">Loading key...</div>
+        <p style="font-size: 0.75rem; color: #94a3b8; margin: 8px 0 0 0;">Copy this key to unlock advanced diagnostic branches in the Farmer &amp; Apprentice story engine.</p>
     </div>
 
+    <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 15px; max-width: 300px; margin: 0 auto 25px auto; display: flex; justify-content: space-between;">
+        <span>Total Global XP:</span>
+        <span style="color: #4ade80; font-weight: bold;" id="completion-xp-display">400</span>
+    </div>
+
+    <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+        <a href="farmer-apprentice-story.html" style="background-color: #27ae60; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold;">Enter Story Engine</a>
+        <a href="index.html" style="background-color: #334155; color: #cbd5e1; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold;">Home Hub</a>
+    </div>
 </div>
 
+<script>
+    // Include this inside your completion function (e.g., when reaching step 7)
+    function onModuleCompletion() {
+        // Calls afti-core.js function to generate and store the token
+        const myKey = generateModulePassKey('MYCO');
+        document.getElementById('display-pass-key').innerText = myKey;
+    }
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         updateBypassUI();
