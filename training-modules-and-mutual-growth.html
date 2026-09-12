@@ -195,7 +195,70 @@
 <body>
 
 <div class="container">
+<!-- GLOBAL HUD BAR WITH TEST BYPASS TOGGLE -->
+<div class="hud-bar" style="background: #144d29; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 10px 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; color: #ffffff; flex-wrap: wrap; gap: 10px;">
+    <span>AFTI Global XP: <span id="global-points">400</span></span>
+    
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <span id="test-mode-status" style="font-size: 0.8rem; color: #cbd5e1; font-weight: normal;">Live Mode</span>
+        <button onclick="toggleTestBypass()" id="test-mode-btn" style="background: #334155; color: #cbd5e1; border: 1px solid rgba(255,255,255,0.2); padding: 5px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; cursor: pointer; transition: all 0.2s;">
+            Enable Test Bypass
+        </button>
+    </div>
+</div>
 
+<script>
+    // Initialize state on page load based on session storage
+    document.addEventListener("DOMContentLoaded", () => {
+        updateBypassUI();
+    });
+
+    function toggleTestBypass() {
+        const currentBypass = sessionStorage.getItem('afti_test_bypass') === 'true';
+        const newBypassState = !currentBypass;
+        sessionStorage.setItem('afti_test_bypass', newBypassState);
+        updateBypassUI();
+    }
+
+    function updateBypassUI() {
+        const isBypassed = sessionStorage.getItem('afti_test_bypass') === 'true';
+        const btn = document.getElementById('test-mode-btn');
+        const statusText = document.getElementById('test-mode-status');
+        
+        if (isBypassed) {
+            btn.style.background = '#f59e0b';
+            btn.style.color = '#0f172a';
+            btn.innerText = 'Bypass Active';
+            statusText.innerText = 'Test Mode (XP Frozen)';
+            statusText.style.color = '#f59e0b';
+        } else {
+            btn.style.background = '#334155';
+            btn.style.color = '#cbd5e1';
+            btn.innerText = 'Enable Test Bypass';
+            statusText.innerText = 'Live Mode';
+            statusText.style.color = '#4ade80';
+        }
+    }
+
+    // Updated XP function to respect the bypass flag
+    function awardXP(amount = 50) {
+        const bypassActive = sessionStorage.getItem('afti_test_bypass') === 'true';
+        if (bypassActive) {
+            console.log("Audit Bypass Active: XP reward ignored.");
+            return; // Stops points from being added
+        }
+        
+        let currentXP = parseInt(localStorage.getItem('afti_global_xp')) || 400;
+        currentXP += amount;
+        localStorage.setItem('afti_global_xp', currentXP);
+        
+        // Update display if element exists on page
+        const pointsDisplay = document.getElementById('global-points');
+        if (pointsDisplay) {
+            pointsDisplay.innerText = currentXP;
+        }
+    }
+</script>
     <!-- GLOBAL HUD BAR -->
     <div class="hud-bar">
         <span>AFTI Training Command Center</span>
