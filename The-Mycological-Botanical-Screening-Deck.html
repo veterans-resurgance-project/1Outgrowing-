@@ -45,7 +45,59 @@
             </label>
         </div>
     </div>
+<!-- Plant & Pest ID - Question Block Template (Copy and repeat for questions 2 through 6) -->
+<div class="simulation-command-section" style="background: #1e293b; border-radius: 12px; padding: 30px; border: 1px solid rgba(255,255,255,0.1); margin: 20px 0; color: #f8fafc;">
+    
+    <!-- Header Progression -->
+    <div style="background: #144d29; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 12px 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; font-weight: bold;">
+        <span>Diagnostic Module: Pest &amp; Disease Identification</span>
+        <span style="color: #4ade80;">Case Study [X] of 6</span>
+    </div>
 
+    <!-- Soft Visual Clue & Image Block -->
+    <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 20px; margin-bottom: 25px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 220px;">
+            <span style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.3rem 0.8rem; border-radius: 20px; display: inline-block; margin-bottom: 0.75rem;">Field Diagnostic Clue</span>
+            <h4 style="color: #ffffff; margin: 0 0 0.5rem 0; font-size: 1.1rem;">[Insert Clue Title Here]</h4>
+            <p style="font-size: 0.9rem; color: #cbd5e1; margin: 0; line-height: 1.5;">[Insert descriptive clue text, symptoms, or environmental factors observed in the field here.]</p>
+        </div>
+        
+        <!-- Image Block Slot -->
+        <div style="width: 200px; height: 130px; background: #0f172a; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center;">
+            <!-- Example real image tag format: -->
+            <!-- <img src="images/your-pest-filename.jpg" alt="Description" style="width: 100%; height: 100%; object-fit: cover;"> -->
+            <span style="color: #94a3b8; font-size: 0.8rem; padding: 10px;">[Insert Image Here]</span>
+        </div>
+    </div>
+
+    <!-- Question Container -->
+    <div style="background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 20px;">
+        <h3 style="color: #ffffff; margin-top: 0; font-size: 1.15rem; margin-bottom: 15px;">Question: [Insert your diagnostic question text here?]</h3>
+        
+        <!-- Multiple Choice Options -->
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <label style="background: #0f172a; border: 1px solid #334155; padding: 12px 15px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.95rem;">
+                <input type="radio" name="pest_diagnosis_q[X]" value="a" style="accent-color: #27ae60;">
+                <span>A) [Option A Text]</span>
+            </label>
+            <label style="background: #0f172a; border: 1px solid #334155; padding: 12px 15px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.95rem;">
+                <input type="radio" name="pest_diagnosis_q[X]" value="b" style="accent-color: #27ae60;">
+                <span>B) [Option B Text]</span>
+            </label>
+            <label style="background: #0f172a; border: 1px solid #334155; padding: 12px 15px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.95rem;">
+                <input type="radio" name="pest_diagnosis_q[X]" value="c" style="accent-color: #27ae60;">
+                <span>C) [Option C Text]</span>
+            </label>
+        </div>
+    </div>
+
+    <!-- Quiz Navigation Actions -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+        <button style="background-color: #334155; color: #cbd5e1; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer;">Previous Case</button>
+        <button style="background-color: #27ae60; color: white; border: none; padding: 10px 22px; border-radius: 6px; font-weight: 600; cursor: pointer;">Submit Answer &amp; Continue</button>
+    </div>
+
+</div>
     <!-- Quiz Navigation Actions -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
         <button style="background-color: #334155; color: #cbd5e1; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer;">Previous Specimen</button>
