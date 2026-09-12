@@ -1,107 +1,269 @@
-<!-- Mycological & Botanical Screening Deck (The Mushroom & Plant Detective Game) -->
-<div class="simulation-command-section" style="background: #1e293b; border-radius: 12px; padding: 30px; border: 1px solid rgba(255,255,255,0.1); margin: 20px 0; color: #f8fafc;">
-    
-    <!-- Header Progression & Folksy Subtitle -->
-    <div style="background: #144d29; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 14px 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-        <div>
-            <span style="display: block; font-weight: bold; font-size: 1.05rem;">The Mycological &amp; Botanical Screening Deck</span>
-            <span style="color: #4ade80; font-size: 0.85rem; font-style: italic;">(The Mushroom &amp; Plant Detective Game)</span>
-        </div>
-        <span style="background: rgba(39, 174, 96, 0.25); color: #2ecc71; padding: 4px 10px; border-radius: 6px; font-size: 0.85rem; font-weight: bold;">Specimen 1 of 3</span>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mycological &amp; Botanical Screening Deck</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --primary: #27ae60;
+            --hud-bg: #144d29;
+        }
 
-    <!-- Soft Visual Clue & Image Block -->
-    <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 20px; margin-bottom: 25px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
-        <div style="flex: 1; min-width: 220px;">
-            <span style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.3rem 0.8rem; border-radius: 20px; display: inline-block; margin-bottom: 0.75rem;">Forager's Clue</span>
-            <h4 style="color: #ffffff; margin: 0 0 0.5rem 0; font-size: 1.1rem;">The Forest Floor Check</h4>
-            <p style="font-size: 0.9rem; color: #cbd5e1; margin: 0; line-height: 1.5;">Notice the vibrant golden-orange caps and the distinct white gills underneath growing clustered on decaying Douglas-fir stumps in the Willamette foothills.</p>
-        </div>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 750px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            padding: 30px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .hud-bar {
+            background: var(--hud-bg);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: #ffffff;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        h3, h4 { color: #ffffff; }
+        p { color: #cbd5e1; line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- GLOBAL HUD BAR WITH TEST BYPASS TOGGLE -->
+    <div class="hud-bar">
+        <span>AFTI Global XP: <span id="global-points">400</span></span>
         
-        <!-- Image Block Slot -->
-        <div style="width: 200px; height: 130px; background: #0f172a; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center;">
-            <!-- Replace src when you have your photo: <img src="images/mushroom-find.jpg" alt="Mushroom specimen" style="width: 100%; height: 100%; object-fit: cover;"> -->
-            <span style="color: #94a3b8; font-size: 0.8rem; padding: 10px;">🍄 [Insert Specimen Photo Here]</span>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <span id="test-mode-status" style="font-size: 0.8rem; color: #cbd5e1; font-weight: normal;">Live Mode</span>
+            <button onclick="toggleTestBypass()" id="test-mode-btn" style="background: #334155; color: #cbd5e1; border: 1px solid rgba(255,255,255,0.2); padding: 5px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; cursor: pointer;">
+                Enable Test Bypass
+            </button>
         </div>
     </div>
 
-    <!-- Question Container -->
-    <div style="background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 20px;">
-        <h3 style="color: #ffffff; margin-top: 0; font-size: 1.15rem; margin-bottom: 15px;">Question: Based on the cluster growth habit and color pattern, which species have you uncovered?</h3>
+    <!-- ========================================== -->
+    <!-- STEP 1 -->
+    <!-- ========================================== -->
+    <div class="question-step" id="q-step-1">
+        <div style="background: #144d29; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 12px 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; font-weight: bold;">
+            <span>The Mycological &amp; Botanical Screening Deck</span>
+            <span style="color: #4ade80;">Specimen 1 of 6</span>
+        </div>
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 20px; margin-bottom: 25px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 220px;">
+                <span style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 20px; display: inline-block; margin-bottom: 0.75rem;">Forager's Clue</span>
+                <h4 style="margin: 0 0 0.5rem 0; font-size: 1.1rem;">The Forest Floor Check</h4>
+                <p style="font-size: 0.9rem; margin: 0;">Vibrant golden-orange caps with distinct white gills growing clustered on decaying Douglas-fir stumps.</p>
+            </div>
+            <div style="width: 200px; height: 130px; background: #0f172a; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; text-align: center;">
+                <span style="color: #94a3b8; font-size: 0.8rem; padding: 10px;">🍄 [Insert Specimen Photo]</span>
+            </div>
+        </div>
+        <div style="background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 20px;">
+            <h3 style="margin-top: 0; font-size: 1.15rem; margin-bottom: 15px;">Question 1: Based on growth habit and color pattern, which species is this?</h3>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <label style="background: #0f172a; border: 1px solid #334155; padding: 12px 15px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.95rem;">
+                    <input type="radio" name="deck_q1" value="a" style="accent-color: #27ae60;"> <span>A) Deadly Galerina (<i>Galerina marginata</i>) — Look-alike hazard</span>
+                </label>
+                <label style="background: #0f172a; border: 1px solid #334155; padding: 12px 15px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.95rem;">
+                    <input type="radio" name="deck_q1" value="b" style="accent-color: #27ae60;"> <span>B) Pacific Golden Chanterelle (<i>Cantharellus formosus</i>)</span>
+                </label>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: flex-end; margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+            <button onclick="awardXP(50); goToStep(2);" style="background-color: #27ae60; color: white; border: none; padding: 10px 22px; border-radius: 6px; font-weight: 600; cursor: pointer;">Submit &amp; Next</button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- STEPS 2 THROUGH 5 (Placeholder templates) -->
+    <!-- ========================================== -->
+    <div class="question-step" id="q-step-2" style="display: none;">
+        <div style="background: #144d29; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 12px 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; font-weight: bold;">
+            <span>The Mycological &amp; Botanical Screening Deck</span>
+            <span style="color: #4ade80;">Specimen 2 of 6</span>
+        </div>
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 20px; margin-bottom: 25px;">
+            <h4 style="margin: 0 0 0.5rem 0;">Specimen 2 Clue Placeholder</h4>
+            <p style="margin: 0;">Add your second mushroom or plant diagnostic clue here.</p>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+            <button onclick="goToStep(1)" style="background-color: #334155; color: #cbd5e1; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer;">Previous</button>
+            <button onclick="awardXP(50); goToStep(3);" style="background-color: #27ae60; color: white; border: none; padding: 10px 22px; border-radius: 6px; font-weight: 600; cursor: pointer;">Submit &amp; Next</button>
+        </div>
+    </div>
+
+    <div class="question-step" id="q-step-3" style="display: none;">
+        <div style="background: #144d29; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 12px 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; font-weight: bold;">
+            <span>The Mycological &amp; Botanical Screening Deck</span>
+            <span style="color: #4ade80;">Specimen 3 of 6</span>
+        </div>
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 20px; margin-bottom: 25px;">
+            <h4 style="margin: 0 0 0.5rem 0;">Specimen 3 Clue Placeholder</h4>
+            <p style="margin: 0;">Add your third mushroom or plant diagnostic clue here.</p>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+            <button onclick="goToStep(2)" style="background-color: #334155; color: #cbd5e1; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer;">Previous</button>
+            <button onclick="awardXP(50); goToStep(4);" style="background-color: #27ae60; color: white; border: none; padding: 10px 22px; border-radius: 6px; font-weight: 600; cursor: pointer;">Submit &amp; Next</button>
+        </div>
+    </div>
+
+    <div class="question-step" id="q-step-4" style="display: none;">
+        <div style="background: #144d29; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 12px 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; font-weight: bold;">
+            <span>The Mycological &amp; Botanical Screening Deck</span>
+            <span style="color: #4ade80;">Specimen 4 of 6</span>
+        </div>
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 20px; margin-bottom: 25px;">
+            <h4 style="margin: 0 0 0.5rem 0;">Specimen 4 Clue Placeholder</h4>
+            <p style="margin: 0;">Add your fourth mushroom or plant diagnostic clue here.</p>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+            <button onclick="goToStep(3)" style="background-color: #334155; color: #cbd5e1; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer;">Previous</button>
+            <button onclick="awardXP(50); goToStep(5);" style="background-color: #27ae60; color: white; border: none; padding: 10px 22px; border-radius: 6px; font-weight: 600; cursor: pointer;">Submit &amp; Next</button>
+        </div>
+    </div>
+
+    <div class="question-step" id="q-step-5" style="display: none;">
+        <div style="background: #144d29; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 12px 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; font-weight: bold;">
+            <span>The Mycological &amp; Botanical Screening Deck</span>
+            <span style="color: #4ade80;">Specimen 5 of 6</span>
+        </div>
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 20px; margin-bottom: 25px;">
+            <h4 style="margin: 0 0 0.5rem 0;">Specimen 5 Clue Placeholder</h4>
+            <p style="margin: 0;">Add your fifth mushroom or plant diagnostic clue here.</p>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+            <button onclick="goToStep(4)" style="background-color: #334155; color: #cbd5e1; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer;">Previous</button>
+            <button onclick="awardXP(50); goToStep(6);" style="background-color: #27ae60; color: white; border: none; padding: 10px 22px; border-radius: 6px; font-weight: 600; cursor: pointer;">Submit &amp; Next</button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- STEP 6 -->
+    <!-- ========================================== -->
+    <div class="question-step" id="q-step-6" style="display: none;">
+        <div style="background: #144d29; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 12px 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; font-weight: bold;">
+            <span>The Mycological &amp; Botanical Screening Deck</span>
+            <span style="color: #4ade80;">Specimen 6 of 6</span>
+        </div>
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 20px; margin-bottom: 25px;">
+            <h4 style="margin: 0 0 0.5rem 0;">Final Specimen Clue</h4>
+            <p style="margin: 0;">Add your final screening specimen details here.</p>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+            <button onclick="goToStep(5)" style="background-color: #334155; color: #cbd5e1; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer;">Previous</button>
+            <button onclick="awardXP(50); goToStep(7);" style="background-color: #27ae60; color: white; border: none; padding: 10px 22px; border-radius: 6px; font-weight: 600; cursor: pointer;">Complete Deck</button>
+        </div>
+    </div>
+
+    <!-- STEP 7: COMPLETION PAGE -->
+    <div class="question-step" id="q-step-7" style="display: none; text-align: center; padding: 20px 0;">
+        <div style="background: #144d29; border-radius: 50px; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; font-size: 1.5rem; color: #4ade80;">✓</div>
+        <h2 style="color: #2ecc71; margin-top: 0;">Screening Deck Complete!</h2>
+        <p style="max-width: 450px; margin: 0 auto 25px auto;">You have successfully cleared all 6 specimens in this deck.</p>
         
-        <!-- Multiple Choice Options -->
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-            <label style="background: #0f172a; border: 1px solid #334155; padding: 12px 15px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.95rem;">
-                <input type="radio" name="myco_quiz" value="a" style="accent-color: #27ae60;">
-                <span>A) Deadly Galerina (<i>Galerina marginata</i>) — Look-alike hazard</span>
-            </label>
-            <label style="background: #0f172a; border: 1px solid #334155; padding: 12px 15px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.95rem;">
-                <input type="radio" name="myco_quiz" value="b" style="accent-color: #27ae60;">
-                <span>B) Pacific Golden Chanterelle (<i>Cantharellus formosus</i>)</span>
-            </label>
-            <label style="background: #0f172a; border: 1px solid #334155; padding: 12px 15px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.95rem;">
-                <input type="radio" name="myco_quiz" value="c" style="accent-color: #27ae60;">
-                <span>C) Sulphur Shelf / Chicken of the Woods (<i>Laetiporus sulphureus</i>)</span>
-            </label>
+        <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 15px; max-width: 300px; margin: 0 auto 25px auto; display: flex; justify-content: space-between;">
+            <span>Total Global XP:</span>
+            <span style="color: #4ade80; font-weight: bold;" id="completion-xp-display">400</span>
         </div>
-    </div>
-<!-- Plant & Pest ID - Question Block Template (Copy and repeat for questions 2 through 6) -->
-<div class="simulation-command-section" style="background: #1e293b; border-radius: 12px; padding: 30px; border: 1px solid rgba(255,255,255,0.1); margin: 20px 0; color: #f8fafc;">
-    
-    <!-- Header Progression -->
-    <div style="background: #144d29; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 12px 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; font-weight: bold;">
-        <span>Diagnostic Module: Pest &amp; Disease Identification</span>
-        <span style="color: #4ade80;">Case Study [X] of 6</span>
-    </div>
 
-    <!-- Soft Visual Clue & Image Block -->
-    <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 20px; margin-bottom: 25px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
-        <div style="flex: 1; min-width: 220px;">
-            <span style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.3rem 0.8rem; border-radius: 20px; display: inline-block; margin-bottom: 0.75rem;">Field Diagnostic Clue</span>
-            <h4 style="color: #ffffff; margin: 0 0 0.5rem 0; font-size: 1.1rem;">[Insert Clue Title Here]</h4>
-            <p style="font-size: 0.9rem; color: #cbd5e1; margin: 0; line-height: 1.5;">[Insert descriptive clue text, symptoms, or environmental factors observed in the field here.]</p>
+        <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+            <a href="training-modules-and-mutual-growth.html" style="background-color: #27ae60; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold;">Return to Portal</a>
+            <a href="index.html" style="background-color: #334155; color: #cbd5e1; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold;">Home Hub</a>
         </div>
-        
-        <!-- Image Block Slot -->
-        <div style="width: 200px; height: 130px; background: #0f172a; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center;">
-            <!-- Example real image tag format: -->
-            <!-- <img src="images/your-pest-filename.jpg" alt="Description" style="width: 100%; height: 100%; object-fit: cover;"> -->
-            <span style="color: #94a3b8; font-size: 0.8rem; padding: 10px;">[Insert Image Here]</span>
-        </div>
-    </div>
-
-    <!-- Question Container -->
-    <div style="background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 20px;">
-        <h3 style="color: #ffffff; margin-top: 0; font-size: 1.15rem; margin-bottom: 15px;">Question: [Insert your diagnostic question text here?]</h3>
-        
-        <!-- Multiple Choice Options -->
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-            <label style="background: #0f172a; border: 1px solid #334155; padding: 12px 15px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.95rem;">
-                <input type="radio" name="pest_diagnosis_q[X]" value="a" style="accent-color: #27ae60;">
-                <span>A) [Option A Text]</span>
-            </label>
-            <label style="background: #0f172a; border: 1px solid #334155; padding: 12px 15px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.95rem;">
-                <input type="radio" name="pest_diagnosis_q[X]" value="b" style="accent-color: #27ae60;">
-                <span>B) [Option B Text]</span>
-            </label>
-            <label style="background: #0f172a; border: 1px solid #334155; padding: 12px 15px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.95rem;">
-                <input type="radio" name="pest_diagnosis_q[X]" value="c" style="accent-color: #27ae60;">
-                <span>C) [Option C Text]</span>
-            </label>
-        </div>
-    </div>
-
-    <!-- Quiz Navigation Actions -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-        <button style="background-color: #334155; color: #cbd5e1; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer;">Previous Case</button>
-        <button style="background-color: #27ae60; color: white; border: none; padding: 10px 22px; border-radius: 6px; font-weight: 600; cursor: pointer;">Submit Answer &amp; Continue</button>
     </div>
 
 </div>
-    <!-- Quiz Navigation Actions -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-        <button style="background-color: #334155; color: #cbd5e1; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer;">Previous Specimen</button>
-        <button style="background-color: #27ae60; color: white; border: none; padding: 10px 22px; border-radius: 6px; font-weight: 600; cursor: pointer;">Log Findings &amp; Next</button>
-    </div>
 
-</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        updateBypassUI();
+        const currentXP = localStorage.getItem('afti_global_xp') || 400;
+        document.getElementById('global-points').innerText = currentXP;
+    });
+
+    function toggleTestBypass() {
+        const currentBypass = sessionStorage.getItem('afti_test_bypass') === 'true';
+        sessionStorage.setItem('afti_test_bypass', !currentBypass);
+        updateBypassUI();
+    }
+
+    function updateBypassUI() {
+        const isBypassed = sessionStorage.getItem('afti_test_bypass') === 'true';
+        const btn = document.getElementById('test-mode-btn');
+        const statusText = document.getElementById('test-mode-status');
+        
+        if (isBypassed) {
+            btn.style.background = '#f59e0b';
+            btn.style.color = '#0f172a';
+            btn.innerText = 'Bypass Active';
+            statusText.innerText = 'Test Mode (XP Frozen)';
+            statusText.style.color = '#f59e0b';
+        } else {
+            btn.style.background = '#334155';
+            btn.style.color = '#cbd5e1';
+            btn.innerText = 'Enable Test Bypass';
+            statusText.innerText = 'Live Mode';
+            statusText.style.color = '#4ade80';
+        }
+    }
+
+    function awardXP(amount = 50) {
+        const bypassActive = sessionStorage.getItem('afti_test_bypass') === 'true';
+        if (bypassActive) return;
+        
+        let currentXP = parseInt(localStorage.getItem('afti_global_xp')) || 400;
+        currentXP += amount;
+        localStorage.setItem('afti_global_xp', currentXP);
+        document.getElementById('global-points').innerText = currentXP;
+    }
+
+    function goToStep(stepNumber) {
+        const steps = document.querySelectorAll('.question-step');
+        steps.forEach(step => step.style.display = 'none');
+        
+        const targetStep = document.getElementById(`q-step-${stepNumber}`);
+        if (targetStep) {
+            targetStep.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        if (stepNumber === 7) {
+            const currentXP = localStorage.getItem('afti_global_xp') || 400;
+            document.getElementById('completion-xp-display').innerText = currentXP;
+        }
+    }
+</script>
+
+</body>
+</html>
