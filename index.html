@@ -15,7 +15,84 @@
         <span id="reading-progress" style="color: #4ade80;">Step 1 of 3: Core Frameworks</span>
     </div>
 
-    <!-- TAB / SECTION CONTAINER -->
+    
+  <!-- Universal Navigation Bar -->
+  <nav style="background: #144d29; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); flex-wrap: wrap; gap: 1rem; position: sticky; top: 0; z-index: 1000;">
+    <div style="font-weight: 900; font-size: 1.25rem; letter-spacing: -0.5px; color: #ffffff;">AFTI Portal</div>
+    <div style="display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap;">
+      <a href="index.html" style="color: #ffffff; text-decoration: none; font-weight: 700; border-bottom: 2px solid #27ae60; padding-bottom: 2px; font-size: 0.95rem;">Home</a>
+      <a href="training-modules-and-mutual-growth.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Training and Certification</a>
+      <a href="partners.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">For Farmers</a>
+      <a href="shared-harvest.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Shared Harvest</a>
+      <a href="incubator.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Incubator</a>
+      <a href="newsletter.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Newsletter</a>
+      <a href="gallery.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Gallery</a>
+      <a href="how-to-help.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">How to Help</a>
+    </div>
+  </nav>
+  <!-- AFTI Simulation Command Hub Module -->
+<div class="simulation-command-section" style="background: #1e293b; border-radius: 12px; padding: 25px; border: 1px solid rgba(255,255,255,0.1); margin: 20px 0; color: #f8fafc;">
+    <div style="background: #144d29; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 10px 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; font-weight: bold;">
+        <span>AFTI Global XP: <span id="global-points">400</span></span>
+        <span>Willamette Valley Sector: Active</span>
+    </div>
+
+    <h2 style="color: #2ecc71; margin-top: 0; font-size: 1.5rem;">Training Command Center</h2>
+    <p style="color: #cbd5e1; line-height: 1.5;">Select an active training track below to deploy modular simulation files and manage crisis pivots.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-top: 20px;">
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <h3 style="color: #38bdf8; margin-top: 0; margin-bottom: 8px; font-size: 1.1rem;">Farmer X Operations</h3>
+                <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 15px;">Master high-yield indoor intercropping and direct-to-restaurant market runs.</p>
+            </div>
+            <a href="farmer-x.html" style="background-color: #27ae60; color: white; padding: 8px 12px; border-radius: 6px; text-align: center; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Launch Track</a>
+        </div>
+
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <h3 style="color: #38bdf8; margin-top: 0; margin-bottom: 8px; font-size: 1.1rem;">Infrastructure Dual-Use</h3>
+                <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 15px;">Convert dead storage bays and machinery sheds into multi-stream revenue engines.</p>
+            </div>
+            <a href="diversify.html" style="background-color: #27ae60; color: white; padding: 8px 12px; border-radius: 6px; text-align: center; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Launch Track</a>
+        </div>
+
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <h3 style="color: #38bdf8; margin-top: 0; margin-bottom: 8px; font-size: 1.1rem;">Legal &amp; Land-Linking</h3>
+                <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 15px;">Navigate Linn County EFU zoning, tax deferrals, and generational lease agreements.</p>
+            </div>
+            <a href="land-link.html" style="background-color: #27ae60; color: white; padding: 8px 12px; border-radius: 6px; text-align: center; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Launch Track</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedXP = localStorage.getItem('afti_xp');
+        if (savedXP) {
+            const pointEl = document.getElementById('global-points');
+            if (pointEl) pointEl.textContent = savedXP;
+        } else {
+            localStorage.setItem('afti_xp', '400');
+        }
+    });
+</script>
+
+  <main style="max-width: 900px; margin: 0 auto; padding: 4rem 2rem;">
+    
+    <!-- Hero Banner with Sunset Background -->
+    <div style="background: linear-gradient(rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.85)), url('images/barn-sunset.jpg') center/cover no-repeat; padding: 4rem 2.5rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 20px 40px rgba(0,0,0,0.6); margin-bottom: 3rem;">
+      <span style="background: rgba(39, 174, 96, 0.25); color: #2ecc71; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.4rem 1rem; border-radius: 20px; display: inline-block; margin-bottom: 1.25rem; border: 1px solid rgba(46, 204, 113, 0.3);">Willamette Valley Agricultural Initiative</span>
+      
+      <h1 style="font-size: 2.75rem; font-weight: 900; color: #ffffff; margin: 0 0 1.25rem 0; letter-spacing: -0.5px; line-height: 1.15; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">Cultivating the Future of Agriculture Through Specialized Teams &amp; Land Access</h1>
+      
+      <p style="font-size: 1.15rem; line-height: 1.8; color: #e2e8f0; margin-bottom: 2rem; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">
+        The Agricultural Future &amp; Training Initiative (AFTI) bridges the critical divide between under-utilized rural land and the next generation of agricultural professionals. By combining rigorous vocational training, custom advisory SOP alignment, and cooperative land-linking across Linn County, we create private trained teams that deliver mutual economic revitalization and long-term food security.
+     
+      
+      </p>
+<!-- TAB / SECTION CONTAINER -->
     <div id="info-step-1" class="info-step-pane">
         <h2 style="color: #2ecc71; margin-top: 0; font-size: 1.6rem;">Legal &amp; Administrative Instruments Overview</h2>
         <p style="color: #cbd5e1; line-height: 1.6;">Before negotiating land-links or structuring farm resilience models in Linn County, operators must master the administrative paperwork required by Oregon state statutes and county planning commissions.</p>
@@ -106,83 +183,6 @@
         }
     }
 </script>
-  <!-- Universal Navigation Bar -->
-  <nav style="background: #144d29; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); flex-wrap: wrap; gap: 1rem; position: sticky; top: 0; z-index: 1000;">
-    <div style="font-weight: 900; font-size: 1.25rem; letter-spacing: -0.5px; color: #ffffff;">AFTI Portal</div>
-    <div style="display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap;">
-      <a href="index.html" style="color: #ffffff; text-decoration: none; font-weight: 700; border-bottom: 2px solid #27ae60; padding-bottom: 2px; font-size: 0.95rem;">Home</a>
-      <a href="training-modules-and-mutual-growth.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Training and Certification</a>
-      <a href="partners.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">For Farmers</a>
-      <a href="shared-harvest.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Shared Harvest</a>
-      <a href="incubator.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Incubator</a>
-      <a href="newsletter.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Newsletter</a>
-      <a href="gallery.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Gallery</a>
-      <a href="how-to-help.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">How to Help</a>
-    </div>
-  </nav>
-  <!-- AFTI Simulation Command Hub Module -->
-<div class="simulation-command-section" style="background: #1e293b; border-radius: 12px; padding: 25px; border: 1px solid rgba(255,255,255,0.1); margin: 20px 0; color: #f8fafc;">
-    <div style="background: #144d29; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 10px 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; font-weight: bold;">
-        <span>AFTI Global XP: <span id="global-points">400</span></span>
-        <span>Willamette Valley Sector: Active</span>
-    </div>
-
-    <h2 style="color: #2ecc71; margin-top: 0; font-size: 1.5rem;">Training Command Center</h2>
-    <p style="color: #cbd5e1; line-height: 1.5;">Select an active training track below to deploy modular simulation files and manage crisis pivots.</p>
-
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-top: 20px;">
-        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-                <h3 style="color: #38bdf8; margin-top: 0; margin-bottom: 8px; font-size: 1.1rem;">Farmer X Operations</h3>
-                <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 15px;">Master high-yield indoor intercropping and direct-to-restaurant market runs.</p>
-            </div>
-            <a href="farmer-x.html" style="background-color: #27ae60; color: white; padding: 8px 12px; border-radius: 6px; text-align: center; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Launch Track</a>
-        </div>
-
-        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-                <h3 style="color: #38bdf8; margin-top: 0; margin-bottom: 8px; font-size: 1.1rem;">Infrastructure Dual-Use</h3>
-                <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 15px;">Convert dead storage bays and machinery sheds into multi-stream revenue engines.</p>
-            </div>
-            <a href="diversify.html" style="background-color: #27ae60; color: white; padding: 8px 12px; border-radius: 6px; text-align: center; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Launch Track</a>
-        </div>
-
-        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-                <h3 style="color: #38bdf8; margin-top: 0; margin-bottom: 8px; font-size: 1.1rem;">Legal &amp; Land-Linking</h3>
-                <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 15px;">Navigate Linn County EFU zoning, tax deferrals, and generational lease agreements.</p>
-            </div>
-            <a href="land-link.html" style="background-color: #27ae60; color: white; padding: 8px 12px; border-radius: 6px; text-align: center; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Launch Track</a>
-        </div>
-    </div>
-</div>
-
-<script>
-    window.addEventListener('DOMContentLoaded', () => {
-        const savedXP = localStorage.getItem('afti_xp');
-        if (savedXP) {
-            const pointEl = document.getElementById('global-points');
-            if (pointEl) pointEl.textContent = savedXP;
-        } else {
-            localStorage.setItem('afti_xp', '400');
-        }
-    });
-</script>
-
-  <main style="max-width: 900px; margin: 0 auto; padding: 4rem 2rem;">
-    
-    <!-- Hero Banner with Sunset Background -->
-    <div style="background: linear-gradient(rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.85)), url('images/barn-sunset.jpg') center/cover no-repeat; padding: 4rem 2.5rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 20px 40px rgba(0,0,0,0.6); margin-bottom: 3rem;">
-      <span style="background: rgba(39, 174, 96, 0.25); color: #2ecc71; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.4rem 1rem; border-radius: 20px; display: inline-block; margin-bottom: 1.25rem; border: 1px solid rgba(46, 204, 113, 0.3);">Willamette Valley Agricultural Initiative</span>
-      
-      <h1 style="font-size: 2.75rem; font-weight: 900; color: #ffffff; margin: 0 0 1.25rem 0; letter-spacing: -0.5px; line-height: 1.15; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">Cultivating the Future of Agriculture Through Specialized Teams &amp; Land Access</h1>
-      
-      <p style="font-size: 1.15rem; line-height: 1.8; color: #e2e8f0; margin-bottom: 2rem; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">
-        The Agricultural Future &amp; Training Initiative (AFTI) bridges the critical divide between under-utilized rural land and the next generation of agricultural professionals. By combining rigorous vocational training, custom advisory SOP alignment, and cooperative land-linking across Linn County, we create private trained teams that deliver mutual economic revitalization and long-term food security.
-     
-      
-      </p>
-
       <!-- Hook Cards Grid -->
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; margin-top: 2rem;">
         
