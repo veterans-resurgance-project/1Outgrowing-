@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFTI - Infrastructure Dual-Use Simulation</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --primary: #27ae60;
+            --primary-hover: #219653;
+            --secondary: #3b82f6;
+            --error: #ef4444;
+            --hud-bg: #144d29;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            padding: 30px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .hud-bar {
+            background: var(--hud-bg);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .nav-switch-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-switch-bar a {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+
+        .nav-switch-bar a:hover {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .slide {
+            display: none;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        h2 {
+            color: #2ecc71;
+            margin-top: 0;
+        }
+
+        p, li {
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 15px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .quest-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .options-list li {
+            margin: 10px 0;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            background: #0f172a;
+            color: #f8fafc;
+            border: 2px solid #334155;
+            padding: 12px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary);
+            background: #1e293b;
+        }
+
+        .feedback-msg {
+            font-weight: bold;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .feedback-success {
+            background: rgba(46, 204, 113, 0.2);
+            color: #4ade80;
+        }
+
+        .code-clue-display {
+            background: rgba(52, 152, 219, 0.15);
+            border-left: 5px solid #3498db;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 0 6px 6px 0;
+            font-weight: bold;
+            color: #93c5fd;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- TRACK SWITCHER NAVIGATION BAR -->
+    <div class="nav-switch-bar">
+        <a href="index.html">Portal Home</a>
+        <a href="farmer-x.html">Farmer X Simulation</a>
+        <a href="academic-track.html">Academic Track</a>
+    </div>
+
+    <!-- GLOBAL HUD BAR -->
+    <div class="hud-bar">
+        <span>Infrastructure XP: <span id="points-display">250</span></span>
+        <span>Status: Asset Conversion Active</span>
+    </div>
+
+    <!-- SCENARIO SLIDE 1: The Shed & Cellar Conversion -->
+    <div class="slide active" id="slide-1">
+        <h2>Infrastructure Dual-Use: The Shed &amp; Cellar Conversion</h2>
+        <div class="code-clue-display">Operational Goal: Maximize every square foot of unused barn and storage space before winter.</div>
+        <p><strong>Situation:</strong> Your mushroom and microgreen systems are running, but the bank audit is looming. You stand outside the sprawling machinery shed and the old hillside root cellar.</p>
+        <p><em>Decision Point: Where do you direct your limited labor and materials to secure cash flow?</em></p>
+        
+        <div class="quest-box">
+            <ul class="options-list">
+                <li><button class="option-btn" onclick="handleChoice('A', 'Vermicomposting station activated! High-margin soil blocks generating steady cash flow.')"><strong>[Option A]</strong> Retrofit the machinery shed into a modular vermicomposting &amp; soil-blocking station for regional urban gardeners.</button></li>
+                <li><button class="option-btn" onclick="handleChoice('B', 'Root cellar sealed! Winter price-spike strategy locked in, though cash is tight now.')"><strong>[Option B]</strong> Insulate the underground root cellar for long-term cold storage to cash in on late-winter price spikes.</button></li>
+            </ul>
+            <div id="feedback-1" class="feedback-msg"></div>
+        </div>
+    </div>
+
+    <!-- RESULT SLIDE -->
+    <div class="slide" id="slide-result">
+        <h2>Strategic Milestone Achieved</h2>
+        <p id="result-text">Your infrastructure pivot has successfully restructured the farm's operational capacity.</p>
+        <p>By transforming dead storage into active production zones, you've satisfied the bank's preliminary asset review and proven the farm's resiliency.</p>
+        <div class="quest-box">
+            <a href="index.html" class="btn">Return to Command Hub</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let infraPoints = 250;
+
+    function handleChoice(option, message) {
+        const feedbackEl = document.getElementById('feedback-1');
+        const resultTextEl = document.getElementById('result-text');
+        
+        if (!feedbackEl) return;
+        feedbackEl.style.display = 'block';
+        feedbackEl.className = 'feedback-msg feedback-success';
+        feedbackEl.textContent = message;
+
+        infraPoints += 150;
+        document.getElementById('points-display').textContent = infraPoints;
+
+        setTimeout(() => {
+            resultTextEl.textContent = "Choice " + option + " Executed: " + message;
+            document.querySelectorAll('.slide').forEach(s => {
+                s.classList.remove('active');
+                s.style.display = 'none';
+            });
+            const resSlide = document.getElementById('slide-result');
+            resSlide.classList.add('active');
+            resSlide.style.display = 'block';
+        }, 1200);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.slide').forEach(s => {
+            if (s.classList.contains('active')) {
+                s.style.display = 'block';
+            } else {
+                s.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
