@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AFTI - Farmer &amp; Apprentice Simulation</title>
+</head>
+<body style="background-color: #0f172a; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+
+<!-- GLOBAL HUD BAR WITH TEST BYPASS TOGGLE -->
+<div class="hud-bar" style="background: #144d29; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 10px 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; color: #ffffff; flex-wrap: wrap; gap: 10px;">
+    <span>AFTI Global XP: <span id="global-points">400</span></span>
+    
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <span id="test-mode-status" style="font-size: 0.8rem; color: #cbd5e1; font-weight: normal;">Live Mode</span>
+        <button onclick="toggleTestBypass()" id="test-mode-btn" style="background: #334155; color: #cbd5e1; border: 1px solid rgba(255,255,255,0.2); padding: 5px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; cursor: pointer; transition: all 0.2s;">
+            Enable Test Bypass
+        </button>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        updateBypassUI();
+        loadXP();
+        loadChecklistState();
+    });
+
+    function getXP() {
+        return parseInt(localStorage.getItem('afti_global_xp') || '400', 10);
+    }
+
+    function setXP(val) {
+        localStorage.setItem('afti_global_xp', val);
+        const pointsDisplay = document.getElementById('global-points');
+        if (pointsDisplay) {
+            pointsDisplay.innerText = val;
+        }
+    }
+
+    function loadXP() {
+        const pointsDisplay = document.getElementById('global-points');
+        if (pointsDisplay) {
+            pointsDisplay.innerText = getXP();
+        }
+    }
+
+    function toggleTestBypass() {
+        const currentBypass = sessionStorage.getItem('afti_test_bypass') === 'true';
+        const newBypassState = !currentBypass;
+        sessionStorage.setItem('afti_test_bypass', newBypassState);
+        updateBypassUI();
+    }
+
+    function updateBypassUI() {
+        const isBypassed = sessionStorage.getItem('afti_test_bypass') === 'true';
+        const btn = document.getElementById('test-mode-btn');
+        const statusText = document.getElementById('test-mode-status');
+        
+        if (isBypassed) {
+            btn.style.background = '#f59e0b';
+            btn.style.color = '#0f172a';
+            btn.innerText = 'Bypass Active';
+            statusText.innerText = 'Test Mode (XP Frozen)';
+            statusText.style.color = '#f59e0b';
+        } else {
+            btn.style.background = '#334155';
+            btn.style.color = '#cbd5e1';
+            btn.innerText = 'Enable Test Bypass';
+            statusText.innerText = 'Live Mode';
+            statusText.style.color = '#4ade80';
+        }
+    }
+
+    function handleCheck(checkbox, xpAmount) {
+        let currentXP = getXP();
+        const isBypassed = sessionStorage.getItem('afti_test_bypass') === 'true';
+        
+        if (checkbox.checked) {
+            if (!isBypassed) {
+                currentXP += xpAmount;
+                setXP(currentXP);
+            }
+        } else {
+            if (!isBypassed) {
+                currentXP = Math.max(0, currentXP - xpAmount);
+                setXP(currentXP);
+            }
+        }
+        saveChecklistState();
+    }
+
+    function saveChecklistState() {
+        const checkboxes = document.querySelectorAll('.simulation-checkbox');
+        const state = {};
+        checkboxes.forEach((cb, index) => {
+            state[index] = cb.checked;
+        });
+        localStorage.setItem('afti_story_checklist', JSON.stringify(state));
+    }
+
+    function loadChecklistState() {
+        const saved = localStorage.getItem('afti_story_checklist');
+        if (saved) {
+            try {
+                const state = JSON.parse(saved);
+                const checkboxes = document.querySelectorAll('.simulation-checkbox');
+                checkboxes.forEach((cb, index) => {
+                    if (state[index] !== undefined) {
+                        cb.checked = state[index];
+                    }
+                });
+            } catch (e) {
+                console.error("Error loading checklist state", e);
+            }
+        }
+    }
+</script>
+
+  <!-- Universal Navigation Bar -->
+  <nav style="background: #144d29; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); flex-wrap: wrap; gap: 1rem; position: sticky; top: 0; z-index: 1000;">
+    <div style="font-weight: 900; font-size: 1.25rem; letter-spacing: -0.5px; color: #ffffff;">AFTI Portal</div>
+    <div style="display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap;">
+      <a href="index.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Home</a>
+      <a href="farmer-apprentice-story.html" style="color: #ffffff; text-decoration: none; font-weight: 700; border-bottom: 2px solid #27ae60; padding-bottom: 2px; font-size: 0.95rem;">Simulation</a>
+      <a href="training-modules-and-mutual-growth.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Training and Certification</a>
+      <a href="partners.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">For Farmers</a>
+      <a href="shared-harvest.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Shared Harvest</a>
+      <a href="incubator.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Incubator</a>
+    </div>
+  </nav>
+
+  <main style="max-width: 900px; margin: 0 auto; padding: 4rem 2rem;">
+    
+    <!-- Simulation Header Banner -->
+    <div style="background: linear-gradient(135deg, rgba(20, 77, 41, 0.85), rgba(15, 23, 42, 0.95)); padding: 3rem 2.5rem; border-radius: 20px; border: 1px solid rgba(39, 174, 96, 0.4); box-shadow: 0 20px 40px rgba(0,0,0,0.6); margin-bottom: 2.5rem;">
+      <span style="background: rgba(39, 174, 96, 0.3); color: #2ecc71; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.4rem 1rem; border-radius: 20px; display: inline-block; margin-bottom: 1rem; border: 1px solid rgba(46, 204, 113, 0.4);">Interactive Journey Simulator</span>
+      <h1 style="font-size: 2.5rem; font-weight: 900; color: #ffffff; margin: 0 0 1rem 0; letter-spacing: -0.5px;">From Ground Zero to Agricultural Apprentice</h1>
+      <p style="font-size: 1.1rem; line-height: 1.7; color: #cbd5e1; margin: 0;">
+        Complete real-world milestones, build essential community connections, and earn XP as you forge your path from urban or transitional hardships directly into Linn County’s agricultural training ecosystem.
+      </p>
+    </div>
+
+    <!-- Stage 1: Library Resources & Community Navigation Checklist -->
+    <div style="background: #1e293b; padding: 2.5rem; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 2.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+        <h2 style="font-size: 1.5rem; font-weight: 800; color: #ffffff; margin: 0;">📚 Stage 1: Library Resources &amp; Community Navigation</h2>
+        <span style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; border: 1px solid rgba(56, 189, 248, 0.3);">Location: Public Library Branch</span>
+      </div>
+      
+      <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
+        Your journey begins at the local public library terminal. Complete these foundational tasks to establish your digital footprint, secure paperwork, and earn XP.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        
+        <label style="background: #0f172a; padding: 1.25rem; border-radius: 10px; border: 1px solid #334155; display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; transition: border-color 0.2s;">
+          <input type="checkbox" class="simulation-checkbox" onchange="handleCheck(this, 50)" style="margin-top: 0.3rem; transform: scale(1.2); accent-color: #27ae60; cursor: pointer;">
+          <div>
+            <div style="color: #ffffff; font-weight: 700; font-size: 1.05rem; margin-bottom: 0.25rem;">Acquire Public Library Card <span style="color: #2ecc71; font-weight: 600; font-size: 0.9rem;">(+50 XP)</span></div>
+            <div style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5;">Visit the local library branch, present valid identification/proof of address, and establish an active account to unlock free internet access, printing, and resource databases.</div>
+          </div>
+        </label>
+
+        <label style="background: #0f172a; padding: 1.25rem; border-radius: 10px; border: 1px solid #334155; display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; transition: border-color 0.2s;">
+          <input type="checkbox" class="simulation-checkbox" onchange="handleCheck(this, 75)" style="margin-top: 0.3rem; transform: scale(1.2); accent-color: #27ae60; cursor: pointer;">
+          <div>
+            <div style="color: #ffffff; font-weight: 700; font-size: 1.05rem; margin-bottom: 0.25rem;">Schedule Digital Literacy or Job Search Session <span style="color: #2ecc71; font-weight: 600; font-size: 0.9rem;">(+75 XP)</span></div>
+            <div style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5;">Book an appointment with a library branch specialist or public computer lab assistant to update resume drafts and check online portals.</div>
+          </div>
+        </label>
+
+        <label style="background: #0f172a; padding: 1.25rem; border-radius: 10px; border: 1px solid #334155; display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; transition: border-color 0.2s;">
+          <input type="checkbox" class="simulation-checkbox" onchange="handleCheck(this, 100)" style="margin-top: 0.3rem; transform: scale(1.2); accent-color: #27ae60; cursor: pointer;">
+          <div>
+            <div style="color: #ffffff; font-weight: 700; font-size: 1.05rem; margin-bottom: 0.25rem;">Execute Housing or Benefits Application Paperwork <span style="color: #2ecc71; font-weight: 600; font-size: 0.9rem;">(+100 XP)</span></div>
+            <div style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5;">Complete online application forms using library workstation terminals and secure digital copies of submitted confirmation pages.</div>
+          </div>
+        </label>
+
+        <label style="background: #0f172a; padding: 1.25rem; border-radius: 10px; border: 1px solid #334155; display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; transition: border-color 0.2s;">
+          <input type="checkbox" class="simulation-checkbox" onchange="handleCheck(this, 25)" style="margin-top: 0.3rem; transform: scale(1.2); accent-color: #27ae60; cursor: pointer;">
+          <div>
+            <div style="color: #ffffff; font-weight: 700; font-size: 1.05rem; margin-bottom: 0.25rem;">Secure Local Resource Directory Printout <span style="color: #2ecc71; font-weight: 600; font-size: 0.9rem;">(+25 XP)</span></div>
+            <div style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5;">Request and print an updated catalog of regional emergency shelters, mobile hygiene stations, and community food pantries.</div>
+          </div>
+        </label>
+
+      </div>
+    </div>
+
+    <!-- Stage 2: Day Center & Advocacy Intake Checklist -->
+    <div style="background: #1e293b; padding: 2.5rem; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 2.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+        <h2 style="font-size: 1.5rem; font-weight: 800; color: #ffffff; margin: 0;">🤝 Stage 2: Day Center &amp; Advocacy Intake</h2>
+        <span style="background: rgba(39, 174, 96, 0.2); color: #2ecc71; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; border: 1px solid rgba(39, 174, 96, 0.3);">Location: Community Day Center</span>
+      </div>
+      
+      <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
+        Once core library benchmarks are cleared, the journey transitions directly into the local Day Center Program and dedicated Community Advocate intake.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        
+        <label style="background: #0f172a; padding: 1.25rem; border-radius: 10px; border: 1px solid #334155; display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; transition: border-color 0.2s;">
+          <input type="checkbox" class="simulation-checkbox" onchange="handleCheck(this, 75)" style="margin-top: 0.3rem; transform: scale(1.2); accent-color: #27ae60; cursor: pointer;">
+          <div>
+            <div style="color: #ffffff; font-weight: 700; font-size: 1.05rem; margin-bottom: 0.25rem;">Complete Initial Intake Assessment <span style="color: #2ecc71; font-weight: 600; font-size: 0.9rem;">(+75 XP)</span></div>
+            <div style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5;">Check in with the day center receptionist or on-site intake coordinator to register your information, request secure mail-handling services, and log emergency contact details.</div>
+          </div>
+        </label>
+
+        <label style="background: #0f172a; padding: 1.25rem; border-radius: 10px; border: 1px solid #334155; display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; transition: border-color 0.2s;">
+          <input type="checkbox" class="simulation-checkbox" onchange="handleCheck(this, 50)" style="margin-top: 0.3rem; transform: scale(1.2); accent-color: #27ae60; cursor: pointer;">
+          <div>
+            <div style="color: #ffffff; font-weight: 700; font-size: 1.05rem; margin-bottom: 0.25rem;">Secure Daytime Storage &amp; Locker Access <span style="color: #2ecc71; font-weight: 600; font-size: 0.9rem;">(+50 XP)</span></div>
+            <div style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5;">Coordinate with staff to reserve an available locker or temporary storage bin to keep your vital paperwork and personal belongings safe while navigating the city.</div>
+          </div>
+        </label>
+
+        <label style="background: #0f172a; padding: 1.25rem; border-radius: 10px; border: 1px solid #334155; display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; transition: border-color 0.2s;">
+          <input type="checkbox" class="simulation-checkbox" onchange="handleCheck(this, 100)" style="margin-top: 0.3rem; transform: scale(1.2); accent-color: #27ae60; cursor: pointer;">
+          <div>
+            <div style="color: #ffffff; font-weight: 700; font-size: 1.05rem; margin-bottom: 0.25rem;">Meet with a Dedicated Community Advocate <span style="color: #2ecc71; font-weight: 600; font-size: 0.9rem;">(+100 XP)</span></div>
+            <div style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5;">Sit down with your assigned caseworker or peer advocate to review the paperwork and confirmation numbers you gathered during your library session.</div>
+          </div>
+        </label>
+
+        <label style="background: #0f172a; padding: 1.25rem; border-radius: 10px; border: 1px solid #334155; display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; transition: border-color 0.2s;">
+          <input type="checkbox" class="simulation-checkbox" onchange="handleCheck(this, 75)" style="margin-top: 0.3rem; transform: scale(1.2); accent-color: #27ae60; cursor: pointer;">
+          <div>
+            <div style="color: #ffffff; font-weight: 700; font-size: 1.05rem; margin-bottom: 0.25rem;">Establish Priority Service Milestones <span style="color: #2ecc71; font-weight: 600; font-size: 0.9rem;">(+75 XP)</span></div>
+            <div style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5;">Work with your advocate to map out a clear roadmap for housing waitlist check-ins, medical appointment scheduling, and emergency shelter coordination for the week ahead.</div>
+          </div>
+        </label>
+
+      </div>
+    </div>
+
+    <!-- Next Location: Transitional Resource & Employment Hub -->
+    <div style="background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95)); padding: 2.5rem; border-radius: 16px; border: 2px solid #38bdf8; margin-bottom: 3rem;">
+      <h3 style="color: #38bdf8; margin-top: 0; margin-bottom: 1rem; font-size: 1.5rem;">🚜 Next Location: Transitional Resource &amp; Employment Hub</h3>
+      <p style="color: #cbd5e1; font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.5rem;">
+        With your core paperwork organized and your support network established at the day center, your pathway leads directly to the regional <strong>Transitional Resource &amp; Employment Hub</strong>.
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem;">
+        <div style="background: #0f172a; padding: 1.25rem; border-radius: 10px; border: 1px solid #334155;">
+          <div style="color: #ffffff; font-weight: 700; font-size: 1.05rem; margin-bottom: 0.5rem;">🌱 Vocational Intake</div>
+          <div style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5;">Connect with workforce development specialists to review job training opportunities, such as agricultural apprenticeships or commercial driver's license prep programs.</div>
+        </div>
+        
+        <div style="background: #0f172a; padding: 1.25rem; border-radius: 10px; border: 1px solid #334155;">
+          <div style="color: #ffffff; font-weight: 700; font-size: 1.05rem; margin-bottom: 0.5rem;">🛡️ Supportive Services Coordination</div>
+          <div style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5;">Access on-site assistance for temporary housing placements, hygiene resource vouchers, and clothing closets tailored for upcoming interviews or field work.</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</body>
+</html>
