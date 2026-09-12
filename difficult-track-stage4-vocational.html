@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFTI - Stage 4: Four-Seasons Vocational Practicum</title>
+    <!-- LINK TO CORE UTILITY -->
+    <script src="afti-core.js"></script>
+    <style>
+        :root { 
+            --bg-color: #0f172a; 
+            --card-bg: #1e293b; 
+            --text-color: #f8fafc; 
+            --primary: #27ae60; 
+            --hud-bg: #144d29; 
+            --accent: #38bdf8;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        body { 
+            font-family: system-ui, sans-serif; 
+            background: var(--bg-color); 
+            color: var(--text-color); 
+            padding: 20px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+        }
+        .container { 
+            width: 100%; 
+            max-width: 800px; 
+            background: var(--card-bg); 
+            border-radius: 14px; 
+            padding: 35px; 
+            box-sizing: border-box;
+            border: 1px solid rgba(255,255,255,0.1); 
+            box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+        }
+        .hud-bar { 
+            background: var(--hud-bg); 
+            border-radius: 8px; 
+            padding: 10px 18px; 
+            margin-bottom: 25px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            font-weight: bold; 
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.9rem;
+        }
+        .prose-block {
+            line-height: 1.7;
+            color: #cbd5e1;
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+        }
+        .choices-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .choice-btn { 
+            background: #0f172a; 
+            border: 1px solid #334155; 
+            color: #f8fafc; 
+            padding: 16px 20px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            width: 100%; 
+            text-align: left; 
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            transition: all 0.2s ease;
+        }
+        .choice-btn:hover { 
+            border-color: var(--accent); 
+            background: rgba(56, 189, 248, 0.05);
+            transform: translateY(-2px);
+        }
+        .choice-title {
+            font-weight: bold;
+            color: #f8fafc;
+            font-size: 1.05rem;
+        }
+        .choice-desc {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+        .feedback-box {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+            line-height: 1.6;
+        }
+        .feedback-explanation {
+            font-size: 0.95rem;
+            margin-top: 10px;
+            color: #e2e8f0;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .nav-bridge {
+            display: inline-block;
+            margin-top: 15px;
+            background: var(--primary);
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- GLOBAL HUD WITH STIPEND & GLOBAL XP -->
+    <div class="hud-bar">
+        <span>Path: <span style="color: var(--accent);">Foster-Alum Track</span></span>
+        <div style="display: flex; gap: 20px;">
+            <span>Earned Stipend: <span id="stipend-amount" style="color: #38bdf8;">$0</span></span>
+            <span>Global XP: <span id="global-points" style="color: #4ade80;">400</span></span>
+        </div>
+    </div>
+
+    <!-- MAIN SCENARIO VIEWPORT -->
+    <div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h2 style="margin: 0; font-size: 1.4rem;">🌱 Stage 4: Four-Seasons Vocational Practicum</h2>
+            <span style="background: rgba(39, 174, 96, 0.2); color: #4ade80; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; border: 1px solid rgba(39, 174, 96, 0.3);">Location: Linn County Plot Field</span>
+        </div>
+
+        <div class="prose-block">
+            <p>You have secured residential stability and a clean communication channel. Now, it is time to build your physical farming hours. The AFTI curriculum requires hands-on experience in <strong>planting, tending, harvesting, and overwintering</strong> across a practical four-season cycle.</p>
+            <p>Local farmers in the valley need help getting their food crops into the ground and safely off the vine. By providing labor, waiting-list participants can earn an immediate training stipend while building high-value portfolio validation. However, transportation to remote commercial fields is limited today.</p>
+        </div>
+
+        <!-- INTERACTIVE CHOICE MATRIX -->
+        <div class="choices-container" id="choices-wrapper">
+            <button class="choice-btn" onclick="selectVocationalOption('A', 100, 120)">
+                <span class="choice-title" style="color: #4ade80;">Choice A: Register for a high-intensity seasonal harvesting and sorting crew on a commercial partner farm.</span>
+                <span class="choice-desc">Arrange a regional carpool ride share to assist a local grower with peak crop clearance. (Earns +100 XP &amp; $120 Training Stipend)</span>
+            </button>
+
+            <button class="choice-btn" onclick="selectVocationalOption('B', 25, 30)">
+                <span class="choice-title" style="color: var(--warning);">Choice B: Pivot to a community garden overwintering and soil amendment project down the street.</span>
+                <span class="choice-desc">Stay local to work on winter cover cropping and tool reconditioning within an urban plot instead of traveling. (Earns +25 XP &amp; $30 Training Stipend)</span>
+            </button>
+
+            <button class="choice-btn" onclick="selectVocationalOption('C', 0, 0)">
+                <span class="choice-title" style="color: var(--danger);">Choice C: Attempt to clear an unmapped overgrown field by yourself using unmatched, unverified tools.</span>
+                <span class="choice-desc">Bypass site safety briefings and supervisor sign-offs to clear local thickets solo. (Earns +0 XP &amp; $0 Training Stipend)</span>
+            </button>
+        </div>
+
+        <!-- DYNAMIC RECOVERY & FEEDBACK VIEWPORT -->
+        <div id="feedback-viewport" class="feedback-box">
+            <h3 id="feedback-title" style="margin-top: 0;"></h3>
+            <p id="feedback-text"></p>
+            <div id="feedback-explanation" class="feedback-explanation"></div>
+            <div id="feedback-action-container"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const pointsDisplay = document.getElementById('global-points');
+        if (pointsDisplay) {
+            pointsDisplay.innerText = localStorage.getItem('afti_global_xp') || '400';
+        }
+        const stipendDisplay = document.getElementById('stipend-amount');
+        if (stipendDisplay) {
+            stipendDisplay.innerText = '$' + (localStorage.getItem('afti_earned_stipend') || '0');
+        }
+    });
+
+    function selectVocationalOption(choiceType, pointsAwarded, stipendAwarded) {
+        // 1. Process point tracking metrics
+        let currentXP = parseInt(localStorage.getItem('afti_global_xp') || '400', 10);
+        currentXP += pointsAwarded;
+        localStorage.setItem('afti_global_xp', currentXP);
+        document.getElementById('global-points').innerText = currentXP;
+
+        // 2. Process financial stipend tracking metrics
+        let currentStipend = parseInt(localStorage.getItem('afti_earned_stipend') || '0', 10);
+        currentStipend += stipendAwarded;
+        localStorage.setItem('afti_earned_stipend', currentStipend);
+        document.getElementById('stipend-amount').innerText = '$' + currentStipend;
+
+        // 3. Freeze choice states
+        document.getElementById('choices-wrapper').style.display = 'none';
+
+        const viewport = document.getElementById('feedback-viewport');
+        const title = document.getElementById('feedback-title');
+        const text = document.getElementById('feedback-text');
+        const explanation = document.getElementById('feedback-explanation');
+        const actionContainer = document.getElementById('feedback-action-container');
+
+        viewport.style.display = 'block';
+
+        if (choiceType === 'A') {
+            viewport.style.background = 'rgba(39, 174, 96, 0.1)';
+            viewport.style.border = '1px solid rgba(39, 174, 96, 0.4)';
+            title.innerText = "Success: Peak Season Hours Logged (+100 XP / +$120 Stipend)";
+            title.style.color = "#4ade80";
+            text.innerText = "You join a highly disciplined harvest cohort. Working closely with commercial farm managers, you track field yields, handle raw crops safely, and get food boxed for regional distribution pipelines.";
+            explanation.innerHTML = "<strong>Portfolio Evaluation:</strong> Superb market integration and soil capital. Logging fast, high-volume production hours proofs to future grant managers that you can maintain rapid production schedules under seasonal deadlines.";
+            actionContainer.innerHTML = '<a href="difficult-track-stage5-market.html" class="nav-bridge">Proceed to Stage 5: Market Delivery &rarr;</a>';
+        } 
+        else if (choiceType === 'B') {
+            viewport.style.background = 'rgba(245, 158, 11, 0.1)';
