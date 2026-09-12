@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFTI - Stage 2 Recovery: Infrastructure Stabilization</title>
+    <!-- LINK TO CORE UTILITY -->
+    <script src="afti-core.js"></script>
+    <style>
+        :root { 
+            --bg-color: #0f172a; 
+            --card-bg: #1e293b; 
+            --text-color: #f8fafc; 
+            --primary: #27ae60; 
+            --hud-bg: #144d29; 
+            --accent: #38bdf8;
+            --warning: #f59e0b;
+        }
+        body { 
+            font-family: system-ui, sans-serif; 
+            background: var(--bg-color); 
+            color: var(--text-color); 
+            padding: 20px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+        }
+        .container { 
+            width: 100%; 
+            max-width: 800px; 
+            background: var(--card-bg); 
+            border-radius: 14px; 
+            padding: 35px; 
+            box-sizing: border-box;
+            border: 1px solid rgba(255,255,255,0.1); 
+            box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+        }
+        .hud-bar { 
+            background: var(--hud-bg); 
+            border-radius: 8px; 
+            padding: 10px 18px; 
+            margin-bottom: 25px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            font-weight: bold; 
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.9rem;
+        }
+        .prose-block {
+            line-height: 1.7;
+            color: #cbd5e1;
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+        }
+        .checklist-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+        .task-label {
+            background: #0f172a; 
+            padding: 20px; 
+            border-radius: 10px; 
+            border: 1px solid #334155; 
+            display: flex; 
+            align-items: flex-start; 
+            gap: 15px; 
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .task-label:hover {
+            border-color: var(--warning);
+        }
+        .task-cb {
+            margin-top: 4px; 
+            transform: scale(1.3); 
+            accent-color: var(--primary); 
+            cursor: pointer;
+        }
+        .task-title {
+            color: #ffffff; 
+            font-weight: 700; 
+            font-size: 1.05rem; 
+            margin-bottom: 4px;
+        }
+        .task-desc {
+            color: #cbd5e1; 
+            font-size: 0.9rem; 
+            line-height: 1.5;
+        }
+        .bridge-box {
+            background: rgba(39, 174, 96, 0.1); 
+            border: 1px solid rgba(39, 174, 96, 0.4); 
+            padding: 25px; 
+            border-radius: 12px; 
+            text-align: center;
+            display: none;
+        }
+        .nav-btn {
+            display: inline-block;
+            background: var(--primary);
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- GLOBAL HUD -->
+    <div class="hud-bar">
+        <span>Path: <span style="color: var(--warning);">Foster-Alum (Communication Loop)</span></span>
+        <div>
+            <span>Global XP: <span id="global-points" style="color: #4ade80;">425</span></span>
+        </div>
+    </div>
+
+    <!-- NARRATIVE PIVOT SECTION -->
+    <div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h2 style="margin: 0; font-size: 1.4rem; color: var(--warning);">⚠️ Infrastructure Recovery: Establishing Contact</h2>
+            <span style="background: rgba(245, 158, 11, 0.15); color: var(--warning); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; border: 1px solid rgba(245, 158, 11, 0.3);">Action: Building Communication</span>
+        </div>
+
+        <div class="prose-block">
+            <p>Bypassing standard check-in points left your records floating without confirmation vectors. To lock down upcoming field training or secure placement inside formal partner cooperatives, administrative coordinators must have a verified method to relay flash scheduling and environmental alerts to you.</p>
+            <p>Every successful agricultural application relies on basic structural anchors. Complete the necessary infrastructural checklists below to correct this gap, capture your missing portfolio value, and get back on course.</p>
+        </div>
+
+        <!-- THE CORRECTIVE CHECKLIST ITEMS -->
+        <div class="checklist-container">
+            <label class="task-label">
+                <input type="checkbox" class="task-cb" onchange="handleRecoveryProgress(this, 50, 'task01')">
+                <div>
+                    <div class="task-title">Submit Official Lifeline Program Verification <span style="color: #2ecc71;">(+50 XP)</span></div>
+                    <div class="task-desc">Return to the Day Center intake counter, log your basic profile details, and clear verification to issue an independent mobile smart-device running pre-paid voice and data lines.</div>
+                </div>
+            </label>
+
+            <label class="task-label">
+                <input type="checkbox" class="task-cb" onchange="handleRecoveryProgress(this, 25, 'task02')">
+                <div>
+                    <div class="task-title">Deploy Central Google Voice Messaging Node <span style="color: #2ecc71;">(+25 XP)</span></div>
+                    <div class="task-desc">Establish a permanent web-accessible telephone router mapped to your workspace email account, allowing you to access operational voicemail dispatches from any terminal.</div>
+                </div>
+            </label>
+        </div>
+
+        <!-- THE DYNAMIC BRIDGE ADVANCEMENT PANEL -->
+        <div id="bridge-panel" class="bridge-box">
+            <h3 style="color: #4ade80; margin-top: 0; margin-bottom: 8px;">Infrastructural Foundation Verified</h3>
+            <p style="color: #cbd5e1; font-size: 0.95rem; margin: 0;">Your communications data is fully compiled into your Verified Portfolio. You are now structurally prepared to transition into residential security assets.</p>
+            <a href="difficult-track-stage3-housing.html" class="nav-btn">Proceed to Stage 3: Transitional Housing &rarr;</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Core initialization and score sync
+        const pointsDisplay = document.getElementById('global-points');
+        if (pointsDisplay) {
+            pointsDisplay.innerText = localStorage.getItem('afti_global_xp') || '425';
+        }
+        loadState();
+    });
+
+    function handleRecoveryProgress(cb, points, taskId) {
+        let currentXP = parseInt(localStorage.getItem('afti_global_xp') || '425', 10);
+        if (cb.checked) {
+            currentXP += points;
+        } else {
+            currentXP = Math.max(0, currentXP - points);
+        }
+        localStorage.setItem('afti_global_xp', currentXP);
+        document.getElementById('global-points').innerText = currentXP;
+
+        saveState();
+        evaluateBridgeVisibility();
+    }
+
+    function saveState() {
+        const checkboxes = document.querySelectorAll('.task-cb');
+        const state = {};
+        checkboxes.forEach((cb, idx) => { state[idx] = cb.checked; });
+        localStorage.setItem('afti_stage2_recovery_b_checklist', JSON.stringify(state));
+    }
+
+    function loadState() {
+        const saved = localStorage.getItem('afti_stage2_recovery_b_checklist');
+        if (saved) {
+            try {
+                const state = JSON.parse(saved);
+                document.querySelectorAll('.task-cb').forEach((cb, idx) => {
+                    if (state[idx] !== undefined) cb.checked = state[idx];
+                });
+            } catch (e) { console.error(e); }
+        }
+        evaluateBridgeVisibility();
+    }
+
+    function evaluateBridgeVisibility() {
+        const checkboxes = document.querySelectorAll('.task-cb');
+        // Check if all recovery checkboxes are completed
+        const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+        document.getElementById('bridge-panel').style.display = allChecked ? 'block' : 'none';
+    }
+</script>
+
+</body>
+</html>
