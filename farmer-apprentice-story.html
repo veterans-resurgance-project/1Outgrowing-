@@ -140,6 +140,31 @@
             `,
             choices: [
                 {
+                    foster_shelter: {
+            image: "🏢 [Illustration: Warm, well-lit community resource center with pamphlets and a welcoming front desk]",
+            title: "First Steps: The Emergency & Resource Checklist",
+            prose: `
+                <p>You make your way toward the downtown public library and community resource center just before doors lock for the evening. A compassionate night advocate hands you an intake packet, a warm cup of tea, and a hard truth: surviving independently without a safety net requires stabilizing your basic legal, food, and shelter needs immediately.</p>
+                <p>This isn't just about clearing a game hurdle—these are the exact real-world survival steps every young adult aging out needs to execute. Complete your immediate checklist below to secure your footing and earn your first foundational resources:</p>
+            `,
+            choices: [
+                {
+                    title: "1. Secure a Free Public Library Card & Digital Access",
+                    desc: "Critical for free internet, resume printing, warming shelter during the day, and accessing agricultural extension manuals.",
+                    action: "completeChecklistItem('foster_library', 25, 'Library Card Secured: Access to internet, job boards, and agricultural manuals unlocked.')"
+                },
+                {
+                    title: "2. Apply for SNAP (Supplemental Nutrition Assistance Program / Food Stamps)",
+                    desc: "Visit the Oregon Department of Human Services (ODHS) or local community partner to establish emergency food benefits.",
+                    action: "completeChecklistItem('foster_snap', 50, 'SNAP Application Filed: Emergency food security pathway initiated.')"
+                },
+                {
+                    title: "3. Connect with Transitional Housing & Mutual Aid Shelter Network",
+                    desc: "Register with local youth shelter beds or regional housing stabilization programs to get off the cold concrete.",
+                    action: "completeChecklistItem('foster_housing', 75, 'Housing Intake Completed: Temporary shelter placement secured.')"
+                }
+            ]
+        },
                     title: "The Foster-Alum Route (High Resilience, Scrappy Start)",
                     desc: "You just turned 18. Left out in the streets with a single bag holding your meager belongings, it's almost dark, cold, and the city lights are blurring. You possess unmatched adaptability and a deep instinct for survival.",
                     action: "selectTrack('foster', 'Foster-Alum Track', 'foster_start')"
