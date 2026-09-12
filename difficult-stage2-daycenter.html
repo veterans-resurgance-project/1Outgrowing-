@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AFTI - Difficult Track: Library &amp; Community Navigation</title>
+  <script src="afti-core.js"></script>
+</head>
+<body style="background-color: #0f172a; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+
+<div style="width: 100%; max-width: 800px; background: #1e293b; border-radius: 14px; padding: 35px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 12px 32px rgba(0,0,0,0.5);">
+
+    <!-- GLOBAL HUD BAR -->
+    <div style="background: #144d29; border-radius: 8px; padding: 10px 18px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; border: 1px solid rgba(255,255,255,0.2); font-size: 0.9rem;">
+        <span>Path: <span style="color: #38bdf8;">Foster-Alum Track</span></span>
+        <div>
+            <span>Global XP: <span id="global-points" style="color: #4ade80;">400</span></span>
+            <button onclick="toggleTestBypass()" id="test-mode-btn" style="margin-left: 15px; background: #334155; color: #cbd5e1; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.75rem;">Enable Test Bypass</button>
+        </div>
+    </div>
+
+    <!-- STAGE 1: LIBRARY RESOURCES & COMMUNITY NAVIGATION -->
+    <div>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+        <h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0;">📚 Stage 1: Library Resources &amp; Community Navigation</h2>
+        <span style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; border: 1px solid rgba(56, 189, 248, 0.3);">Location: Public Library Branch</span>
+      </div>
+      
+      <p style="color: #cbd5e1; font-size: 1.05rem; line-height: 1.6; margin-bottom: 1.5rem;">
+        Your landing point after choosing the difficult track begins here at the library terminal to establish your digital footprint, secure paperwork, and map out local resources.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem;">
+        
+        <label style="background: #0f172a; padding: 1.25rem; border-radius: 10px; border: 1px solid #334155; display: flex; align-items: flex-start; gap: 1rem; cursor: pointer;">
+          <input type="checkbox" class="simulation-checkbox" onchange="handleLibraryCheck(this, 50)" style="margin-top: 0.3rem; transform: scale(1.2); accent-color: #27ae60; cursor: pointer;">
+          <div>
+            <div style="color: #ffffff; font-weight: 700; font-size: 1.05rem; margin-bottom: 0.25rem;">Acquire Public Library Card <span style="color: #2ecc71; font-weight: 600; font-size: 0.9rem;">(+50 XP)</span></div>
+            <div style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5;">Visit the local library branch, present valid ID or proof of address, and establish an active account to unlock free internet access and printing.</div>
+          </div>
+        </label>
+
+        <label style="background: #0f172a; padding: 1.25rem; border-radius: 10px; border: 1px solid #334155; display: flex; align-items: flex-start; gap: 1rem; cursor: pointer;">
+          <input type="checkbox" class="simulation-checkbox" onchange="handleLibraryCheck(this, 75)" style="margin-top: 0.3rem; transform: scale(1.2); accent-color: #27ae60; cursor: pointer;">
+          <div>
+            <div style="color: #ffffff; font-weight: 700; font-size: 1.05rem; margin-bottom: 0.25rem;">Schedule Digital Literacy or Job Search Session <span style="color: #2ecc71; font-weight: 600; font-size: 0.9rem;">(+75 XP)</span></div>
+            <div style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5;">Book an appointment with a branch specialist to update resume drafts and check online application portals.</div>
+          </div>
+        </label>
+
+        <label style="background: #0f172a; padding: 1.25rem; border-radius: 10px; border: 1px solid #334155; display: flex; align-items: flex-start; gap: 1rem; cursor: pointer;">
+          <input type="checkbox" class="simulation-checkbox" onchange="handleLibraryCheck(this, 100)" style="margin-top: 0.3rem; transform: scale(1.2); accent-color: #27ae60; cursor: pointer;">
+          <div>
+            <div style="color: #ffffff; font-weight: 700; font-size: 1.05rem; margin-bottom: 0.25rem;">Execute Housing or Benefits Application Paperwork <span style="color: #2ecc71; font-weight: 600; font-size: 0.9rem;">(+100 XP)</span></div>
+            <div style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5;">Complete online forms using library workstation terminals and save digital confirmation receipts.</div>
+          </div>
+        </label>
+
+      </div>
+
+      <!-- NAVIGATION LINK TO NEXT SEPARATE FILE (DAY CENTER & ADVOCACY INTAKE) -->
+      <div style="background: rgba(39, 174, 96, 0.1); border: 1px solid rgba(39, 174, 96, 0.4); padding: 2rem; border-radius: 12px; text-align: center;">
+        <h3 style="color: #4ade80; margin-top: 0; margin-bottom: 0.75rem; font-size: 1.25rem;">Ready for Stage 2?</h3>
+        <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.5; margin-bottom: 1.5rem;">
+          Once your library card and initial digital paperwork are secured, advance to the community day center intake facility.
+        </p>
+        <a href="difficult-track-stage2-daycenter.html" style="background: #27ae60; color: #ffffff; text-decoration: none; font-weight: bold; padding: 12px 24px; border-radius: 8px; display: inline-block; transition: background 0.2s;">
+          Proceed to Day Center &amp; Advocacy Intake &rarr;
+        </a>
+      </div>
+
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        loadXP();
+        loadChecklistState();
+    });
+
+    function handleLibraryCheck(checkbox, xpAmount) {
+        let currentXP = parseInt(localStorage.getItem('afti_global_xp') || '400', 10);
+        const isBypassed = sessionStorage.getItem('afti_test_bypass') === 'true';
+        
+        if (checkbox.checked) {
+            if (!isBypassed) {
+                currentXP += xpAmount;
+                setXP(currentXP);
+            }
+        } else {
+            if (!isBypassed) {
+                currentXP = Math.max(0, currentXP - xpAmount);
+                setXP(currentXP);
+            }
+        }
+        saveChecklistState();
+    }
+
+    function setXP(val) {
+        localStorage.setItem('afti_global_xp', val);
+        const pointsDisplay = document.getElementById('global-points');
+        if (pointsDisplay) pointsDisplay.innerText = val;
+    }
+
+    function loadXP() {
+        const pointsDisplay = document.getElementById('global-points');
+        if (pointsDisplay) pointsDisplay.innerText = localStorage.getItem('afti_global_xp') || '400';
+    }
+
+    function toggleTestBypass() {
+        const currentBypass = sessionStorage.getItem('afti_test_bypass') === 'true';
+        sessionStorage.setItem('afti_test_bypass', !currentBypass);
+        alert('Test bypass mode ' + (!currentBypass ? 'enabled' : 'disabled') + '.');
+    }
+
+    function saveChecklistState() {
+        const checkboxes = document.querySelectorAll('.simulation-checkbox');
+        const state = {};
+        checkboxes.forEach((cb, index) => { state[index] = cb.checked; });
+        localStorage.setItem('afti_stage1_library_checklist', JSON.stringify(state));
+    }
+
+    function loadChecklistState() {
+        const saved = localStorage.getItem('afti_stage1_library_checklist');
+        if (saved) {
+            try {
+                const state = JSON.parse(saved);
+                document.querySelectorAll('.simulation-checkbox').forEach((cb, index) => {
+                    if (state[index] !== undefined) cb.checked = state[index];
+                });
+            } catch (e) { console.error(e); }
+        }
+    }
+</script>
+
+</body>
+</html>
