@@ -26,18 +26,57 @@
             title.innerText = "Success (+100 XP)"; 
             title.style.color = "#4ade80";
             text.innerText = "You join a harvest cohort, tracking field yields and handling crops safely. High-volume deadlines prove to grant managers that you can maintain commercial delivery schedules.";
-            ac.innerHTML = '<button onclick="window.location.href=\'difficult-track-stage5-market.html\'" class="nav-bridge" style="border:none; cursor:pointer;">Proceed to Stage 5: Market Delivery &rarr;</button>';
+            ac.innerHTML = '<button onclick="window.location.href=\'difficult-track-stage5-market.html\'" class="handleVocationalClick" style="border:none; cursor:pointer;">Proceed to Stage 5: Market Delivery &rarr;</button>';
         } else if (choiceType === 'B') {
             vp.style.backgroundColor = 'rgba(245,158,11,0.1)'; 
             title.innerText = "Misinformed Pivot (+25 XP)"; 
             title.style.color = 'var(--warn)';
             text.innerText = "You complete soil amendments at a local community plot. While you build solid ecosystem knowledge, micro-scale sites don't offer enough volume to generate commercial wages.";
-            ac.innerHTML = '<button onclick="window.location.href=\'difficult-track-stage4-recovery-b.html\'" class="nav-bridge" style="background:var(--warn); border:none; cursor:pointer;">Enter Scaling Recovery Loop &rarr;</button>';
+            ac.innerHTML = '<button onclick="window.location.href=\'difficult-track-stage4-recovery-b.html\'" class="handleVocationalClick" style="background:var(--warn); border:none; cursor:pointer;">Enter Scaling Recovery Loop &rarr;</button>';
         } else {
             vp.style.backgroundColor = 'rgba(239,68,68,0.1)'; 
             title.innerText = "Safety Infraction (+0 XP)"; 
             title.style.color = 'var(--danger)';
             text.innerText = "While clearing brush solo, you strike an unmapped irrigation pipe with a pickaxe, causing localized erosion and halting progress. Your hours are frozen until safety clearance is logged.";
+            ac.innerHTML = '<button onclick="window.location.href=\'difficult-track-stage4-recovery-c.html\'" class="handleVocationalClick" style="background:var(--danger); border:none; cursor:pointer;">Enter Safety Remediation Loop &rarr;</button>';
+        }
+    }
+<script>
+    // FIX: Renamed locally to prevent infinite loop crashes
+    function handleVocationalClick(choiceType, points, stipend) {
+        // 1. Process points securely via core brain background if available
+        if (window.selectOption) {
+            window.selectOption(choiceType, points);
+            if (window.adjustStipend && stipend > 0) window.adjustStipend(stipend);
+        } else {
+            let currentXP = parseInt(localStorage.getItem('afti_global_xp') || '400', 10) + points;
+            localStorage.setItem('afti_global_xp', currentXP);
+            if (document.getElementById('global-points')) document.getElementById('global-points').innerText = currentXP;
+        }
+
+        // 2. Hide choices to freeze interactive states
+        document.getElementById('choices-wrapper').style.display = 'none';
+        
+        // 3. Unhide local text viewports
+        const vp = document.getElementById('feedback-viewport'); 
+        const title = document.getElementById('feedback-title');
+        const text = document.getElementById('feedback-text'); 
+        const ac = document.getElementById('feedback-action-container'); 
+        vp.style.display = 'block';
+        
+        // 4. Force display local prose feedback maps
+        if (choiceType === 'A') {
+            vp.style.backgroundColor = 'rgba(39,174,96,0.1)'; title.innerText = "Success (+100 XP)"; title.style.color = "#4ade80";
+            text.innerText = "You join a harvest cohort, tracking field yields and handling crops safely. High-volume deadlines prove to grant managers that you can maintain commercial delivery schedules.";
+            ac.innerHTML = '<button onclick="window.location.href=\'difficult-track-stage5-market.html\'" class="nav-bridge" style="border:none; cursor:pointer;">Proceed to Stage 5: Market Delivery &rarr;</button>';
+        } else if (choiceType === 'B') {
+            vp.style.backgroundColor = 'rgba(245,158,11,0.1)'; title.innerText = "Misinformed Pivot (+25 XP)"; title.style.color = 'var(--warn)';
+            text.innerText = "You complete soil amendments at a local community plot. While you build solid ecosystem knowledge, micro-scale sites don't offer enough volume to generate commercial wages.";
+            ac.innerHTML = '<button onclick="window.location.href=\'difficult-track-stage4-recovery-b.html\'" class="nav-bridge" style="background:var(--warn); border:none; cursor:pointer;">Enter Scaling Recovery Loop &rarr;</button>';
+        } else {
+            vp.style.backgroundColor = 'rgba(239,68,68,0.1)'; title.innerText = "Safety Infraction (+0 XP)"; title.style.color = 'var(--danger)';
+            text.innerText = "While clearing brush solo, you strike an unmapped irrigation pipe with a pickaxe, causing localized erosion and halting progress. Your hours are frozen until safety clearance is logged.";
             ac.innerHTML = '<button onclick="window.location.href=\'difficult-track-stage4-recovery-c.html\'" class="nav-bridge" style="background:var(--danger); border:none; cursor:pointer;">Enter Safety Remediation Loop &rarr;</button>';
         }
     }
+</script>
