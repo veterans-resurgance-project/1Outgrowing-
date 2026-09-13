@@ -2,118 +2,57 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Agrarian Gateway: Farmer &amp; Apprentice</title>
+    <title>AFTI - Track Selector</title>
     <style>
-        :root { --bg-color: #0f172a; --card-bg: #1e293b; --text-color: #f8fafc; --primary: #27ae60; --hud-bg: #144d29; --accent: #38bdf8; }
-        body { font-family: system-ui, sans-serif; background: var(--bg-color); color: var(--text-color); padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .container { width: 100%; max-width: 800px; background: var(--card-bg); border-radius: 14px; padding: 35px; box-sizing: border-box; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 12px 32px rgba(0,0,0,0.5); }
-        .hud-bar { background: var(--hud-bg); border-radius: 8px; padding: 10px 18px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; border: 1px solid rgba(255,255,255,0.2); font-size: 0.9rem; }
-        .story-image-slot { width: 100%; height: 220px; background: #0f172a; border-radius: 10px; border: 1px solid rgba(56,189,248,0.3); display: flex; align-items: center; justify-content: center; margin-bottom: 25px; color: #94a3b8; text-align: center; padding: 15px; box-sizing: border-box; font-style: italic; }
-        .prose-block { line-height: 1.7; color: #cbd5e1; margin-bottom: 25px; font-size: 1.05rem; }
-        .choices-container { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-        .choice-btn { background: #0f172a; border: 1px solid #334155; color: #f8fafc; padding: 16px 20px; border-radius: 8px; cursor: pointer; width: 100%; text-align: left; display: flex; flex-direction: column; gap: 5px; transition: all 0.2s ease; }
-        .choice-btn:hover { border-color: var(--primary); background: rgba(39, 174, 96, 0.1); transform: translateY(-2px); }
-        .choice-title { font-weight: bold; color: #4ade80; font-size: 1.05rem; }
-        .choice-desc { font-size: 0.85rem; color: #94a3b8; }
+        :root { --bg-color:#0f172a; --card-bg:#1e293b; --text-color:#f8fafc; --primary:#27ae60; --hud-bg:#144d29; --accent:#38bdf8; }
+        body { font-family:system-ui, sans-serif; background:var(--bg-color); color:var(--text-color); padding:20px; display:flex; justify-content:center; align-items:center; min-height:100vh; margin:0; }
+        .container { width:100%; max-width:800px; background:var(--card-bg); border-radius:14px; padding:35px; box-sizing:border-box; border:1px solid rgba(255,255,255,0.1); }
+        .hud-bar { background:var(--hud-bg); border-radius:8px; padding:10px 18px; margin-bottom:25px; display:flex; justify-content:space-between; align-items:center; font-weight:bold; font-size:0.9rem; }
+        .choices-container { display:flex; flex-direction:column; gap:12px; margin-top:20px; }
+        .choice-btn { background:#0f172a; border:1px solid #334155; color:#f8fafc; padding:16px 20px; border-radius:8px; cursor:pointer; width:100%; text-align:left; display:flex; flex-direction:column; gap:5px; }
+        .choice-btn:hover { border-color:var(--primary); background:rgba(39,174,96,0.1); }
+        .choice-title { font-weight:bold; color:#4ade80; font-size:1.05rem; }
+        .choice-desc { font-size:0.85rem; color:#94a3b8; }
     </style>
 </head>
 <body>
-    <!-- UPDATED GLOBAL HUD WITH RETURN PORTAL ACCELERATOR -->
+<div class="container">
     <div class="hud-bar">
-        <span>Path: <span style="color: var(--accent);">Active Track</span></span>
-        <div style="display: flex; align-items: center; gap: 20px;">
-            <span>Global XP: <span id="global-points" style="color: #4ade80;">400</span></span>
+        <span>Path: <span id="hud-track" style="color:var(--accent);">Not Selected</span></span>
+        <div style="display:flex; align-items:center; gap:20px;">
+            <div>Global XP: <span id="global-points" style="color:#4ade80;">400</span></div>
+            <button onclick="window.location.href='index.html'" style="background:#334155; color:#fff; border:1px solid rgba(255,255,255,0.2); padding:5px 12px; border-radius:6px; font-size:0.75rem; cursor:pointer;">🏠 Exit</button>
+        </div>
+    </div>
+    <div>
+        <h2 style="margin-top:0;">🌾 Select Your Background Track</h2>
+        <p style="line-height:1.6; color:#cbd5e1;">Every path demands grit, but your initial hurdles change depending on where you start. Select a track to initialize your portfolio tracking data:</p>
+        
+        <div class="choices-container">
+            <!-- FOSTER ALUM PATH -->
+            <button class="choice-btn" onclick="localStorage.setItem('afti_track_name','Foster-Alum'); window.location.href='difficult-track-stage2-daycenter.html'">
+                <span class="choice-title">1. The Foster-Alum Route (High Resilience, Scrappy Start)</span>
+                <span class="choice-desc">Navigate systemic resource gaps, secure clean cell documentation, and build vital social capital networks.</span>
+            </button>
             
-            <!-- THE ESCAPE HATCH BUTTON -->
-            <button onclick="window.location.href='index.html'" style="background: #334155; color: #f8fafc; border: 1px solid rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; cursor: pointer; transition: background 0.2s;">
-                🏠 Exit to Portal
+            <!-- STANDARD BOOTSTRAP PATH -->
+            <button class="choice-btn" onclick="localStorage.setItem('afti_track_name','Standard Bootstrap'); window.location.href='standard-track-stage1-waiting.html'">
+                <span class="choice-title">2. The Standard Bootstrap Route (Balanced Grind)</span>
+                <span class="choice-desc">Balance an off-farm day job while researching local university extension data and preparing soil on waiting lists.</span>
+            </button>
+            
+            <!-- CAPITAL BACKED PATH -->
+            <button class="choice-btn" onclick="localStorage.setItem('afti_track_name','Capital-Backed'); window.location.href='capital-track-stage1-finance.html'">
+                <span class="choice-title">3. The Capital-Backed Route (High Investment Focus)</span>
+                <span class="choice-desc">Manage upfront commercial funds, outline machinery cashflow parameters, and protect yourself against debt traps.</span>
             </button>
         </div>
     </div>
-    
+</div>
 <script>
-    const storyNodes = {
-        intro: {
-            image: "🌲 [Illustration: Early morning mist over the Willamette Valley]",
-            title: "Roots &amp; Resilience: The Agrarian Gateway",
-            prose: "<p>The soil has a long memory. The dream is simple: build a regenerative homestead and carve out an independent living. But how you get your footing changes everything. Every path demands grit, but the resources look vastly different depending on where you start.</p><p><em>Choose your background to begin:</em></p>",
-            choices: [
-                { title: "The Foster-Alum Route (Scrappy Start)", desc: "You just turned 18. Left out with a single canvas bag, it's dark and cold. You possess unmatched adaptability and survival grit.", action: "selectTrack('foster', 'Foster-Alum Track', 'foster_start')" },
-                { title: "The Standard Bootstrap Route (Balanced Grind)", desc: "You have a stable apartment and a day job. You want to farm but don't know where to start while sitting on program waiting lists.", action: "selectTrack('standard', 'Standard Bootstrap', 'standard_redirect')" },
-                { title: "The Capital-Backed Route (High Capital)", desc: "Early investments have provided you with startup capital. The challenge isn't survival—it's avoiding over-capitalization and debt traps.", action: "selectTrack('capital', 'Capital-Backed Track', 'capital_redirect')" }
-            ]
-        },
-        foster_start: {
-            image: "🌆 [Illustration: Cold city street corner at dusk]",
-            title: "The Turning Point: Day Zero",
-            prose: "<p>The institutional glass doors close behind you for the last time. You just turned 18. You're standing on the sidewalk as a damp chill sets in. You have no safety net, no family couch to crash on, and only a single bag.</p><p>You need to make a move before night takes over. What do you do?</p>",
-            choices: [
-                { title: "Option A: Head to the public transit hub to find a shelter or mutual aid network", desc: "Connect with local community resources and look for immediate housing support. (+50 XP)", action: "resolveChoice('foster_shelter', 50, 'Shelter Located')" },
-                { title: "Option B: Walk toward the edge of town where the industrial grid meets the valley", desc: "Scout an abandoned tool shed or sheltered perimeter near public lands to set up camp. (+50 XP)", action: "resolveChoice('foster_outskirts', 50, 'Camp Established')" }
-            ]
-        },
-        standard_redirect: {
-            image: "📂 [Routing Matrix]", title: "Loading Standard Pathway...", prose: "<p>Preparing technical soil mapping databases and waiting list preparation portals...</p>",
-            choices: [{ title: "Initialize Waiting List Module &rarr;", desc: "Open standard-track-stage1-waiting.html", action: "window.location.href='standard-track-stage1-waiting.html'" }]
-        },
-        capital_redirect: {
-            image: "📂 [Routing Matrix]", title: "Loading Capital-Backed Pathway...", prose: "<p>Preparing capitalization risk indices and investment allocation portals...</p>",
-            choices: [{ title: "Initialize Capital Management Module &rarr;", desc: "Open capital-track-stage1-finance.html", action: "window.location.href='capital-track-stage1-finance.html'" }]
-        }
-    };
-
-    let currentTrack = "";
-
-    document.addEventListener("DOMContentLoaded", () => {
-        renderNode("intro");
-        document.getElementById('global-points').innerText = localStorage.getItem('afti_global_xp') || '400';
+    document.addEventListener("DOMContentLoaded", () => { 
+        document.getElementById('global-points').innerText = localStorage.getItem('afti_global_xp') || '400'; 
     });
-
-    function selectTrack(trackId, trackName, nextNodeId) {
-        currentTrack = trackId;
-        localStorage.setItem('afti_active_track', trackId);
-        localStorage.setItem('afti_track_name', trackName);
-        if (document.getElementById('hud-track')) { document.getElementById('hud-track').innerText = trackName; }
-        renderNode(nextNodeId);
-    }
-
-    function resolveChoice(choiceId, xpAmount, feedbackMessage) {
-        let currentXP = parseInt(localStorage.getItem('afti_global_xp') || '400', 10) + xpAmount;
-        localStorage.setItem('afti_global_xp', currentXP);
-        if (document.getElementById('global-points')) { document.getElementById('global-points').innerText = currentXP; }
-        if (document.getElementById('choices-wrapper')) { document.getElementById('choices-wrapper').style.display = 'none'; }
-
-        const viewport = document.getElementById('story-viewport');
-        const feedbackBox = document.createElement('div');
-        feedbackBox.style.cssText = "margin-top:25px; padding:25px; border-radius:10px; background:rgba(39,174,96,0.1); border:1px solid rgba(39,174,96,0.4); line-height:1.6;";
-        feedbackBox.innerHTML = `
-            <h3 style="color:#4ade80; margin-top:0;">✓ Action Verified: ${feedbackMessage} (+${xpAmount} XP)</h3>
-            <p style="color:#cbd5e1; margin-bottom:20px;">Your decision has been officially compiled into your dynamic Qualification Portfolio. You are now prepared to advance to official program processing hubs.</p>
-            <button onclick="window.location.href='difficult-track-stage2-daycenter.html'" class="nav-bridge" style="border:none; cursor:pointer; background:#27ae60; color:#fff; font-weight:bold; padding:12px 24px; border-radius:8px;">Proceed to Stage 2: Day Center Intake &rarr;</button>
-        `;
-        viewport.appendChild(feedbackBox);
-    }
-
-    function renderNode(nodeId) {
-        const node = storyNodes[nodeId]; if (!node) return;
-        const viewport = document.getElementById('story-viewport'); if (!viewport) return;
-
-        viewport.innerHTML = `
-            <div class="story-image-slot">${node.image}</div>
-            <h2 style="margin-top:0; margin-bottom:15px; font-size:1.5rem; color:#ffffff;">${node.title}</h2>
-            <div class="prose-block">${node.prose}</div>
-            <div class="choices-container" id="choices-wrapper"></div>
-        `;
-
-        const wrapper = document.getElementById('choices-wrapper');
-        node.choices.forEach(choice => {
-            const btn = document.createElement('button');
-            btn.className = 'choice-btn';
-            btn.setAttribute('onclick', choice.action);
-            btn.innerHTML = `<span class="choice-title">${choice.title}</span><span class="choice-desc">${choice.desc}</span>`;
-            wrapper.appendChild(btn);
-        });
-    }
 </script>
 </body>
 </html>
