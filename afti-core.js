@@ -14,12 +14,23 @@ function awardGlobalXP(amount = 50) {
     updateXPDisplay(currentXP);
     return currentXP;
 }
-
 function updateXPDisplay(xpValue) {
     document.querySelectorAll('#global-points, #hud-xp, #completion-xp-display').forEach(el => { if (el) el.innerText = xpValue; });
-    if (document.getElementById('hud-track')) { document.getElementById('hud-track').innerText = localStorage.getItem('afti_track_name') || 'Not Selected'; }
-    if (document.getElementById('stipend-amount')) { document.getElementById('stipend-amount').innerText = '$' + (localStorage.getItem('afti_earned_stipend') || '0'); }
+    const activeTrack = localStorage.getItem('afti_track_name') || 'Not Selected';
+    if (document.getElementById('hud-track')) { document.getElementById('hud-track').innerText = activeTrack; }
+    
+    // STIPEND SECURITY RULE: Only show money tracking if on the Foster-Alum pathway
+    const stipendEl = document.getElementById('stipend-amount');
+    if (stipendEl) {
+        if (activeTrack === 'Foster-Alum') {
+            stipendEl.innerText = '$' + (localStorage.getItem('afti_earned_stipend') || '0');
+            stipendEl.parentElement.style.display = 'inline'; // Ensure visibility
+        } else {
+            stipendEl.parentElement.style.display = 'none'; // Hide completely for Bootstrap & Capital
+        }
+    }
 }
+
 
 // --- STORY INTERFACES REPAIRED ---
 function selectDayCenterOption(type, pts) { selectOption(type, points); } // Bridge fix
