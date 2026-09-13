@@ -127,167 +127,108 @@
     </div>
 </div>
 
-<script>
-    // Story Node Graph
-    const storyNodes = {
-        intro: {
-            image: "🌲 [Illustration: Early morning mist rising over a diverse Willamette Valley homestead]",
-            title: "Roots &amp; Resilience: The Agrarian Gateway",
-            prose: `
-                <p>The soil of the valley has a long memory. For generations, people have come to this land seeking roots, sustainability, and a fresh start. Our protagonist stands at a crossroads, staring out over a neglected plot of earth bordered by towering Douglas-firs and wild berry thickets.</p>
-                <p>The dream is simple: build a regenerative homestead, master the craft of the land, and carve out an independent living. But how you get your footing changes everything. Every path demands grit, but the resources—and the hurdles—look vastly different depending on where you start.</p>
-                <p><em>Choose your background to begin your journey:</em></p>
-            `,
-            choices: [
-                {
-                    title: "The Foster-Alum Route (High Resilience, Scrappy Start)",
-                    desc: "You just turned 18. Left out in the streets with a single bag holding your meager belongings, it's almost dark, cold, and the city lights are blurring. You possess unmatched adaptability and a deep instinct for survival.",
-                    action: "selectTrack('foster', 'Foster-Alum Track', 'foster_start')"
-                },
-                {
-                    title: "The Standard Bootstrap Route (Balanced Grind)",
-                    desc: "You’ve scraped together a small savings account from off-farm labor. Balancing a day job while slowly buying tools, learning extension guidelines, and trying to secure a long-term lease.",
-                    action: "selectTrack('standard', 'Standard Bootstrap', 'standard_start')"
-                },
-                {
-                    title: "The Capital-Backed Route (Privileged Backing)",
-                    desc: "Family support or early investments have provided you with land access and startup capital. The challenge isn't survival—it's avoiding over-capitalization and earning local respect.",
-                    action: "selectTrack('capital', 'Capital-Backed Track', 'capital_start')"
-                }
-            ]
-        },
+// Current state variables
+let currentTrack = "";
 
-        foster_start: {
-            image: "🌆 [Illustration: Cold, dim city street corner at dusk with heavy shadows and distant neon signs]",
-            title: "The Turning Point: Day Zero",
-            prose: `
-                <p>The heavy institutional glass doors close behind you for the last time. You just turned 18. You're standing out on the concrete sidewalk as a damp Pacific Northwest chill sets into the evening air, holding a single canvas bag with your meager belongings.</p>
-                <p>It's almost dark, the temperature is dropping fast, and the city feels vast, indifferent, and expensive. You have no safety net, no family couch to crash on, and only a few crumpled bills in your pocket.</p>
-                <p>You need to make a move before night fully takes over. What do you do?</p>
-            `,
-            choices: [
-                {
-                    title: "Option A: Head toward the public transit hub to find a 24-hour shelter or mutual aid network",
-                    desc: "Connect with local community resources, safeguard your belongings, and look for immediate transitional housing support.",
-                    action: "resolveChoice('foster_shelter', 50, 'Shelter & Mutual Aid Network Located (+50 XP)')"
-                },
-                {
-                    title: "Option B: Walk toward the edge of town where the industrial grid meets the agricultural valley",
-                    desc: "Scout out an abandoned tool shed or sheltered perimeter near public lands to set up a temporary camp under your tarp.",
-                    action: "resolveChoice('foster_outskirts', 50, 'Perimeter Scouted & Camp Established (+50 XP)')"
-                }
-            ]
-        },
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. Load the initial screen
+    renderNode("intro");
+    
+    // 2. Sync up with global points
+    const pointsDisplay = document.getElementById('global-points');
+    if (pointsDisplay) {
+        pointsDisplay.innerText = localStorage.getItem('afti_global_xp') || '400';
+    }
+});
 
-        standard_start: {
-            image: "🛠️ [Illustration: Working late in a garage workshop, repairing a secondhand rototiller by flashlight]",
-            title: "The Bootstrap Reality",
-            prose: `
-                <p>You've locked down a modest agricultural lease with a five-year option, but the ground has been heavily compacted. You're working forty hours a week off-farm just to pay rent.</p>
-                <p>The weekend is here, and you have two days to decide how to break ground on your first cash-flow experiment.</p>
-            `,
-            choices: [
-                {
-                    title: "Option A: Rent a heavy subsoiler to bust the hardpan",
-                    desc: "Fast mechanical intervention, high rental cost.",
-                    action: "resolveChoice('standard_mechanical', 50, 'Mechanical Hardpan Busted (+50 XP)')"
-                },
-                {
-                    title: "Option B: Sheet mulch with local cardboard and manure",
-                    desc: "Slower biological remediation, builds immediate fungal activity.",
-                    action: "resolveChoice('standard_biological', 50, 'Biological Sheet Mulch Deployed (+50 XP)')"
-                }
-            ]
-        },
+// Function to handle choosing your starting track (Foster, Standard, or Capital)
+function selectTrack(trackId, trackName, nextNodeId) {
+    currentTrack = trackId;
+    localStorage.setItem('afti_active_track', trackId);
+    localStorage.setItem('afti_track_name', trackName);
+    
+    const trackHUD = document.getElementById('hud-track');
+    if (trackHUD) {
+        trackHUD.innerText = trackName;
+    }
+    
+    // Jump straight to the start node for that track
+    renderNode(nextNodeId);
+}
 
-        capital_start: {
-            image: "🚜 [Illustration: Walking a clean, fenced acreage with architectural blueprints and a soil test report]",
-            title: "The Capital Advantage",
-            prose: `
-                <p>The land is yours—free and clear, backed by a family micro-grant. You have modern fencing, a clean well, and enough capital to buy a small compact tractor right out of the gate.</p>
-                <p>How do you begin your first operational phase?</p>
-            `,
-            choices: [
-                {
-                    title: "Option A: Invest heavily in automated irrigation and high tunnels",
-                    desc: "Optimize labor efficiency and maximize output volume right away.",
-                    action: "resolveChoice('capital_automated', 50, 'High-Tech Infrastructure Installed (+50 XP)')"
-                },
-                {
-                    title: "Option B: Pause machinery purchases and spend a season mapping water flow",
-                    desc: "Observe natural contours, drainage patterns, and micro-climates before building.",
-                    action: "resolveChoice('capital_observational', 50, 'Hydrological Mapping Completed (+50 XP)')"
-                }
-            ]
-        }
-    };
+// THE FIX: This function handles the choice selections on Day Zero and creates the link to move forward
+function resolveChoice(choiceId, xpAmount, feedbackMessage) {
+    // 1. Process local storage global XP adjustments
+    let currentXP = parseInt(localStorage.getItem('afti_global_xp') || '400', 10);
+    currentXP += xpAmount;
+    localStorage.setItem('afti_global_xp', currentXP);
+    
+    const pointsDisplay = document.getElementById('global-points');
+    if (pointsDisplay) {
+        pointsDisplay.innerText = currentXP;
+    }
 
-    function renderNode(nodeKey) {
-        const node = storyNodes[nodeKey];
-        if (!node) return;
+    // 2. Clear out the choice buttons so they can't be clicked twice
+    const choicesContainer = document.querySelector('.choices-container');
+    if (choicesContainer) {
+        choicesContainer.innerHTML = "";
+    }
 
-        // Update HUD track display
-        const activeTrackName = localStorage.getItem('afti_track_name') || 'Not Selected';
-        document.getElementById('hud-track').innerText = activeTrackName;
+    // 3. Inject the feedback text and the real bridge button to advance to Stage 2
+    const storyViewport = document.getElementById('story-viewport');
+    
+    // Create a container for the feedback
+    const feedbackBox = document.createElement('div');
+    feedbackBox.style.marginTop = '25px';
+    feedbackBox.style.padding = '25px';
+    feedbackBox.style.borderRadius = '10px';
+    feedbackBox.style.background = 'rgba(39, 174, 96, 0.1)';
+    feedbackBox.style.border = '1px solid rgba(39, 174, 96, 0.4)';
+    feedbackBox.style.lineHeight = '1.6';
 
-        let html = `
-            <div class="story-image-slot">${node.image}</div>
-            <h2 style="color: #fff; margin-top: 0; font-size: 1.4rem;">${node.title}</h2>
-            <div class="prose-block">${node.prose}</div>
-            <div class="choices-container">
+    feedbackBox.innerHTML = `
+        <h3 style="color: #4ade80; margin-top: 0;">✓ Action Verified: ${feedbackMessage}</h3>
+        <p style="color: #cbd5e1; margin-bottom: 20px;">
+            Your decision has been logged into your Verified Portfolio of Effort. Establishing your initial digital footprint or a temporary shelter is complete. You are now prepared to advance to regional intake.
+        </p>
+        <!-- THIS REMOVES THE DEAD-END AND ADVANCES TO YOUR STAGE 2 FILE -->
+        <a href="difficult-track-stage2-daycenter.html" style="display: inline-block; background: #27ae60; color: #ffffff; text-decoration: none; font-weight: bold; padding: 14px 28px; border-radius: 8px; box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);">
+            Proceed to Stage 2: Day Center Intake &rarr;
+        </a>
+    `;
+    
+    storyViewport.appendChild(feedbackBox);
+}
+
+// Core rendering utility to update the scene text and choices dynamically
+function renderNode(nodeId) {
+    const node = storyNodes[nodeId];
+    if (!node) return;
+
+    const viewport = document.getElementById('story-viewport');
+    if (!viewport) return;
+
+    // Render image title and prose
+    viewport.innerHTML = `
+        <div class="story-image-slot">${node.image}</div>
+        <h2 style="margin-top: 0; margin-bottom: 15px; font-size: 1.5rem; color: #ffffff;">${node.title}</h2>
+        <div class="prose-block">${node.prose}</div>
+        <div class="choices-container" id="choices-wrapper"></div>
+    `;
+
+    // Inject choice buttons
+    const wrapper = document.getElementById('choices-wrapper');
+    node.choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.setAttribute('onclick', choice.action);
+        btn.innerHTML = `
+            <span class="choice-title">${choice.title}</span>
+            <span class="choice-desc">${choice.desc}</span>
         `;
-
-        node.choices.forEach(choice => {
-            html += `
-                <button class="choice-btn" onclick="${choice.action}">
-                    <span class="choice-title">${choice.title}</span>
-                    <span class="choice-desc">${choice.desc}</span>
-                </button>
-            `;
-        });
-
-        html += `</div>`;
-        document.getElementById('story-viewport').innerHTML = html;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function selectTrack(trackCode, trackLabel, startNodeKey) {
-        localStorage.setItem('afti_active_track', trackCode);
-        localStorage.setItem('afti_track_name', trackLabel);
-        renderNode(startNodeKey);
-    }
-
-    function resolveChoice(nextNodeKey, xpReward, successMessage) {
-        // Award XP using core utility
-        awardGlobalXP(xpReward);
-        
-        // Render confirmation landing/explanation page before next problem
-        document.getElementById('story-viewport').innerHTML = `
-            <div style="text-align: center; padding: 40px 20px;">
-                <div style="background: #144d29; border-radius: 50px; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; font-size: 1.5rem; color: #4ade80;">✓</div>
-                <h3 style="color: #4ade80; margin-top: 0; font-size: 1.3rem;">Milestone Reached</h3>
-                <p style="font-size: 1.1rem; color: #f8fafc; margin-bottom: 10px; font-weight: bold;">${successMessage}</p>
-                <p style="color: #94a3b8; max-width: 450px; margin: 0 auto 30px auto; font-size: 0.95ln;">Your strategic decision has been logged to your verified portfolio of effort. You are ready to face the next agricultural challenge.</p>
-                <button class="choice-btn" style="max-width: 300px; margin: 0 auto; text-align: center; justify-content: center; background: #27ae60; color: white;" onclick="alert('Next problem chapter loading soon! Stay tuned as we expand the storyline.')">
-                    <span class="choice-title" style="color: white;">Proceed to Next Challenge &rarr;</span>
-                </button>
-            </div>
-        `;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // Initialize engine on load
-    document.addEventListener("DOMContentLoaded", () => {
-        // If track isn't set yet, show intro. Otherwise, resume or show intro.
-        const activeTrack = localStorage.getItem('afti_active_track');
-        if (!activeTrack) {
-            renderNode('intro');
-        } else {
-            // Default to intro if resetting, or let them pick fresh
-            renderNode('intro');
-        }
+        wrapper.appendChild(btn);
     });
-</script>
-
+}
+    
 </body>
 </html>
