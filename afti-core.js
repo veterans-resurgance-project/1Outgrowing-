@@ -13,38 +13,28 @@ function awardGlobalXP(amount = 50) {
     localStorage.setItem('afti_global_xp', currentXP);
     updateXPDisplay(currentXP);
     return currentXP;
-}function updateXPDisplay(xpValue) {
+}
+
+function updateXPDisplay(xpValue) {
     document.querySelectorAll('#global-points, #hud-xp, #completion-xp-display').forEach(el => { if (el) el.innerText = xpValue; });
     const activeTrack = localStorage.getItem('afti_track_name') || 'Not Selected';
     if (document.getElementById('hud-track')) { document.getElementById('hud-track').innerText = activeTrack; }
     
-    // STIPEND SECURITY RULE: Only show money tracking if on the Foster-Alum pathway
-    const stipendEl = document.getElementById('stipend-amount');
-    if (stipendEl) {
+    // STIPEND HIDE RULE: Only show the box if the player is on the Foster-Alum pathway
+    const stipendBox = document.getElementById('foster-stipend-box');
+    if (stipendBox) {
         if (activeTrack === 'Foster-Alum') {
-            stipendEl.innerText = '$' + (localStorage.getItem('afti_earned_stipend') || '0');
-            stipendEl.parentElement.style.display = 'inline'; // Ensure visibility
+            stipendBox.style.display = 'inline';
+            const stipendEl = document.getElementById('stipend-amount');
+            if (stipendEl) stipendEl.innerText = '$' + (localStorage.getItem('afti_earned_stipend') || '0');
         } else {
-            stipendEl.parentElement.style.display = 'none'; // Hide completely for Bootstrap & Capital
+            stipendBox.style.display = 'none';
         }
     }
 }
-
-    // STIPEND SECURITY RULE: Only show money tracking if on the Foster-Alum pathway
-    const stipendEl = document.getElementById('stipend-amount');
-    if (stipendEl) {
-        if (activeTrack === 'Foster-Alum') {
-            stipendEl.innerText = '$' + (localStorage.getItem('afti_earned_stipend') || '0');
-            stipendEl.parentElement.style.display = 'inline'; // Ensure visibility
-        } else {
-            stipendEl.parentElement.style.display = 'none'; // Hide completely for Bootstrap & Capital
-        }
-    }
-}
-
 
 // --- STORY INTERFACES REPAIRED ---
-function selectDayCenterOption(type, pts) { selectOption(type, points); } // Bridge fix
+function selectDayCenterOption(type, pts) { selectOption(type, pts); }
 function selectOption(type, pts) { awardGlobalXP(pts); }
 function selectVocationalOption(type, pts, stip) { adjustStipend(stip); awardGlobalXP(pts); }
 function selectMarketOption(type, pts) { awardGlobalXP(pts); }
@@ -65,6 +55,11 @@ function generateModulePassKey(modulePrefix = "MOD") {
     localStorage.setItem(`unlocked_${modulePrefix.toLowerCase()}_key`, secureToken);
     return secureToken;
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Catch-all safety binder for any legacy files calling old script syntax
+    window.adjustGlobalXP = awardGlobalXP;
+});
 
 function verifyModuleKey(modulePrefix, inputElementId, errorElementId, successCallback) {
     const inputField = document.getElementById(inputElementId); const errorMsg = document.getElementById(errorElementId);
