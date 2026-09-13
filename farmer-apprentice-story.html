@@ -95,7 +95,7 @@
         }
         .choice-btn:hover { 
             border-color: var(--primary); 
-            background: rgba(39,174,96,0.1); 
+            background: rgba(39, 174, 96, 0.1); 
             transform: translateY(-2px);
         }
         .choice-title {
@@ -117,7 +117,6 @@
         <span>Path: <span id="hud-track" style="color: var(--accent);">Not Selected</span></span>
         <div>
             <span>Global XP: <span id="global-points" style="color: #4ade80;">400</span></span>
-            <button onclick="toggleTestBypass()" id="test-mode-btn" style="margin-left: 15px; background: #334155; color: #cbd5e1; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.75rem;">Enable Test Bypass</button>
         </div>
     </div>
 
@@ -127,108 +126,109 @@
     </div>
 </div>
 
-// Current state variables
-let currentTrack = "";
+<!-- ALL LOGIC PROPERLY LOCKED INSIDE THE SCRIPT TAG -->
+<script>
+    // Story Node Graph Data
+    const storyNodes = {
+        intro: {
+            image: "🌲 [Illustration: Early morning mist rising over a diverse Willamette Valley homestead]",
+            title: "Roots &amp; Resilience: The Agrarian Gateway",
+            prose: `
+                <p>The soil of the valley has a long memory. For generations, people have come to this land seeking roots, sustainability, and a fresh start. Our protagonist stands at a crossroads, staring out over a neglected plot of earth bordered by towering Douglas-firs and wild berry thickets.</p>
+                <p>The dream is simple: build a regenerative homestead, master the craft of the land, and carve out an independent living. But how you get your footing changes everything. Every path demands grit, but the resources—and the hurdles—look vastly different depending on where you start.</p>
+                <p><em>Choose your background to begin your journey:</em></p>
+            `,
+            choices: [
+                {
+                    title: "The Foster-Alum Route (High Resilience, Scrappy Start)",
+                    desc: "You just turned 18. Left out in the streets with a single bag holding your meager belongings, it's almost dark, cold, and the city lights are blurring. You possess unmatched adaptability and a deep instinct for survival.",
+                    action: "selectTrack('foster', 'Foster-Alum Track', 'foster_start')"
+                },
+                {
+                    title: "The Standard Bootstrap Route (Balanced Grind)",
+                    desc: "You’ve scraped together a small savings account from off-farm labor. Balancing a day job while slowly buying tools, learning extension guidelines, and trying to secure a long-term lease.",
+                    action: "selectTrack('standard', 'Standard Bootstrap', 'standard_start')"
+                },
+                {
+                    title: "The Capital-Backed Route (Privileged Backing)",
+                    desc: "Family support or early investments have provided you with land access and startup capital. The challenge isn't survival—it's avoiding over-capitalization and earning local respect.",
+                    action: "selectTrack('capital', 'Capital-Backed Track', 'capital_start')"
+                }
+            ]
+        },
 
-document.addEventListener("DOMContentLoaded", () => {
-    // 1. Load the initial screen
-    renderNode("intro");
-    
-    // 2. Sync up with global points
-    const pointsDisplay = document.getElementById('global-points');
-    if (pointsDisplay) {
-        pointsDisplay.innerText = localStorage.getItem('afti_global_xp') || '400';
-    }
-});
+        foster_start: {
+            image: "🌆 [Illustration: Cold, dim city street corner at dusk with heavy shadows and distant neon signs]",
+            title: "The Turning Point: Day Zero",
+            prose: `
+                <p>The heavy institutional glass doors close behind you for the last time. You just turned 18. You're standing out on the concrete sidewalk as a damp Pacific Northwest chill sets into the evening air, holding a single canvas bag with your meager belongings.</p>
+                <p>It's almost dark, the temperature is dropping fast, and the city feels vast, indifferent, and expensive. You have no safety net, no family couch to crash on, and only a few crumpled bills in your pocket.</p>
+                <p>You need to make a move before night fully takes over. What do you do?</p>
+            `,
+            choices: [
+                {
+                    title: "Option A: Head toward the public transit hub to find a 24-hour shelter or mutual aid network",
+                    desc: "Connect with local community resources, safeguard your belongings, and look for immediate transitional housing support. (+50 XP)",
+                    action: "resolveChoice('foster_shelter', 50, 'Shelter & Mutual Aid Network Located')"
+                },
+                {
+                    title: "Option B: Walk toward the edge of town where the industrial grid meets the agricultural valley",
+                    desc: "Scout out an abandoned tool shed or sheltered perimeter near public lands to set up a temporary camp under your tarp. (+50 XP)",
+                    action: "resolveChoice('foster_outskirts', 50, 'Perimeter Scouted & Camp Established')"
+                }
+            ]
+        }
+    };
 
-// Function to handle choosing your starting track (Foster, Standard, or Capital)
-function selectTrack(trackId, trackName, nextNodeId) {
-    currentTrack = trackId;
-    localStorage.setItem('afti_active_track', trackId);
-    localStorage.setItem('afti_track_name', trackName);
-    
-    const trackHUD = document.getElementById('hud-track');
-    if (trackHUD) {
-        trackHUD.innerText = trackName;
-    }
-    
-    // Jump straight to the start node for that track
-    renderNode(nextNodeId);
-}
+    let currentTrack = "";
 
-// THE FIX: This function handles the choice selections on Day Zero and creates the link to move forward
-function resolveChoice(choiceId, xpAmount, feedbackMessage) {
-    // 1. Process local storage global XP adjustments
-    let currentXP = parseInt(localStorage.getItem('afti_global_xp') || '400', 10);
-    currentXP += xpAmount;
-    localStorage.setItem('afti_global_xp', currentXP);
-    
-    const pointsDisplay = document.getElementById('global-points');
-    if (pointsDisplay) {
-        pointsDisplay.innerText = currentXP;
-    }
-
-    // 2. Clear out the choice buttons so they can't be clicked twice
-    const choicesContainer = document.querySelector('.choices-container');
-    if (choicesContainer) {
-        choicesContainer.innerHTML = "";
-    }
-
-    // 3. Inject the feedback text and the real bridge button to advance to Stage 2
-    const storyViewport = document.getElementById('story-viewport');
-    
-    // Create a container for the feedback
-    const feedbackBox = document.createElement('div');
-    feedbackBox.style.marginTop = '25px';
-    feedbackBox.style.padding = '25px';
-    feedbackBox.style.borderRadius = '10px';
-    feedbackBox.style.background = 'rgba(39, 174, 96, 0.1)';
-    feedbackBox.style.border = '1px solid rgba(39, 174, 96, 0.4)';
-    feedbackBox.style.lineHeight = '1.6';
-
-    feedbackBox.innerHTML = `
-        <h3 style="color: #4ade80; margin-top: 0;">✓ Action Verified: ${feedbackMessage}</h3>
-        <p style="color: #cbd5e1; margin-bottom: 20px;">
-            Your decision has been logged into your Verified Portfolio of Effort. Establishing your initial digital footprint or a temporary shelter is complete. You are now prepared to advance to regional intake.
-        </p>
-        <!-- THIS REMOVES THE DEAD-END AND ADVANCES TO YOUR STAGE 2 FILE -->
-        <a href="difficult-track-stage2-daycenter.html" style="display: inline-block; background: #27ae60; color: #ffffff; text-decoration: none; font-weight: bold; padding: 14px 28px; border-radius: 8px; box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);">
-            Proceed to Stage 2: Day Center Intake &rarr;
-        </a>
-    `;
-    
-    storyViewport.appendChild(feedbackBox);
-}
-
-// Core rendering utility to update the scene text and choices dynamically
-function renderNode(nodeId) {
-    const node = storyNodes[nodeId];
-    if (!node) return;
-
-    const viewport = document.getElementById('story-viewport');
-    if (!viewport) return;
-
-    // Render image title and prose
-    viewport.innerHTML = `
-        <div class="story-image-slot">${node.image}</div>
-        <h2 style="margin-top: 0; margin-bottom: 15px; font-size: 1.5rem; color: #ffffff;">${node.title}</h2>
-        <div class="prose-block">${node.prose}</div>
-        <div class="choices-container" id="choices-wrapper"></div>
-    `;
-
-    // Inject choice buttons
-    const wrapper = document.getElementById('choices-wrapper');
-    node.choices.forEach(choice => {
-        const btn = document.createElement('button');
-        btn.className = 'choice-btn';
-        btn.setAttribute('onclick', choice.action);
-        btn.innerHTML = `
-            <span class="choice-title">${choice.title}</span>
-            <span class="choice-desc">${choice.desc}</span>
-        `;
-        wrapper.appendChild(btn);
+    document.addEventListener("DOMContentLoaded", () => {
+        // Load the initial intro screen
+        renderNode("intro");
+        
+        // Sync up global points from localStorage
+        const pointsDisplay = document.getElementById('global-points');
+        if (pointsDisplay) {
+            pointsDisplay.innerText = localStorage.getItem('afti_global_xp') || '400';
+        }
     });
-}
-    
-</body>
-</html>
+
+    function selectTrack(trackId, trackName, nextNodeId) {
+        currentTrack = trackId;
+        localStorage.setItem('afti_active_track', trackId);
+        localStorage.setItem('afti_track_name', trackName);
+        
+        const trackHUD = document.getElementById('hud-track');
+        if (trackHUD) {
+            trackHUD.innerText = trackName;
+        }
+        
+        // Move to the next scenario step smoothly
+        renderNode(nextNodeId);
+    }
+
+    function resolveChoice(choiceId, xpAmount, feedbackMessage) {
+        // Update local storage values cleanly
+        let currentXP = parseInt(localStorage.getItem('afti_global_xp') || '400', 10);
+        currentXP += xpAmount;
+        localStorage.setItem('afti_global_xp', currentXP);
+        
+        const pointsDisplay = document.getElementById('global-points');
+        if (pointsDisplay) {
+            pointsDisplay.innerText = currentXP;
+        }
+
+        // Hide choice buttons immediately to prevent duplicate tracking clicks
+        const choicesWrapper = document.getElementById('choices-wrapper');
+        if (choicesWrapper) {
+            choicesWrapper.style.display = 'none';
+        }
+
+        // Inject our clear course bridge container layout
+        const storyViewport = document.getElementById('story-viewport');
+        const feedbackBox = document.createElement('div');
+        feedbackBox.style.marginTop = '25px';
+        feedbackBox.style.padding = '25px';
+        feedbackBox.style.borderRadius = '10px';
+        feedbackBox.style.background = 'rgba(39, 174, 96, 0.1)';
+        feedbackBox.style.border = '1px solid rgba(39, 174, 96, 0.4)';
