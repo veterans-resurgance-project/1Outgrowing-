@@ -1,212 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AFTI - Stage 2: Day Center &amp; Advocacy Intake</title>
-    <!-- LINK TO CORE UTILITY -->
-    <script src="afti-core.js"></script>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFTI - Stage 2: Day Center Intake</title>
     <style>
-        :root { 
-            --bg-color: #0f172a; 
-            --card-bg: #1e293b; 
-            --text-color: #f8fafc; 
-            --primary: #27ae60; 
-            --hud-bg: #144d29; 
-            --accent: #38bdf8;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-        }
-        body { 
-            font-family: system-ui, sans-serif; 
-            background: var(--bg-color); 
-            color: var(--text-color); 
-            padding: 20px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-            margin: 0; 
-        }
-        .container { 
-            width: 100%; 
-            max-width: 800px; 
-            background: var(--card-bg); 
-            border-radius: 14px; 
-            padding: 35px; 
-            box-sizing: border-box;
-            border: 1px solid rgba(255,255,255,0.1); 
-            box-shadow: 0 12px 32px rgba(0,0,0,0.5);
-        }
-        .hud-bar { 
-            background: var(--hud-bg); 
-            border-radius: 8px; 
-            padding: 10px 18px; 
-            margin-bottom: 25px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            font-weight: bold; 
-            border: 1px solid rgba(255,255,255,0.2);
-            font-size: 0.9rem;
-        }
-        .prose-block {
-            line-height: 1.7;
-            color: #cbd5e1;
-            margin-bottom: 25px;
-            font-size: 1.05rem;
-        }
-        .choices-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 20px;
-        }
-        .choice-btn { 
-            background: #0f172a; 
-            border: 1px solid #334155; 
-            color: #f8fafc; 
-            padding: 16px 20px; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            width: 100%; 
-            text-align: left; 
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            transition: all 0.2s ease;
-        }
-        .choice-btn:hover { 
-            border-color: var(--accent); 
-            background: rgba(56, 189, 248, 0.05);
-            transform: translateY(-2px);
-        }
-        .choice-title {
-            font-weight: bold;
-            color: #f8fafc;
-            font-size: 1.05rem;
-        }
-        .choice-desc {
-            font-size: 0.85rem;
-            color: #94a3b8;
-        }
-        .feedback-box {
-            margin-top: 25px;
-            padding: 20px;
-            border-radius: 8px;
-            display: none;
-            line-height: 1.6;
-        }
-        .feedback-explanation {
-            font-size: 0.95rem;
-            margin-top: 10px;
-            color: #e2e8f0;
-            padding-top: 10px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        .nav-bridge {
-            display: inline-block;
-            margin-top: 15px;
-            background: var(--primary);
-            color: #fff;
-            text-decoration: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            font-weight: bold;
-        }
+        :root { --bg-color:#0f172a; --card-bg:#1e293b; --text-color:#f8fafc; --primary:#27ae60; --hud-bg:#144d29; --accent:#38bdf8; --warning:#f59e0b; --danger:#ef4444; }
+        body { font-family:system-ui, sans-serif; background:var(--bg-color); color:var(--text-color); padding:20px; display:flex; justify-content:center; align-items:center; min-height:100vh; margin:0; }
+        .container { width:100%; max-width:800px; background:var(--card-bg); border-radius:14px; padding:35px; box-sizing:border-box; border:1px solid rgba(255,255,255,0.1); box-shadow:0 12px 32px rgba(0,0,0,0.5); }
+        .hud-bar { background:var(--hud-bg); border-radius:8px; padding:10px 18px; margin-bottom:25px; display:flex; justify-content:space-between; align-items:center; font-weight:bold; border:1px solid rgba(255,255,255,0.2); font-size:0.9rem; }
+        .prose-block { line-height:1.7; color:#cbd5e1; margin-bottom:25px; font-size:1.05rem; }
+        .choices-container { display:flex; flex-direction:column; gap:12px; margin-top:20px; }
+        .choice-btn { background:#0f172a; border:1px solid #334155; color:#f8fafc; padding:16px 20px; border-radius:8px; cursor:pointer; width:100%; text-align:left; display:flex; flex-direction:column; gap:5px; transition:all 0.2s ease; }
+        .choice-btn:hover { border-color:var(--accent); background:rgba(56,189,248,0.05); transform:translateY(-2px); }
+        .choice-title { font-weight:bold; color:#f8fafc; font-size:1.05rem; }
+        .choice-desc { font-size:0.85rem; color:#94a3b8; }
+        .feedback-box { margin-top:25px; padding:20px; border-radius:8px; display:none; line-height:1.6; }
+        .feedback-explanation { font-size:0.95rem; margin-top:10px; color:#e2e8f0; padding-top:10px; border-top:1px solid rgba(255,255,255,0.1); }
+        .nav-bridge { display:inline-block; margin-top:15px; background:var(--primary); color:#fff; text-decoration:none; padding:12px 24px; border-radius:6px; font-weight:bold; }
     </style>
 </head>
 <body>
-
 <div class="container">
-    <!-- GLOBAL HUD -->
     <div class="hud-bar">
-        <span>Path: <span style="color: var(--accent);">Foster-Alum Track</span></span>
-        <div>
-            <span>Global XP: <span id="global-points" style="color: #4ade80;">400</span></span>
-        </div>
+        <span>Path: <span style="color:var(--accent);">Foster-Alum Track</span></span>
+        <div>Global XP: <span id="global-points" style="color:#4ade80;">400</span></div>
     </div>
-
-    <!-- MAIN SCENARIO VIEWPORT -->
     <div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-            <h2 style="margin: 0; font-size: 1.4rem;">🤝 Stage 2: Day Center Resource Allocation</h2>
-            <span style="background: rgba(39, 174, 96, 0.2); color: #4ade80; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; border: 1px solid rgba(39, 174, 96, 0.3);">Location: Community Intake</span>
-        </div>
-
+        <h2 style="margin:0 0 1.5rem 0; font-size:1.4rem;">🤝 Stage 2: Day Center Resource Allocation</h2>
         <div class="prose-block">
-            <p>You arrive at the community day center holding your newly printed library cards and basic benefit confirmations. The main lobby is loud, chaotic, and crowded. The wait time to see a case manager for official intake is tracking at close to three hours.</p>
-            <p>Securing a baseline communications loop and clean verification metrics is your top priority before you attempt to interface with commercial landowners or regional incubators in Linn County. Your energy is burning down, and you need to lock in your next step.</p>
+            <p>You arrive at the day center with your benefit confirmations. The wait time to see a case manager is close to three hours. Securing a communication loop is your top priority before you attempt to interface with landowners or regional incubators in Linn County. What do you do?</p>
         </div>
-
-        <!-- THE INTERACTIVE CHOICE CHOOSER -->
         <div class="choices-container" id="choices-wrapper">
             <button class="choice-btn" onclick="selectDayCenterOption('A', 100)">
-                <span class="choice-title" style="color: #4ade80;">Choice A: Check in at the desk, wait out the line, and complete your official intake papers.</span>
-                <span class="choice-desc">Secure your baseline case tracking profile and formally request an emergency Lifeline wireless smartdevice plan.</span>
+                <span class="choice-title" style="color:#4ade80;">Choice A: Wait out the line to complete your official intake papers.</span>
+                <span class="choice-desc">Formally request an emergency Lifeline wireless smartdevice plan. (+100 XP)</span>
             </button>
-
             <button class="choice-btn" onclick="selectDayCenterOption('B', 25)">
-                <span class="choice-title" style="color: var(--warning);">Choice B: Dodge the check-in line and inspect the physical bulletin board for off-grid gig work flyers.</span>
-                <span class="choice-desc">Bypass administrative processing to track down quick, immediate farm-labor cash positions posted by local operators.</span>
+                <span class="choice-title" style="color:var(--warning);">Choice B: Dodge the line and check the board for off-grid gig work flyers.</span>
+                <span class="choice-desc">Bypass intake to find quick, immediate farm-labor cash positions. (+25 XP)</span>
             </button>
-
             <button class="choice-btn" onclick="selectDayCenterOption('C', 0)">
-                <span class="choice-title" style="color: var(--danger);">Choice C: Stash your heavy canvas bag behind the outdoor recycling bins to quickly scout a rumored farm camp across town.</span>
-                <span class="choice-desc">Lighten your transit load so you can speed-walk across town to visually inspect a temporary unverified grow cooperative setup.</span>
+                <span class="choice-title" style="color:var(--danger);">Choice C: Stash your bag behind the outdoor recycling bins to quickly scout a rumored farm camp.</span>
+                <span class="choice-desc">Lighten your load to speed-walk across town to inspect a grow coop setup. (+0 XP)</span>
             </button>
         </div>
-
-        <!-- DYNAMIC RECOVERY & FEEDBACK VIEWPORT -->
         <div id="feedback-viewport" class="feedback-box">
-            <h3 id="feedback-title" style="margin-top: 0;"></h3>
+            <h3 id="feedback-title" style="margin-top:0;"></h3>
             <p id="feedback-text"></p>
             <div id="feedback-explanation" class="feedback-explanation"></div>
             <div id="feedback-action-container"></div>
         </div>
     </div>
 </div>
-
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        // Initialize baseline display pulling directly from the persistent architecture state
-        const pointsDisplay = document.getElementById('global-points');
-        if (pointsDisplay) {
-            pointsDisplay.innerText = localStorage.getItem('afti_global_xp') || '400';
-        }
-    });
-
-    function selectDayCenterOption(choiceType, pointsAwarded) {
-        // 1. Process local storage global XP adjustments
-        let currentXP = parseInt(localStorage.getItem('afti_global_xp') || '400', 10);
-        currentXP += pointsAwarded;
-        localStorage.setItem('afti_global_xp', currentXP);
-        document.getElementById('global-points').innerText = currentXP;
-
-        // 2. Hide choice panel to freeze interactive state duplication
+    document.addEventListener("DOMContentLoaded", () => { document.getElementById('global-points').innerText = localStorage.getItem('afti_global_xp') || '400'; });
+    function selectDayCenterOption(choiceType, points) {
+        let currentXP = (parseInt(localStorage.getItem('afti_global_xp') || '400', 10)) + points;
+        localStorage.setItem('afti_global_xp', currentXP); document.getElementById('global-points').innerText = currentXP;
         document.getElementById('choices-wrapper').style.display = 'none';
-
-        // 3. Render layout elements based on tracking metrics
-        const viewport = document.getElementById('feedback-viewport');
-        const title = document.getElementById('feedback-title');
-        const text = document.getElementById('feedback-text');
-        const explanation = document.getElementById('feedback-explanation');
-        const actionContainer = document.getElementById('feedback-action-container');
-
-        viewport.style.display = 'block';
-
+        const vp = document.getElementById('feedback-viewport'); const title = document.getElementById('feedback-title');
+        const text = document.getElementById('feedback-text'); const explanation = document.getElementById('feedback-explanation');
+        const ac = document.getElementById('feedback-action-container'); vp.style.display = 'block';
         if (choiceType === 'A') {
-            viewport.style.background = 'rgba(39, 174, 96, 0.1)';
-            viewport.style.border = '1px solid rgba(39, 174, 96, 0.4)';
-            title.innerText = "Success: Administrative Foundation Secured (+100 XP)";
-            title.style.color = "#4ade80";
-            text.innerText = "You patiently wait out the processing queues. By staying the course, you secure an assigned worker, lock in verification points, and walk out with an active wireless telephone device running stable data.";
-            explanation.innerHTML = "<strong>Portfolio Evaluation:</strong> Excellent systemic navigation. Agricultural safety nets and land grant opportunities require verifiable verification checkpoints. Securing stable communication channels ensures incubator networks can reach you.";
-            actionContainer.innerHTML = '<a href="difficult-track-stage3-housing.html" class="nav-bridge">Proceed to Stage 3: Transitional Housing &rarr;</a>';
-        } 
-        else if (choiceType === 'B') {
-            viewport.style.background = 'rgba(245, 158, 11, 0.1)';
-            viewport.style.border = '1px solid rgba(245, 158, 11, 0.4)';
-            title.innerText = "Misinformed Pivot: The Contact Barrier (+25 XP)";
-            title.style.color = "var(--warning)";
-            text.innerText = "You find an active harvest-hand flyer. You borrow a lobby landline to call the field supervisor, but they explicitly state they cannot hire field reps who don't have a personal mobile telephone number for flash schedule updates.";
+            vp.style.background = 'rgba(39,174,96,0.1)'; vp.style.border = '1px solid rgba(39,174,96,0.4)'; title.innerText = "Success (+100 XP)"; title.style.color = "#4ade80";
+            text.innerText = "You wait out the processing queues. By staying the course, you secure an assigned worker and walk out with an active wireless telephone device running stable data.";
+            explanation.innerHTML = "<strong>Portfolio Evaluation:</strong> Excellent systemic navigation. Securing stable communication channels ensures incubator networks can reach you.";
+            ac.innerHTML = '<button onclick="window.location.href=\'difficult-track-stage3-housing.html\'" class="nav-bridge" style="border:none; cursor:pointer;">Proceed to Stage 3: Transitional Housing &rarr;</button>';
+        } else if (choiceType === 'B') {
+            vp.style.background = 'rgba(245,158,11,0.1)'; vp.style.border = '1px solid rgba(245,158,11,0.4)'; title.innerText = "Misinformed Pivot (+25 XP)"; title.style.color = "var(--warning)";
+            text.innerText = "You find an active harvest-hand flyer. You borrow a phone to call the field supervisor, but they state they cannot hire field reps who don't have a personal phone number for flash schedule updates.";
+            explanation.innerHTML = "<strong>Portfolio Evaluation:</strong> You prioritized short-term metrics over essential technical infrastructure. You must loop back to fix your communications barrier.";
+            ac.innerHTML = '<button onclick="window.location.href=\'difficult-track-stage2-recovery-b.html\'" class="nav-bridge" style="background:var(--warning); border:none; cursor:pointer;">Enter Communication Recovery Loop &rarr;</button>';
+        } else {
+            vp.style.background = 'rgba(239,68,68,0.1)'; vp.style.border = '1px solid rgba(239,68,68,0.4)'; title.innerText = "Critical Asset Loss (+0 XP)"; title.style.color = "var(--danger)";
+            text.innerText = "You return from your foot scout to discover your stashed canvas bag has been entirely stolen. Your hard-copy records, verification cards, and clothing items are entirely lost.";
+            explanation.innerHTML = "<strong>Portfolio Evaluation:</strong> Leaving core infrastructure unmonitored introduces fatal operational vulnerabilities. You must run emergency protocols to reset your files.";
+            ac.innerHTML = '<button onclick="window.location.href=\'difficult-track-stage2-recovery-c.html\'" class="nav-bridge" style="background:var(--danger); border:none; cursor:pointer;">Enter Document Replacement Recovery Loop &rarr;</button>';
+        }
+    }
+</script>
+</body>
+</html>
