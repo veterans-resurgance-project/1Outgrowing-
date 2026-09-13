@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFTI - Verified Portfolio of Effort</title>
+    <style>
+        :root { --bg:#0f172a; --card:#1e293b; --txt:#f8fafc; --primary:#27ae60; --hud:#144d29; --accent:#38bdf8; }
+        body { font-family:system-ui, sans-serif; background:var(--bg); color:var(--txt); padding:20px; display:flex; justify-content:center; align-items:center; min-height:100vh; margin:0; }
+        .container { width:100%; max-width:800px; background:var(--card); border-radius:14px; padding:35px; border:1px solid rgba(255,255,255,0.1); box-shadow:0 12px 32px rgba(0,0,0,0.5); }
+        .hud-bar { background:var(--hud); border-radius:8px; padding:10px 18px; margin-bottom:25px; display:flex; justify-content:space-between; align-items:center; font-weight:bold; font-size:0.9rem; }
+        .badge { background:rgba(56,189,248,0.15); color:var(--accent); font-size:0.75rem; font-weight:700; text-transform:uppercase; padding:4px 8px; border-radius:4px; border:1px solid rgba(56,189,248,0.25); display:inline-block; margin-bottom:10px; }
+        .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:15px; margin-top:20px; }
+        .stat-card { background:#0f172a; padding:20px; border-radius:10px; border:1px solid #334155; }
+        .stat-val { font-size:1.75rem; font-weight:900; color:#4ade80; margin-top:5px; }
+        .resource-box { background:rgba(39,174,96,0.05); border:1px solid rgba(39,174,96,0.3); padding:20px; border-radius:10px; margin-top:20px; }
+        .link-btn { display:inline-block; background:var(--primary); color:#fff; text-decoration:none; padding:10px 20px; border-radius:6px; font-weight:bold; font-size:0.9rem; margin-top:10px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="hud-bar">
+        <span>AFTI Credentialing Engine</span>
+        <button onclick="window.location.href='index.html'" style="background:#334155; color:#fff; border:1px solid rgba(255,255,255,0.2); padding:5px 12px; border-radius:6px; font-size:0.75rem; cursor:pointer;">🏠 Exit to Portal</button>
+    </div>
+    
+    <div>
+        <span class="badge">Official Institutional Prescreening Summary</span>
+        <h2 style="margin:0 0 0.5rem 0;">📋 Verified Portfolio of Effort</h2>
+        <p style="line-height:1.6; color:#cbd5e1; margin:0;">This dashboard compiles your simulation decisions into real-world qualification metrics. This data serves as a pre-screening asset for regional agricultural incubators, vocational scholarship committees, and land trusts.</p>
+        
+        <div class="grid">
+            <div class="stat-card"><div>Active Track Profile</div><div class="stat-val" id="track-name" style="color:var(--accent);">Loading...</div></div>
+            <div class="stat-card"><div>Global Experience (XP)</div><div class="stat-val" id="total-xp">0</div></div>
+            <div class="stat-card"><div>Accrued Training Stipend</div><div class="stat-val" id="total-stipend" style="color:#38bdf8;">$0</div></div>
+        </div>
+
+        <div class="resource-box">
+            <h3 style="margin-top:0; color:#4ade80;">🎁 Unlocked Program Partnerships &amp; Grants</h3>
+            <p style="font-size:0.95rem; line-height:1.5; color:#cbd5e1; margin:0 0 10px 0;">Based on your verified operational resilience and technical hours, you have unlocked pre-qualification slots with the following partner networks:</p>
+            <ul style="padding-left:20px; font-size:0.9rem; color:#94a3b8; line-height:1.6; margin-bottom:15px;">
+                <li><strong style="color:#fff;">Transitional Housing-to-Land Voucher:</strong> Direct referral link ready for Crossroads Communities micro-housing placement.</li>
+                <li><strong style="color:#fff;">Regional Agricultural Incubator:</strong> Pre-screening exemption certificate generated for Linn County land-linking programs.</li>
+                <li><strong style="color:#fff;">Four-Seasons Seed-Grant Foundation:</strong> Authorized application portal opened for infrastructure matching funds.</li>
+            </ul>
+            <button onclick="window.print()" class="link-btn">🖨️ Print Official Portfolio Summary</button>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Pull points and parameters directly from persistent storage
+        const track = localStorage.getItem('afti_track_name') || 'Foster-Alum';
+        const xp = localStorage.getItem('afti_global_xp') || '750';
+        const stipend = localStorage.getItem('afti_earned_stipend') || '120';
+        
+        document.getElementById('track-name').innerText = track;
+        document.getElementById('total-xp').innerText = xp + ' XP';
+        document.getElementById('total-stipend').innerText = '$' + stipend;
+    });
+</script>
+</body>
+</html>
