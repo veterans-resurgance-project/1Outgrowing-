@@ -3,30 +3,30 @@
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AFTI - Stage 4: Vocational Practicum</title>
+    <!-- FIX 1: LINK THE CACHE-BUSTED CORE ENGINE BRAIN -->
+    <script src="afti-core.js?v=1"></script>
     <style>
         :root { --bg:#0f172a; --card:#1e293b; --txt:#f8fafc; --primary:#27ae60; --hud:#144d29; --accent:#38bdf8; --warn:#f59e0b; --danger:#ef4444; }
         body { font-family:system-ui, sans-serif; background:var(--bg); color:var(--txt); padding:20px; display:flex; justify-content:center; align-items:center; min-height:100vh; margin:0; }
-        .container { width:100%; max-width:800px; background:var(--card); border-radius:14px; padding:35px; box-sizing:border-box; border:1px solid rgba(255,255,255,0.1); box-shadow:0 12px 32px rgba(0,0,0,0.5); }
+        .container { width:100%; max-width:800px; background:var(--card); border-radius:14px; padding:35px; box-sizing:border-box; border:1px solid rgba(255,255,255,0.1); }
         .hud-bar { background:var(--hud); border-radius:8px; padding:10px 18px; margin-bottom:25px; display:flex; justify-content:space-between; align-items:center; font-weight:bold; font-size:0.9rem; }
         .choices-container { display:flex; flex-direction:column; gap:12px; margin-top:20px; }
         .choice-btn { background:#0f172a; border:1px solid #334155; color:#f8fafc; padding:16px 20px; border-radius:8px; cursor:pointer; width:100%; text-align:left; display:flex; flex-direction:column; gap:5px; }
         .choice-btn:hover { border-color:var(--accent); background:rgba(56,189,248,0.05); }
         .feedback-box { margin-top:25px; padding:20px; border-radius:8px; display:none; line-height:1.6; border:1px solid rgba(255,255,255,0.2); }
         .nav-bridge { display:inline-block; margin-top:15px; background:var(--primary); color:#fff; padding:12px 24px; border:none; border-radius:6px; font-weight:bold; cursor:pointer; }
-   @keyframes mergePulse { 0% { border-color: #38bdf8; box-shadow: 0 0 8px #38bdf8; } 50% { border-color: #27ae60; box-shadow: 0 0 20px #27ae60; } 100% { border-color: rgba(255,255,255,0.1); box-shadow: 0 12px 32px rgba(0,0,0,0.5); } }
-.merge-glow { animation: mergePulse 2s ease-out 1; }
-        
+        @keyframes mergePulse { 0% { border-color: #38bdf8; box-shadow: 0 0 8px #38bdf8; } 50% { border-color: #27ae60; box-shadow: 0 0 20px #27ae60; } 100% { border-color: rgba(255,255,255,0.1); box-shadow: 0 12px 32px rgba(0,0,0,0.5); } }
+        .merge-glow { animation: mergePulse 2s ease-out 1; }
     </style>
 </head>
 <body>
-<div class="container">
-   <!-- This activates the automatic glow effect right when the screen opens -->
+<!-- FIX 2: CONSOLIDATED SINGLE MAIN CONTAINER WITH THE MERGE PULSE ANIMATION ACTIVE -->
 <div class="container merge-glow">
-
     <div class="hud-bar">
-        <span>Path: <span style="color:var(--accent);">Foster-Alum Track</span></span>
+        <span>Path: <span id="hud-track" style="color:var(--accent);">Foster-Alum Track</span></span>
         <div style="display:flex; gap:20px; align-items:center;">
-            <span id="foster-stipend-box">Stipend: <span id="stipend-amount" style="color:#38bdf8;">$0</span></span>
+            <!-- FIX 3: STRIP OVERRIDES AND HIDE STIPEND BOX DIRECTLY BY DEFAULT -->
+            <span id="foster-stipend-box" style="display: none;">Stipend: <span id="stipend-amount" style="color:#38bdf8;">$0</span></span>
             <div>XP: <span id="global-points" style="color:#4ade80;">400</span></div>
             <button onclick="window.location.href='index.html'" style="background:#334155; color:#fff; border:1px solid rgba(255,255,255,0.2); padding:5px 12px; border-radius:6px; font-size:0.75rem; cursor:pointer;">🏠 Exit</button>
         </div>
@@ -47,28 +47,28 @@
     </div>
 </div>
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        document.getElementById('global-points').innerText = localStorage.getItem('afti_global_xp') || '400';
-        document.getElementById('stipend-amount').innerText = '$' + (localStorage.getItem('afti_earned_stipend') || '0');
-    });
+    // FIX 4: SIMPLIFIED SCRIPTS SO CORE MANAGER AUTOMATICALLY HANDLES THE VALUE RECORDINGS BASED ON TRACK
     function selectVocationalOption(choiceType, points, stipend) {
-        let currentXP = parseInt(localStorage.getItem('afti_global_xp') || '400', 10) + points;
-        let currentStipend = parseInt(localStorage.getItem('afti_earned_stipend') || '0', 10) + stipend;
-        localStorage.setItem('afti_global_xp', currentXP); localStorage.setItem('afti_earned_stipend', currentStipend);
-        document.getElementById('global-points').innerText = currentXP; document.getElementById('stipend-amount').innerText = '$' + currentStipend;
+        if(window.selectVocationalOption) { 
+            window.selectVocationalOption(choiceType, points, stipend); 
+        } else {
+            let currentXP = parseInt(localStorage.getItem('afti_global_xp') || '400', 10) + points;
+            localStorage.setItem('afti_global_xp', currentXP);
+            document.getElementById('global-points').innerText = currentXP;
+        }
         document.getElementById('choices-wrapper').style.display = 'none';
         const vp = document.getElementById('feedback-viewport'); const title = document.getElementById('feedback-title');
         const text = document.getElementById('feedback-text'); const ac = document.getElementById('feedback-action-container'); vp.style.display = 'block';
         if (choiceType === 'A') {
-            vp.style.backgroundColor = 'rgba(39,174,96,0.1)'; title.innerText = "Success (+100 XP / +$120 Stipend)"; title.style.color = "#4ade80";
+            vp.style.backgroundColor = 'rgba(39,174,96,0.1)'; title.innerText = "Success (+100 XP)"; title.style.color = "#4ade80";
             text.innerText = "You join a harvest cohort, tracking field yields and handling crops safely. High-volume deadlines prove to grant managers that you can maintain commercial delivery schedules.";
             ac.innerHTML = '<button onclick="window.location.href=\'difficult-track-stage5-market.html\'" class="nav-bridge">Proceed to Stage 5: Market Delivery &rarr;</button>';
         } else if (choiceType === 'B') {
-            vp.style.backgroundColor = 'rgba(245,158,11,0.1)'; title.innerText = "Misinformed Pivot (+25 XP / +$30 Stipend)"; title.style.color = 'var(--warn)';
+            vp.style.backgroundColor = 'rgba(245,158,11,0.1)'; title.innerText = "Misinformed Pivot (+25 XP)"; title.style.color = 'var(--warn)';
             text.innerText = "You complete soil amendments at a local community plot. While you build solid ecosystem knowledge, micro-scale sites don't offer enough volume to generate commercial wages.";
             ac.innerHTML = '<button onclick="window.location.href=\'difficult-track-stage4-recovery-b.html\'" class="nav-bridge" style="background:var(--warn);">Enter Scaling Recovery Loop &rarr;</button>';
         } else {
-            vp.style.backgroundColor = 'rgba(239,68,68,0.1)'; title.innerText = "Safety Infraction (+0 XP / +$0 Stipend)"; title.style.color = 'var(--danger)';
+            vp.style.backgroundColor = 'rgba(239,68,68,0.1)'; title.innerText = "Safety Infraction (+0 XP)"; title.style.color = 'var(--danger)';
             text.innerText = "While clearing brush solo, you strike an unmapped irrigation pipe with a pickaxe, causing localized erosion and halting progress. Your hours are frozen until safety clearance is logged.";
             ac.innerHTML = '<button onclick="window.location.href=\'difficult-track-stage4-recovery-c.html\'" class="nav-bridge" style="background:var(--danger);">Enter Safety Remediation Loop &rarr;</button>';
         }
