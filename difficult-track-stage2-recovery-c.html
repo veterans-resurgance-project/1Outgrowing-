@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AFTI - Stage 2 Recovery: Communication</title>
+    <title>AFTI - Stage 2 Recovery: Asset Loss</title>
     <style>
-        :root { --bg:#0f172a; --card:#1e293b; --txt:#f8fafc; --primary:#27ae60; --hud:#144d29; --warn:#f59e0b; }
+        :root { --bg:#0f172a; --card:#1e293b; --txt:#f8fafc; --primary:#27ae60; --hud:#144d29; --danger:#ef4444; }
         body { font-family:system-ui, sans-serif; background:var(--bg); color:var(--txt); padding:20px; display:flex; justify-content:center; align-items:center; min-height:100vh; margin:0; }
         .container { width:100%; max-width:800px; background:var(--card); border-radius:14px; padding:35px; border:1px solid rgba(255,255,255,0.1); box-shadow:0 12px 32px rgba(0,0,0,0.5); }
         .hud-bar { background:var(--hud); border-radius:8px; padding:10px 18px; margin-bottom:25px; display:flex; justify-content:space-between; align-items:center; font-weight:bold; font-size:0.9rem; }
@@ -16,26 +16,26 @@
 <body>
 <div class="container">
     <div class="hud-bar">
-        <span>Path: <span style="color:var(--warn);">Foster-Alum (Communication Loop)</span></span>
-        <div style="display:flex; align-items:center; gap:20px;"><div>Global XP: <span id="global-points" style="color:#4ade80;">425</span></div><button onclick="window.location.href='index.html'" style="background:#334155; color:#fff; border:1px solid rgba(255,255,255,0.2); padding:5px 12px; border-radius:6px; font-size:0.75rem; cursor:pointer;">🏠 Exit</button></div>
+        <span>Path: <span style="color:var(--danger);">Foster-Alum (Asset Loss)</span></span>
+        <div style="display:flex; align-items:center; gap:20px;"><div>Global XP: <span id="global-points" style="color:#4ade80;">400</span></div><button onclick="window.location.href='index.html'" style="background:#334155; color:#fff; border:1px solid rgba(255,255,255,0.2); padding:5px 12px; border-radius:6px; font-size:0.75rem; cursor:pointer;">🏠 Exit</button></div>
     </div>
     <div>
-        <h2 style="margin:0 0 1.5rem 0; color:var(--warn);">⚠️ Infrastructure Recovery: Establishing Contact</h2>
-        <p style="line-height:1.6; color:#cbd5e1; margin-bottom:25px;">To secure future positions or training, administrative coordinators must have a verified method to reach you. Check both boxes to resolve the gap and advance.</p>
+        <h2 style="margin:0 0 1.5rem 0; color:var(--danger);">🎒 Asset Loss Recovery: Documentation Reset</h2>
+        <p style="line-height:1.6; color:#cbd5e1; margin-bottom:25px;">Without verifiable state records, you cannot log training milestones or pass matching background steps. Check both boxes to reset your papers and advance.</p>
         <div style="margin-bottom:25px;">
-            <label class="task-label"><input type="checkbox" class="task-cb" onchange="checkProg(this, 50)"><div><strong>Submit Lifeline Program Verification (+50 XP)</strong><div style="color:#cbd5e1; font-size:0.9rem;">Return to the desk, log your profile details, and issue an active smartdevice line.</div></div></label>
-            <label class="task-label"><input type="checkbox" class="task-cb" onchange="checkProg(this, 25)"><div><strong>Deploy Google Voice Messaging Node (+25 XP)</strong><div style="color:#cbd5e1; font-size:0.9rem;">Establish a permanent web-accessible telephone number mapped to your email.</div></div></label>
+            <label class="task-label"><input type="checkbox" class="task-cb" onchange="checkProg(this, 40)"><div><strong>File Online Property Loss Report (+40 XP)</strong><div style="color:#cbd5e1; font-size:0.9rem;">File a digital theft report to justify replacement cards.</div></div></label>
+            <label class="task-label"><input type="checkbox" class="task-cb" onchange="checkProg(this, 40)"><div><strong>Execute Document Reset Protocol (+40 XP)</strong><div style="color:#cbd5e1; font-size:0.9rem;">Log into cloud accounts to reprint confirmations and verification papers.</div></div></label>
         </div>
         <div id="bridge-panel" class="bridge-box">
-            <h3 style="color:#4ade80; margin-top:0;">Communication Secured</h3>
+            <h3 style="color:#4ade80; margin-top:0;">Standing Restored</h3>
             <button onclick="window.location.href='difficult-track-stage3-housing.html'" style="background:var(--primary); color:#fff; font-weight:bold; padding:12px 24px; border:none; border-radius:8px; cursor:pointer; margin-top:10px;">Proceed to Stage 3: Transitional Housing &rarr;</button>
         </div>
     </div>
 </div>
 <script>
-    document.addEventListener("DOMContentLoaded", () => { document.getElementById('global-points').innerText = localStorage.getItem('afti_global_xp') || '425'; });
+    document.addEventListener("DOMContentLoaded", () => { document.getElementById('global-points').innerText = localStorage.getItem('afti_global_xp') || '400'; });
     function checkProg(cb, points) {
-        let currentXP = parseInt(localStorage.getItem('afti_global_xp') || '425', 10) + (cb.checked ? points : -points);
+        let currentXP = parseInt(localStorage.getItem('afti_global_xp') || '400', 10) + (cb.checked ? points : -points);
         localStorage.setItem('afti_global_xp', currentXP); document.getElementById('global-points').innerText = currentXP;
         const cbs = document.querySelectorAll('.task-cb'); const all = Array.from(cbs).every(c => c.checked);
         document.getElementById('bridge-panel').style.display = all ? 'block' : 'none';
