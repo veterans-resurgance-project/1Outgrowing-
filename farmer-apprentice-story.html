@@ -30,44 +30,31 @@
 <script>
     const storyNodes = {
         intro: {
-            image: "🌲 [Illustration: Early morning mist rising over a diverse Willamette Valley homestead]",
+            image: "🌲 [Illustration: Early morning mist over the Willamette Valley]",
             title: "Roots &amp; Resilience: The Agrarian Gateway",
-            prose: "<p>The soil of the valley has a long memory. For generations, people have come to this land seeking roots, sustainability, and a fresh start. Our protagonist stands at a crossroads, staring out over a neglected plot of earth bordered by towering Douglas-firs and wild berry thickets.</p><p>The dream is simple: build a regenerative homestead, master the craft of the land, and carve out an independent living. But how you get your footing changes everything. Every path demands grit, but the resources—and the hurdles—look vastly different depending on where you start.</p><p><em>Choose your background to begin your journey:</em></p>",
+            prose: "<p>The soil has a long memory. The dream is simple: build a regenerative homestead and carve out an independent living. But how you get your footing changes everything. Every path demands grit, but the resources look vastly different depending on where you start.</p><p><em>Choose your background to begin:</em></p>",
             choices: [
-                { 
-                    title: "The Foster-Alum Route (High Resilience, Scrappy Start)", 
-                    desc: "You just turned 18. Left out with a single bag holding your belongings, it's almost dark, cold, and the city lights are blurring. You possess unmatched adaptability and survival grit.", 
-                    action: "selectTrack('foster', 'Foster-Alum Track', 'foster_start')" 
-                },
-                { 
-                    title: "The Standard Bootstrap Route (Balanced Grind)", 
-                    desc: "You have a stable apartment, a predictable off-farm day job, and basic costs covered. You want to farm but don't know where to start while sitting on program waiting lists.", 
-                    action: "selectTrack('standard', 'Standard Bootstrap', 'standard_redirect')" 
-                },
-                { 
-                    title: "The Capital-Backed Route (Cash Available, High Expectation)", 
-                    desc: "Family support or early investments have provided you with startup capital. The core challenge isn't basic survival—it's avoiding expensive debt traps and earning local respect.", 
-                    action: "selectTrack('capital', 'Capital-Backed Track', 'capital_redirect')" 
-                }
+                { title: "The Foster-Alum Route (Scrappy Start)", desc: "You just turned 18. Left out with a single canvas bag, it's dark and cold. You possess unmatched adaptability and survival grit.", action: "selectTrack('foster', 'Foster-Alum Track', 'foster_start')" },
+                { title: "The Standard Bootstrap Route (Balanced Grind)", desc: "You have a stable apartment and a day job. You want to farm but don't know where to start while sitting on program waiting lists.", action: "selectTrack('standard', 'Standard Bootstrap', 'standard_redirect')" },
+                { title: "The Capital-Backed Route (High Capital)", desc: "Early investments have provided you with startup capital. The challenge isn't survival—it's avoiding over-capitalization and debt traps.", action: "selectTrack('capital', 'Capital-Backed Track', 'capital_redirect')" }
             ]
         },
         foster_start: {
-            image: "🌆 [Illustration: Cold, dim city street corner at dusk with heavy shadows and distant neon signs]",
+            image: "🌆 [Illustration: Cold city street corner at dusk]",
             title: "The Turning Point: Day Zero",
-            prose: "<p>The heavy institutional glass doors close behind you for the last time. You just turned 18. You're standing out on the concrete sidewalk as a damp Pacific Northwest chill sets into the evening air, holding a single canvas bag with your belongings.</p><p>It's almost dark, the temperature is dropping fast, and the city feels vast and expensive. You have no safety net, no family couch to crash on.</p><p>You need to make a move before night fully takes over. What do you do?</p>",
+            prose: "<p>The institutional glass doors close behind you for the last time. You just turned 18. You're standing on the sidewalk as a damp chill sets in. You have no safety net, no family couch to crash on, and only a single bag.</p><p>You need to make a move before night takes over. What do you do?</p>",
             choices: [
-                { title: "Option A: Head toward the public transit hub to find a 24-hour shelter or mutual aid network", desc: "Connect with local community resources, safeguard your belongings, and look for immediate transitional housing support. (+50 XP)", action: "resolveChoice('foster_shelter', 50, 'Shelter & Mutual Aid Network Located')" },
-                { title: "Option B: Walk toward the edge of town where the industrial grid meets the agricultural valley", desc: "Scout out an abandoned tool shed or sheltered perimeter near public lands to set up a temporary camp under your tarp. (+50 XP)", action: "resolveChoice('foster_outskirts', 50, 'Perimeter Scouted & Camp Established')" }
+                { title: "Option A: Head to the public transit hub to find a shelter or mutual aid network", desc: "Connect with local community resources and look for immediate housing support. (+50 XP)", action: "resolveChoice('foster_shelter', 50, 'Shelter Located')" },
+                { title: "Option B: Walk toward the edge of town where the industrial grid meets the valley", desc: "Scout an abandoned tool shed or sheltered perimeter near public lands to set up camp. (+50 XP)", action: "resolveChoice('foster_outskirts', 50, 'Camp Established')" }
             ]
         },
-        // Direct layout navigation targets to handle our other modular track files smoothly
         standard_redirect: {
-            image: "📂 [Routing Matrix Block]", title: "Loading Standard Pathway...", prose: "<p>Preparing technical soil mapping databases and waiting list preparation portals...</p>",
-            choices: [{ title: "Click to Initialize Waiting List Module &rarr;", desc: "Open standard-track-stage1-waiting.html", action: "window.location.href='standard-track-stage1-waiting.html'" }]
+            image: "📂 [Routing Matrix]", title: "Loading Standard Pathway...", prose: "<p>Preparing technical soil mapping databases and waiting list preparation portals...</p>",
+            choices: [{ title: "Initialize Waiting List Module &rarr;", desc: "Open standard-track-stage1-waiting.html", action: "window.location.href='standard-track-stage1-waiting.html'" }]
         },
         capital_redirect: {
-            image: "📂 [Routing Matrix Block]", title: "Loading Capital-Backed Pathway...", prose: "<p>Preparing capitalization risk indices and investment allocation portals...</p>",
-            choices: [{ title: "Click to Initialize Capital Management Module &rarr;", desc: "Open capital-track-stage1-finance.html", action: "window.location.href='capital-track-stage1-finance.html'" }]
+            image: "📂 [Routing Matrix]", title: "Loading Capital-Backed Pathway...", prose: "<p>Preparing capitalization risk indices and investment allocation portals...</p>",
+            choices: [{ title: "Initialize Capital Management Module &rarr;", desc: "Open capital-track-stage1-finance.html", action: "window.location.href='capital-track-stage1-finance.html'" }]
         }
     };
 
@@ -75,9 +62,7 @@
 
     document.addEventListener("DOMContentLoaded", () => {
         renderNode("intro");
-        if (document.getElementById('global-points')) {
-            document.getElementById('global-points').innerText = localStorage.getItem('afti_global_xp') || '400';
-        }
+        document.getElementById('global-points').innerText = localStorage.getItem('afti_global_xp') || '400';
     });
 
     function selectTrack(trackId, trackName, nextNodeId) {
@@ -99,7 +84,7 @@
         feedbackBox.style.cssText = "margin-top:25px; padding:25px; border-radius:10px; background:rgba(39,174,96,0.1); border:1px solid rgba(39,174,96,0.4); line-height:1.6;";
         feedbackBox.innerHTML = `
             <h3 style="color:#4ade80; margin-top:0;">✓ Action Verified: ${feedbackMessage} (+${xpAmount} XP)</h3>
-            <p style="color:#cbd5e1; margin-bottom:20px;">Your decision has been officially compiled into your dynamic Qualification Portfolio. Establishing an early regional safety footprint lays down your foundational metrics.</p>
+            <p style="color:#cbd5e1; margin-bottom:20px;">Your decision has been officially compiled into your dynamic Qualification Portfolio. You are now prepared to advance to official program processing hubs.</p>
             <button onclick="window.location.href='difficult-track-stage2-daycenter.html'" class="nav-bridge" style="border:none; cursor:pointer; background:#27ae60; color:#fff; font-weight:bold; padding:12px 24px; border-radius:8px;">Proceed to Stage 2: Day Center Intake &rarr;</button>
         `;
         viewport.appendChild(feedbackBox);
@@ -119,3 +104,12 @@
         const wrapper = document.getElementById('choices-wrapper');
         node.choices.forEach(choice => {
             const btn = document.createElement('button');
+            btn.className = 'choice-btn';
+            btn.setAttribute('onclick', choice.action);
+            btn.innerHTML = `<span class="choice-title">${choice.title}</span><span class="choice-desc">${choice.desc}</span>`;
+            wrapper.appendChild(btn);
+        });
+    }
+</script>
+</body>
+</html>
