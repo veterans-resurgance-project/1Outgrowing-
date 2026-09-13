@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Agrarian Gateway: Farmer &amp; Apprentice</title>
-    <!-- LINK TO CORE UTILITY -->
-    <script src="afti-core.js"></script>
     <style>
         :root { 
             --bg-color: #0f172a; 
@@ -122,49 +120,29 @@
 
     <!-- DYNAMIC STORY VIEWPORT -->
     <div id="story-viewport">
-        <!-- Injected via JavaScript -->
+        <!-- Text and choices will show up here dynamically -->
     </div>
 </div>
 
-<!-- ALL LOGIC PROPERLY LOCKED INSIDE THE SCRIPT TAG -->
 <script>
-    // Story Node Graph Data
+    // Self-contained story nodes
     const storyNodes = {
         intro: {
             image: "🌲 [Illustration: Early morning mist rising over a diverse Willamette Valley homestead]",
             title: "Roots &amp; Resilience: The Agrarian Gateway",
-            prose: `
-                <p>The soil of the valley has a long memory. For generations, people have come to this land seeking roots, sustainability, and a fresh start. Our protagonist stands at a crossroads, staring out over a neglected plot of earth bordered by towering Douglas-firs and wild berry thickets.</p>
-                <p>The dream is simple: build a regenerative homestead, master the craft of the land, and carve out an independent living. But how you get your footing changes everything. Every path demands grit, but the resources—and the hurdles—look vastly different depending on where you start.</p>
-                <p><em>Choose your background to begin your journey:</em></p>
-            `,
+            prose: "<p>The soil of the valley has a long memory. For generations, people have come to this land seeking roots, sustainability, and a fresh start. Our protagonist stands at a crossroads, staring out over a neglected plot of earth bordered by towering Douglas-firs and wild berry thickets.</p><p>The dream is simple: build a regenerative homestead, master the craft of the land, and carve out an independent living. But how you get your footing changes everything.</p><p><em>Choose your background to begin your journey:</em></p>",
             choices: [
                 {
                     title: "The Foster-Alum Route (High Resilience, Scrappy Start)",
-                    desc: "You just turned 18. Left out in the streets with a single bag holding your meager belongings, it's almost dark, cold, and the city lights are blurring. You possess unmatched adaptability and a deep instinct for survival.",
+                    desc: "You just turned 18. Left out in the streets with a single bag holding your meager belongings, it's almost dark, cold, and the city lights are blurring.",
                     action: "selectTrack('foster', 'Foster-Alum Track', 'foster_start')"
-                },
-                {
-                    title: "The Standard Bootstrap Route (Balanced Grind)",
-                    desc: "You’ve scraped together a small savings account from off-farm labor. Balancing a day job while slowly buying tools, learning extension guidelines, and trying to secure a long-term lease.",
-                    action: "selectTrack('standard', 'Standard Bootstrap', 'standard_start')"
-                },
-                {
-                    title: "The Capital-Backed Route (Privileged Backing)",
-                    desc: "Family support or early investments have provided you with land access and startup capital. The challenge isn't survival—it's avoiding over-capitalization and earning local respect.",
-                    action: "selectTrack('capital', 'Capital-Backed Track', 'capital_start')"
                 }
             ]
         },
-
         foster_start: {
             image: "🌆 [Illustration: Cold, dim city street corner at dusk with heavy shadows and distant neon signs]",
             title: "The Turning Point: Day Zero",
-            prose: `
-                <p>The heavy institutional glass doors close behind you for the last time. You just turned 18. You're standing out on the concrete sidewalk as a damp Pacific Northwest chill sets into the evening air, holding a single canvas bag with your meager belongings.</p>
-                <p>It's almost dark, the temperature is dropping fast, and the city feels vast, indifferent, and expensive. You have no safety net, no family couch to crash on, and only a few crumpled bills in your pocket.</p>
-                <p>You need to make a move before night fully takes over. What do you do?</p>
-            `,
+            prose: "<p>The heavy institutional glass doors close behind you for the last time. You just turned 18. You're standing out on the concrete sidewalk as a damp Pacific Northwest chill sets into the evening air, holding a single canvas bag with your belongings.</p><p>It's almost dark, the temperature is dropping fast, and the city feels vast and expensive. You have no safety net, no family couch to crash on.</p><p>You need to make a move before night fully takes over. What do you do?</p>",
             choices: [
                 {
                     title: "Option A: Head toward the public transit hub to find a 24-hour shelter or mutual aid network",
@@ -183,10 +161,9 @@
     let currentTrack = "";
 
     document.addEventListener("DOMContentLoaded", () => {
-        // Load the initial intro screen
+        // Run initial configuration safely
         renderNode("intro");
         
-        // Sync up global points from localStorage
         const pointsDisplay = document.getElementById('global-points');
         if (pointsDisplay) {
             pointsDisplay.innerText = localStorage.getItem('afti_global_xp') || '400';
@@ -199,36 +176,60 @@
         localStorage.setItem('afti_track_name', trackName);
         
         const trackHUD = document.getElementById('hud-track');
-        if (trackHUD) {
-            trackHUD.innerText = trackName;
-        }
+        if (trackHUD) { trackHUD.innerText = trackName; }
         
-        // Move to the next scenario step smoothly
         renderNode(nextNodeId);
     }
 
     function resolveChoice(choiceId, xpAmount, feedbackMessage) {
-        // Update local storage values cleanly
         let currentXP = parseInt(localStorage.getItem('afti_global_xp') || '400', 10);
         currentXP += xpAmount;
         localStorage.setItem('afti_global_xp', currentXP);
         
         const pointsDisplay = document.getElementById('global-points');
-        if (pointsDisplay) {
-            pointsDisplay.innerText = currentXP;
-        }
+        if (pointsDisplay) { pointsDisplay.innerText = currentXP; }
 
-        // Hide choice buttons immediately to prevent duplicate tracking clicks
-        const choicesWrapper = document.getElementById('choices-wrapper');
-        if (choicesWrapper) {
-            choicesWrapper.style.display = 'none';
-        }
+        const wrapper = document.getElementById('choices-wrapper');
+        if (wrapper) { wrapper.style.display = 'none'; }
 
-        // Inject our clear course bridge container layout
-        const storyViewport = document.getElementById('story-viewport');
+        const viewport = document.getElementById('story-viewport');
         const feedbackBox = document.createElement('div');
         feedbackBox.style.marginTop = '25px';
         feedbackBox.style.padding = '25px';
         feedbackBox.style.borderRadius = '10px';
         feedbackBox.style.background = 'rgba(39, 174, 96, 0.1)';
         feedbackBox.style.border = '1px solid rgba(39, 174, 96, 0.4)';
+        feedbackBox.style.lineHeight = '1.6';
+
+        feedbackBox.innerHTML = `
+            <h3 style="color: #4ade80; margin-top: 0;">✓ Action Verified: ${feedbackMessage} (+${xpAmount} XP)</h3>
+            <p style="color: #cbd5e1; margin-bottom: 20px;">
+                Your decision has been officially compiled into your dynamic Qualification Portfolio. Establishing an early regional safety footprint lays down your foundational metrics. You are now prepared to advance to official program processing hubs.
+            </p>
+            <a href="difficult-track-stage2-daycenter.html" style="display: inline-block; background: #27ae60; color: #ffffff; text-decoration: none; font-weight: bold; padding: 14px 28px; border-radius: 8px; box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);">
+                Proceed to Stage 2: Day Center Intake &rarr;
+            </a>
+        `;
+        viewport.appendChild(feedbackBox);
+    }
+
+    function renderNode(nodeId) {
+        const node = storyNodes[nodeId];
+        if (!node) return;
+
+        const viewport = document.getElementById('story-viewport');
+        if (!viewport) return;
+
+        viewport.innerHTML = `
+            <div class="story-image-slot">${node.image}</div>
+            <h2 style="margin-top: 0; margin-bottom: 15px; font-size: 1.5rem; color: #ffffff;">${node.title}</h2>
+            <div class="prose-block">${node.prose}</div>
+            <div class="choices-container" id="choices-wrapper"></div>
+        `;
+
+        const wrapper = document.getElementById('choices-wrapper');
+        node.choices.forEach(choice => {
+            const btn = document.createElement('button');
+            btn.className = 'choice-btn';
+            btn.setAttribute('onclick', choice.action);
+            btn.innerHTML = `
