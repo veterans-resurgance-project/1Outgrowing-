@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AFTI - Stage 5: Market Delivery</title>
+    <!-- LINK TO THE SHARED UTILITY BRAIN -->
+    <script src="afti-core.js"></script>
     <style>
         :root { --bg:#0f172a; --card:#1e293b; --txt:#f8fafc; --primary:#27ae60; --hud:#144d29; --accent:#38bdf8; --warn:#f59e0b; --danger:#ef4444; }
         body { font-family:system-ui, sans-serif; background:var(--bg); color:var(--txt); padding:20px; display:flex; justify-content:center; align-items:center; min-height:100vh; margin:0; }
@@ -18,9 +20,9 @@
 <body>
 <div class="container">
     <div class="hud-bar">
-        <span>Path: <span style="color:var(--accent);">Cooperative Merge</span></span>
+        <span>Path: <span id="hud-track" style="color:var(--accent);">Cooperative Merge</span></span>
         <div style="display:flex; gap:20px; align-items:center;">
-    <span id="foster-stipend-box">Stipend: <span id="stipend-amount" style="color:#38bdf8;">$0</span></span>
+            <span id="foster-stipend-box">Stipend: <span id="stipend-amount" style="color:#38bdf8;">$0</span></span>
             <div>XP: <span id="global-points" style="color:#4ade80;">500</span></div>
             <button onclick="window.location.href='index.html'" style="background:#334155; color:#fff; border:1px solid rgba(255,255,255,0.2); padding:5px 12px; border-radius:6px; font-size:0.75rem; cursor:pointer;">🏠 Exit</button>
         </div>
@@ -41,13 +43,11 @@
     </div>
 </div>
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        document.getElementById('global-points').innerText = localStorage.getItem('afti_global_xp') || '500';
-        document.getElementById('stipend-amount').innerText = '$' + (localStorage.getItem('afti_earned_stipend') || '120');
-    });
+    // Bottom scripts simplified to give the shared core helper absolute control
     function selectMarketOption(choiceType, points) {
         let currentXP = parseInt(localStorage.getItem('afti_global_xp') || '500', 10) + points;
-        localStorage.setItem('afti_global_xp', currentXP); document.getElementById('global-points').innerText = currentXP;
+        localStorage.setItem('afti_global_xp', currentXP); 
+        if(window.updateXPDisplay) { window.updateXPDisplay(currentXP); }
         document.getElementById('choices-wrapper').style.display = 'none';
         const vp = document.getElementById('feedback-viewport'); const title = document.getElementById('feedback-title');
         const text = document.getElementById('feedback-text'); const ac = document.getElementById('feedback-action-container'); vp.style.display = 'block';
