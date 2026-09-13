@@ -5,138 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Agrarian Gateway: Farmer &amp; Apprentice</title>
     <style>
-        :root { 
-            --bg-color: #0f172a; 
-            --card-bg: #1e293b; 
-            --text-color: #f8fafc; 
-            --primary: #27ae60; 
-            --hud-bg: #144d29; 
-            --accent: #38bdf8;
-        }
-        body { 
-            font-family: system-ui, sans-serif; 
-            background: var(--bg-color); 
-            color: var(--text-color); 
-            padding: 20px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-            margin: 0; 
-        }
-        .container { 
-            width: 100%; 
-            max-width: 800px; 
-            background: var(--card-bg); 
-            border-radius: 14px; 
-            padding: 35px; 
-            box-sizing: border-box;
-            border: 1px solid rgba(255,255,255,0.1); 
-            box-shadow: 0 12px 32px rgba(0,0,0,0.5);
-        }
-        .hud-bar { 
-            background: var(--hud-bg); 
-            border-radius: 8px; 
-            padding: 10px 18px; 
-            margin-bottom: 25px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            font-weight: bold; 
-            border: 1px solid rgba(255,255,255,0.2);
-            font-size: 0.9rem;
-        }
-        .story-image-slot { 
-            width: 100%; 
-            height: 220px; 
-            background: #0f172a; 
-            border-radius: 10px; 
-            border: 1px solid rgba(56,189,248,0.3); 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            margin-bottom: 25px; 
-            color: #94a3b8;
-            text-align: center;
-            padding: 15px;
-            box-sizing: border-box;
-            font-style: italic;
-        }
-        .prose-block {
-            line-height: 1.7;
-            color: #cbd5e1;
-            margin-bottom: 25px;
-            font-size: 1.05rem;
-        }
-        .prose-block p {
-            margin-bottom: 15px;
-        }
-        .choices-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 20px;
-        }
-        .choice-btn { 
-            background: #0f172a; 
-            border: 1px solid #334155; 
-            color: #f8fafc; 
-            padding: 16px 20px; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            width: 100%; 
-            text-align: left; 
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            transition: all 0.2s ease;
-        }
-        .choice-btn:hover { 
-            border-color: var(--primary); 
-            background: rgba(39, 174, 96, 0.1); 
-            transform: translateY(-2px);
-        }
-        .choice-title {
-            font-weight: bold;
-            color: #4ade80;
-            font-size: 1.05rem;
-        }
-        .choice-desc {
-            font-size: 0.85rem;
-            color: #94a3b8;
-        }
+        :root { --bg-color: #0f172a; --card-bg: #1e293b; --text-color: #f8fafc; --primary: #27ae60; --hud-bg: #144d29; --accent: #38bdf8; }
+        body { font-family: system-ui, sans-serif; background: var(--bg-color); color: var(--text-color); padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { width: 100%; max-width: 800px; background: var(--card-bg); border-radius: 14px; padding: 35px; box-sizing: border-box; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 12px 32px rgba(0,0,0,0.5); }
+        .hud-bar { background: var(--hud-bg); border-radius: 8px; padding: 10px 18px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; border: 1px solid rgba(255,255,255,0.2); font-size: 0.9rem; }
+        .story-image-slot { width: 100%; height: 220px; background: #0f172a; border-radius: 10px; border: 1px solid rgba(56,189,248,0.3); display: flex; align-items: center; justify-content: center; margin-bottom: 25px; color: #94a3b8; text-align: center; padding: 15px; box-sizing: border-box; font-style: italic; }
+        .prose-block { line-height: 1.7; color: #cbd5e1; margin-bottom: 25px; font-size: 1.05rem; }
+        .prose-block p { margin-bottom: 15px; }
+        .choices-container { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+        .choice-btn { background: #0f172a; border: 1px solid #334155; color: #f8fafc; padding: 16px 20px; border-radius: 8px; cursor: pointer; width: 100%; text-align: left; display: flex; flex-direction: column; gap: 5px; transition: all 0.2s ease; }
+        .choice-btn:hover { border-color: var(--primary); background: rgba(39,174,96,0.1); transform: translateY(-2px); }
+        .choice-title { font-weight: bold; color: #4ade80; font-size: 1.05rem; }
+        .choice-desc { font-size: 0.85rem; color: #94a3b8; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- GLOBAL HUD -->
     <div class="hud-bar">
         <span>Path: <span id="hud-track" style="color: var(--accent);">Not Selected</span></span>
-        <div>
-            <span>Global XP: <span id="global-points" style="color: #4ade80;">400</span></span>
-        </div>
+        <div>Global XP: <span id="global-points" style="color: #4ade80;">400</span></div>
     </div>
-
-    <!-- DYNAMIC STORY VIEWPORT -->
-    <div id="story-viewport">
-        <!-- Text and choices will show up here dynamically -->
-    </div>
+    <div id="story-viewport"></div>
 </div>
 
 <script>
-    // Self-contained story nodes
     const storyNodes = {
         intro: {
             image: "🌲 [Illustration: Early morning mist rising over a diverse Willamette Valley homestead]",
             title: "Roots &amp; Resilience: The Agrarian Gateway",
             prose: "<p>The soil of the valley has a long memory. For generations, people have come to this land seeking roots, sustainability, and a fresh start. Our protagonist stands at a crossroads, staring out over a neglected plot of earth bordered by towering Douglas-firs and wild berry thickets.</p><p>The dream is simple: build a regenerative homestead, master the craft of the land, and carve out an independent living. But how you get your footing changes everything.</p><p><em>Choose your background to begin your journey:</em></p>",
             choices: [
-                {
-                    title: "The Foster-Alum Route (High Resilience, Scrappy Start)",
-                    desc: "You just turned 18. Left out in the streets with a single bag holding your meager belongings, it's almost dark, cold, and the city lights are blurring.",
-                    action: "selectTrack('foster', 'Foster-Alum Track', 'foster_start')"
-                }
+                { title: "The Foster-Alum Route (High Resilience, Scrappy Start)", desc: "You just turned 18. Left out in the streets with a single bag holding your meager belongings, it's almost dark, cold, and the city lights are blurring.", action: "selectTrack('foster', 'Foster-Alum Track', 'foster_start')" }
             ]
         },
         foster_start: {
@@ -144,16 +44,8 @@
             title: "The Turning Point: Day Zero",
             prose: "<p>The heavy institutional glass doors close behind you for the last time. You just turned 18. You're standing out on the concrete sidewalk as a damp Pacific Northwest chill sets into the evening air, holding a single canvas bag with your belongings.</p><p>It's almost dark, the temperature is dropping fast, and the city feels vast and expensive. You have no safety net, no family couch to crash on.</p><p>You need to make a move before night fully takes over. What do you do?</p>",
             choices: [
-                {
-                    title: "Option A: Head toward the public transit hub to find a 24-hour shelter or mutual aid network",
-                    desc: "Connect with local community resources, safeguard your belongings, and look for immediate transitional housing support. (+50 XP)",
-                    action: "resolveChoice('foster_shelter', 50, 'Shelter & Mutual Aid Network Located')"
-                },
-                {
-                    title: "Option B: Walk toward the edge of town where the industrial grid meets the agricultural valley",
-                    desc: "Scout out an abandoned tool shed or sheltered perimeter near public lands to set up a temporary camp under your tarp. (+50 XP)",
-                    action: "resolveChoice('foster_outskirts', 50, 'Perimeter Scouted & Camp Established')"
-                }
+                { title: "Option A: Head toward the public transit hub to find a 24-hour shelter or mutual aid network", desc: "Connect with local community resources, safeguard your belongings, and look for immediate transitional housing support. (+50 XP)", action: "resolveChoice('foster_shelter', 50, 'Shelter & Mutual Aid Network Located')" },
+                { title: "Option B: Walk toward the edge of town where the industrial grid meets the agricultural valley", desc: "Scout out an abandoned tool shed or sheltered perimeter near public lands to set up a temporary camp under your tarp. (+50 XP)", action: "resolveChoice('foster_outskirts', 50, 'Perimeter Scouted & Camp Established')" }
             ]
         }
     };
@@ -161,68 +53,43 @@
     let currentTrack = "";
 
     document.addEventListener("DOMContentLoaded", () => {
-        // Run initial configuration safely
         renderNode("intro");
-        
-        const pointsDisplay = document.getElementById('global-points');
-        if (pointsDisplay) {
-            pointsDisplay.innerText = localStorage.getItem('afti_global_xp') || '400';
-        }
+        document.getElementById('global-points').innerText = localStorage.getItem('afti_global_xp') || '400';
     });
 
     function selectTrack(trackId, trackName, nextNodeId) {
         currentTrack = trackId;
         localStorage.setItem('afti_active_track', trackId);
         localStorage.setItem('afti_track_name', trackName);
-        
-        const trackHUD = document.getElementById('hud-track');
-        if (trackHUD) { trackHUD.innerText = trackName; }
-        
+        if (document.getElementById('hud-track')) { document.getElementById('hud-track').innerText = trackName; }
         renderNode(nextNodeId);
     }
 
     function resolveChoice(choiceId, xpAmount, feedbackMessage) {
-        let currentXP = parseInt(localStorage.getItem('afti_global_xp') || '400', 10);
-        currentXP += xpAmount;
+        let currentXP = parseInt(localStorage.getItem('afti_global_xp') || '400', 10) + xpAmount;
         localStorage.setItem('afti_global_xp', currentXP);
-        
-        const pointsDisplay = document.getElementById('global-points');
-        if (pointsDisplay) { pointsDisplay.innerText = currentXP; }
+        if (document.getElementById('global-points')) { document.getElementById('global-points').innerText = currentXP; }
 
-        const wrapper = document.getElementById('choices-wrapper');
-        if (wrapper) { wrapper.style.display = 'none'; }
+        if (document.getElementById('choices-wrapper')) { document.getElementById('choices-wrapper').style.display = 'none'; }
 
         const viewport = document.getElementById('story-viewport');
         const feedbackBox = document.createElement('div');
-        feedbackBox.style.marginTop = '25px';
-        feedbackBox.style.padding = '25px';
-        feedbackBox.style.borderRadius = '10px';
-        feedbackBox.style.background = 'rgba(39, 174, 96, 0.1)';
-        feedbackBox.style.border = '1px solid rgba(39, 174, 96, 0.4)';
-        feedbackBox.style.lineHeight = '1.6';
-
+        feedbackBox.style.cssText = "margin-top:25px; padding:25px; border-radius:10px; background:rgba(39,174,96,0.1); border:1px solid rgba(39,174,96,0.4); line-height:1.6;";
         feedbackBox.innerHTML = `
-            <h3 style="color: #4ade80; margin-top: 0;">✓ Action Verified: ${feedbackMessage} (+${xpAmount} XP)</h3>
-            <p style="color: #cbd5e1; margin-bottom: 20px;">
-                Your decision has been officially compiled into your dynamic Qualification Portfolio. Establishing an early regional safety footprint lays down your foundational metrics. You are now prepared to advance to official program processing hubs.
-            </p>
-            <a href="difficult-track-stage2-daycenter.html" style="display: inline-block; background: #27ae60; color: #ffffff; text-decoration: none; font-weight: bold; padding: 14px 28px; border-radius: 8px; box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);">
-                Proceed to Stage 2: Day Center Intake &rarr;
-            </a>
+            <h3 style="color:#4ade80; margin-top:0;">✓ Action Verified: ${feedbackMessage} (+${xpAmount} XP)</h3>
+            <p style="color:#cbd5e1; margin-bottom:20px;">Your decision has been officially compiled into your dynamic Qualification Portfolio. Establishing an early regional safety footprint lays down your foundational metrics. You are now prepared to advance to official program processing hubs.</p>
+            <a href="difficult-track-stage2-daycenter.html" style="display:inline-block; background:#27ae60; color:#ffffff; text-decoration:none; font-weight:bold; padding:14px 28px; border-radius:8px; box-shadow:0 4px 12px rgba(39,174,96,0.3);">Proceed to Stage 2: Day Center Intake &rarr;</a>
         `;
         viewport.appendChild(feedbackBox);
     }
 
     function renderNode(nodeId) {
-        const node = storyNodes[nodeId];
-        if (!node) return;
-
-        const viewport = document.getElementById('story-viewport');
-        if (!viewport) return;
+        const node = storyNodes[nodeId]; if (!node) return;
+        const viewport = document.getElementById('story-viewport'); if (!viewport) return;
 
         viewport.innerHTML = `
             <div class="story-image-slot">${node.image}</div>
-            <h2 style="margin-top: 0; margin-bottom: 15px; font-size: 1.5rem; color: #ffffff;">${node.title}</h2>
+            <h2 style="margin-top:0; margin-bottom:15px; font-size:1.5rem; color:#ffffff;">${node.title}</h2>
             <div class="prose-block">${node.prose}</div>
             <div class="choices-container" id="choices-wrapper"></div>
         `;
@@ -232,4 +99,10 @@
             const btn = document.createElement('button');
             btn.className = 'choice-btn';
             btn.setAttribute('onclick', choice.action);
-            btn.innerHTML = `
+            btn.innerHTML = `<span class="choice-title">${choice.title}</span><span class="choice-desc">${choice.desc}</span>`;
+            wrapper.appendChild(btn);
+        });
+    }
+</script>
+</body>
+</html>
