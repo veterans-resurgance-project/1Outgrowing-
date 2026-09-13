@@ -15,11 +15,19 @@
 </head>
 <body>
 <div class="container">
+        <!-- UPDATED GLOBAL HUD WITH RETURN PORTAL ACCELERATOR -->
     <div class="hud-bar">
-        <span>Path: <span style="color:var(--danger);">Foster-Alum (Citation Loop)</span></span>
-        <div>Global XP: <span id="global-points" style="color:#4ade80;">425</span></div>
+        <span>Path: <span style="color: var(--accent);">Active Track</span></span>
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <span>Global XP: <span id="global-points" style="color: #4ade80;">400</span></span>
+            
+            <!-- THE ESCAPE HATCH BUTTON -->
+            <button onclick="window.location.href='index.html'" style="background: #334155; color: #f8fafc; border: 1px solid rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; cursor: pointer; transition: background 0.2s;">
+                🏠 Exit to Portal
+            </button>
+        </div>
     </div>
-    <div>
+    
         <h2 style="margin:0 0 1.5rem 0; color:var(--danger);">⚖️ Legal Clearance: Resolving the Citation</h2>
         <p style="line-height:1.6; color:#cbd5e1; margin-bottom:25px;">Unresolved trespass citations block you from background clearance checks for agricultural land trust slots. Check both boxes to clear your record.</p>
         <div style="margin-bottom:25px;">
