@@ -13,10 +13,16 @@
         .choice-btn:hover { border-color:var(--accent); background:rgba(56,189,248,0.05); }
         .feedback-box { margin-top:25px; padding:20px; border-radius:8px; display:none; line-height:1.6; border:1px solid rgba(255,255,255,0.2); }
         .nav-bridge { display:inline-block; margin-top:15px; background:var(--primary); color:#fff; padding:12px 24px; border:none; border-radius:6px; font-weight:bold; cursor:pointer; }
+   @keyframes mergePulse { 0% { border-color: #38bdf8; box-shadow: 0 0 8px #38bdf8; } 50% { border-color: #27ae60; box-shadow: 0 0 20px #27ae60; } 100% { border-color: rgba(255,255,255,0.1); box-shadow: 0 12px 32px rgba(0,0,0,0.5); } }
+.merge-glow { animation: mergePulse 2s ease-out 1; }
+        
     </style>
 </head>
 <body>
 <div class="container">
+   <!-- This activates the automatic glow effect right when the screen opens -->
+<div class="container merge-glow">
+
     <div class="hud-bar">
         <span>Path: <span style="color:var(--accent);">Foster-Alum Track</span></span>
         <div style="display:flex; gap:20px; align-items:center;">
