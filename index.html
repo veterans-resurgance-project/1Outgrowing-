@@ -4,125 +4,107 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AFTI - Agricultural Future &amp; Training Initiative</title>
+  <style>
+    body { background-color: #0f172a; color: #ffffff; font-family: system-ui, sans-serif; margin: 0; padding: 0; }
+    .hud-bar { background: #144d29; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 10px 15px; margin: 20px auto; max-width: 860px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+    nav { background: #144d29; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); sticky; top: 0; z-index: 1000; }
+    nav a { color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem; margin-left: 1.25rem; }
+    .hero { background: linear-gradient(rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.65)), url('images/barn-sunset.jpg') center/cover; padding: 4rem 2.5rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); margin-bottom: 2.5rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; margin-top: 2rem; }
+    .card { background: rgba(15, 23, 42, 0.85); padding: 1.5rem; border-radius: 12px; border: 1px solid #334155; }
+    .box { background: #1e293b; padding: 2rem; border-radius: 16px; border: 1px solid #334155; margin-bottom: 2.5rem; }
+    .sim-card { background: #1e293b; padding: 2.5rem; border-radius: 16px; border: 1px solid rgba(39, 174, 96, 0.4); display: flex; flex-direction: column; gap: 1.5rem; }
+    .btn { background: #27ae60; color: #ffffff; text-decoration: none; font-weight: bold; padding: 14px 28px; border-radius: 8px; display: inline-block; }
+  </style>
 </head>
-<body style="background-color: #0f172a; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+<body>
 
-<!-- GLOBAL HUD BAR WITH TEST BYPASS TOGGLE -->
-<div class="hud-bar" style="background: #144d29; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 10px 15px; margin: 20px auto; max-width: 860px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; color: #ffffff; flex-wrap: wrap; gap: 10px;">
+<div class="hud-bar">
     <span>AFTI Global XP: <span id="global-points">400</span></span>
-    
-    <div style="display: flex; align-items: center; gap: 10px;">
-        <span id="test-mode-status" style="font-size: 0.8rem; color: #cbd5e1; font-weight: normal;">Live Mode</span>
-        <button onclick="toggleTestBypass()" id="test-mode-btn" style="background: #334155; color: #cbd5e1; border: 1px solid rgba(255,255,255,0.2); padding: 5px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; cursor: pointer; transition: all 0.2s;">
-            Enable Test Bypass
-        </button>
+    <div>
+        <span id="test-mode-status" style="font-size: 0.8rem; color: #cbd5e1; font-weight: normal; margin-right: 10px;">Live Mode</span>
+        <button onclick="toggleTestBypass()" id="test-mode-btn" style="background: #334155; color: #cbd5e1; border: 1px solid rgba(255,255,255,0.2); padding: 5px 10px; border-radius: 5px; font-size: 0.75rem; cursor: pointer;">Enable Test Bypass</button>
     </div>
 </div>
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         updateBypassUI();
-        const pointsDisplay = document.getElementById('global-points');
-        if (pointsDisplay) {
-            pointsDisplay.innerText = localStorage.getItem('afti_global_xp') || 400;
-        }
+        document.getElementById('global-points').innerText = localStorage.getItem('afti_global_xp') || 400;
     });
-
     function toggleTestBypass() {
         const currentBypass = sessionStorage.getItem('afti_test_bypass') === 'true';
-        const newBypassState = !currentBypass;
-        sessionStorage.setItem('afti_test_bypass', newBypassState);
+        sessionStorage.setItem('afti_test_bypass', !currentBypass);
         updateBypassUI();
     }
-
     function updateBypassUI() {
         const isBypassed = sessionStorage.getItem('afti_test_bypass') === 'true';
         const btn = document.getElementById('test-mode-btn');
         const statusText = document.getElementById('test-mode-status');
-        
         if (isBypassed) {
-            btn.style.background = '#f59e0b';
-            btn.style.color = '#0f172a';
-            btn.innerText = 'Bypass Active';
-            statusText.innerText = 'Test Mode (XP Frozen)';
-            statusText.style.color = '#f59e0b';
+            btn.style.background = '#f59e0b'; btn.style.color = '#0f172a'; btn.innerText = 'Bypass Active';
+            statusText.innerText = 'Test Mode (XP Frozen)'; statusText.style.color = '#f59e0b';
         } else {
-            btn.style.background = '#334155';
-            btn.style.color = '#cbd5e1';
-            btn.innerText = 'Enable Test Bypass';
-            statusText.innerText = 'Live Mode';
-            statusText.style.color = '#4ade80';
+            btn.style.background = '#334155'; btn.style.color = '#cbd5e1'; btn.innerText = 'Enable Test Bypass';
+            statusText.innerText = 'Live Mode'; statusText.style.color = '#4ade80';
         }
     }
 </script>
 
-  <!-- Universal Navigation Bar -->
-  <nav style="background: #144d29; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); flex-wrap: wrap; gap: 1rem; position: sticky; top: 0; z-index: 1000;">
-    <div style="font-weight: 900; font-size: 1.25rem; letter-spacing: -0.5px; color: #ffffff;">AFTI Portal</div>
-    <div style="display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap;">
-      <a href="index.html" style="color: #ffffff; text-decoration: none; font-weight: 700; border-bottom: 2px solid #27ae60; padding-bottom: 2px; font-size: 0.95rem;">Home</a>
-      <a href="training-modules-and-mutual-growth.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Training and Certification</a>
-      <a href="partners.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">For Farmers</a>
-      <a href="shared-harvest.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Shared Harvest</a>
-      <a href="incubator.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Incubator</a>
-      <a href="newsletter.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Newsletter</a>
-      <a href="gallery.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">Gallery</a>
-      <a href="how-to-help.html" style="color: #cbd5e1; text-decoration: none; font-weight: 500; font-size: 0.95rem;">How to Help</a>
+  <nav>
+    <div style="font-weight: 900; font-size: 1.25rem; color: #ffffff;">AFTI Portal</div>
+    <div>
+      <a href="index.html" style="color: #ffffff; border-bottom: 2px solid #27ae60; padding-bottom: 2px;">Home</a>
+      <a href="training-modules-and-mutual-growth.html">Training and Certification</a>
+      <a href="partners.html">For Farmers</a>
+      <a href="shared-harvest.html">Shared Harvest</a>
+      <a href="incubator.html">Incubator</a>
     </div>
   </nav>
 
-  <main style="max-width: 900px; margin: 0 auto; padding: 4rem 2rem;">
+  <main style="max-width: 900px; margin: 0 auto; padding: 2rem;">
     
-    <!-- Hero Banner with Brightened Sunset Background & Internal Grid -->
-    <div style="background: linear-gradient(rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.65)), url('images/barn-sunset.jpg') center/cover no-repeat; padding: 4rem 2.5rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 20px 40px rgba(0,0,0,0.6); margin-bottom: 2.5rem;">
-      <span style="background: rgba(39, 174, 96, 0.3); color: #2ecc71; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.4rem 1rem; border-radius: 20px; display: inline-block; margin-bottom: 1.25rem; border: 1px solid rgba(46, 204, 113, 0.4);">Willamette Valley Agricultural Initiative</span>
-      
-      <h1 style="font-size: 2.75rem; font-weight: 900; color: #ffffff; margin: 0 0 1.25rem 0; letter-spacing: -0.5px; line-height: 1.15; text-shadow: 0 2px 4px rgba(0,0,0,0.6);">Cultivating the Future of Agriculture Through Specialized Teams &amp; Land Access</h1>
-      
-      <p style="font-size: 1.15rem; line-height: 1.8; color: #f1f5f9; margin-bottom: 2.5rem; text-shadow: 0 1px 3px rgba(0,0,0,0.6);">
-        The Agricultural Future &amp; Training Initiative (AFTI) bridges the critical divide between under-utilized rural land and the next generation of agricultural professionals. By combining rigorous vocational training, custom advisory SOP alignment, and cooperative land-linking across Linn County, we create private trained teams that deliver mutual economic revitalization and long-term food security.
+    <div class="hero">
+      <span style="background: rgba(39, 174, 96, 0.3); color: #2ecc71; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; padding: 0.4rem 1rem; border-radius: 20px; display: inline-block; margin-bottom: 1.25rem; border: 1px solid rgba(46, 204, 113, 0.4);">Willamette Valley Agricultural Initiative</span>
+      <h1 style="font-size: 2.5rem; font-weight: 900; margin: 0 0 1.25rem 0; line-height: 1.2;">Cultivating the Future of Agriculture Through Specialized Teams &amp; Land Access</h1>
+      <p style="font-size: 1.1rem; line-height: 1.7; color: #f1f5f9;">
+        The Agricultural Future &amp; Training Initiative (AFTI) bridges the critical divide between under-utilized rural land and the next generation of agricultural professionals. By combining rigorous vocational training, custom advisory SOP alignment, and cooperative land-linking across Linn County, we create private trained teams that deliver mutual economic revitalization and food security.
       </p>
 
-      <!-- 3 Core Hook Cards Grid Inside Hero Box -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem;">
-        
-        <div style="background: rgba(15, 23, 42, 0.85); padding: 1.5rem; border-radius: 12px; border: 1px solid #334155; backdrop-filter: blur(4px);">
-          <h3 style="color: #27ae60; margin-top: 0; margin-bottom: 0.5rem; font-size: 1.1rem;">🌱 For Aspiring Growers</h3>
-          <p style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5; margin: 0;">Step into active cohorts, build elite vocational skills, and access land without ownership barriers.</p>
+      <div class="grid">
+        <div class="card">
+          <h3 style="color: #27ae60; margin: 0 0 0.5rem 0;">🌱 For Aspiring Growers</h3>
+          <p style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.4; margin: 0;">Step into active cohorts, build elite vocational skills, and access land without ownership barriers.</p>
         </div>
-
-        <div style="background: rgba(15, 23, 42, 0.85); padding: 1.5rem; border-radius: 12px; border: 1px solid #334155; backdrop-filter: blur(4px);">
-          <h3 style="color: #27ae60; margin-top: 0; margin-bottom: 0.5rem; font-size: 1.1rem;">🚜 For Farmers &amp; Landowners</h3>
-          <p style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5; margin: 0;">Deploy trained teams in your exact SOPs, unlock secondary income, and keep idle acreage productive.</p>
+        <div class="card">
+          <h3 style="color: #27ae60; margin: 0 0 0.5rem 0;">🚜 For Landowners</h3>
+          <p style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.4; margin: 0;">Deploy trained teams in your exact SOPs, unlock secondary income, and keep idle acreage productive.</p>
         </div>
-
-        <div style="background: rgba(15, 23, 42, 0.85); padding: 1.5rem; border-radius: 12px; border: 1px solid #334155; backdrop-filter: blur(4px);">
-          <h3 style="color: #27ae60; margin-top: 0; margin-bottom: 0.5rem; font-size: 1.1rem;">🤝 For the Community</h3>
-          <p style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5; margin: 0;">Protect rural heritage while allocating fresh harvest yields directly to local food security initiatives.</p>
-        </div>
-
       </div>
     </div>
 
-    <!-- Economic Stimulus Callout Box (Fully Fixed and Closed) -->
-    <div style="background: #1e293b; padding: 2rem; border-radius: 16px; border: 1px solid rgba(56, 189, 248, 0.3); margin-bottom: 2.5rem;">
-      <h3 style="color: #38bdf8; margin-top: 0; margin-bottom: 0.75rem; font-size: 1.3rem;">📈 Regional Economic Stimulus &amp; Land Stewardship</h3>
-      <p style="color: #cbd5e1; font-size: 1rem; line-height: 1.7; margin: 0;">
+    <div class="box">
+      <h3 style="color: #38bdf8; margin: 0 0 0.75rem 0; font-size: 1.25rem;">📈 Regional Economic Stimulus &amp; Land Stewardship</h3>
+      <p style="color: #cbd5e1; font-size: 1rem; line-height: 1.6; margin: 0;">
         Beyond individual farm training, AFTI acts as a catalyst for local economic vitality. By revitalizing under-utilized acreage and matching dedicated apprentices with retiring landowners, we keep agricultural investments local, preserve active open space, and build generational financial literacy.
-     
-       a catalyst for local economic vitality. By revitalizing under-utilized acreage and matching dedicated apprentices with retiring landowners, we keep agricultural investments local, preserve active open space, and build generational financial literacy.
       </p>
     </div>
 
+   
     <!-- THE INTEGRATION CARD TO LAUNCH THE SCENARIO SIMULATOR -->
-    <div style="background: #1e293b; padding: 2.5rem; border-radius: 16px; border: 1px solid rgba(39, 174, 96, 0.4); box-shadow: 0 10px 25px rgba(0,0,0,0.3); display: flex; flex-direction: column; gap: 1.5rem;">
+    <div class="sim-card">
       <div>
-        <span style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.3rem 0.75rem; border-radius: 4px; display: inline-block; margin-bottom: 0.75rem; border: 1px solid rgba(56, 189, 248, 0.25);">Interactive Simulation Module</span>
-        <h2 style="margin: 0 0 0.5rem 0; font-size: 1.6rem; color: #ffffff;">🌾 Roots &amp; Resilience: The Agrarian Gateway</h2>
-        <p style="color: #cbd5e1; font-size: 1rem; line-height: 1.6; margin: 0;">
-          Step into our dynamic background scenario simulator. Navigating complex, real-world regional agricultural hurdles, your decisions are tracked across four real-world metrics to prove competence and compile a permanent <strong>Verified Portfolio of Effort</strong> to help qualify for incubators, regional land trusts, and vocational seed-grant foundations.
+        <span style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; padding: 0.3rem 0.75rem; border-radius: 4px; display: inline-block; margin-bottom: 0.75rem;">Interactive Simulation Module</span>
+        <h2 style="margin: 0 0 0.5rem 0; font-size: 1.5rem; color: #ffffff;">🌾 Roots &amp; Resilience: The Agrarian Gateway</h2>
+        <p style="color: #cbd5e1; font-size: 1.05rem; line-height: 1.7; margin: 0;">
+          Have you dreamed of becoming a farmer but you don't know how something like that is even possible from where you are now? Please take a look at all of our training modules and our farmer apprentice simulator. We will continue to build it out and your effort scores will be saved in your profile for matching with grants or educational credits you may qualify for.
         </p>
       </div>
-
-      <div style="margin-top: 5px;">
-        <!-- REPAIRED NAVIGATION CTA LINK -->
+      <div>
+        <a href="farmer-apprentice-story.html" class="btn">Enter Simulation Gateway &rarr;</a>
+      </div>
+    </div>
+    
+  </main>
+</body>
+</html>
